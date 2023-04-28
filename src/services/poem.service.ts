@@ -6,8 +6,6 @@ import PoemType from '../interfaces/poem.interface';
 import { logger } from '../utils/logger';
 
 export default class PoemService {
-  private Poem = new Poem();
-
   public async getPoemsWithPoetName(): Promise<PoemType[]> {
     return await Poem.find(
       {},
