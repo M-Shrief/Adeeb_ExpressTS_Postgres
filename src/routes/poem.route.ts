@@ -15,6 +15,11 @@ export default class PoemRoute implements IRoute {
   }
 
   private initializeRoutes() {
-    this.router.get('/poems', this.controller.index);
+    this.router.get('/poems', this.controller.indexWithPoetName);
+    this.router.get('/poems_intros', this.controller.indexIntrosWithPoetName);
+    this.router.get('/poem/:id', this.controller.indexOneWithPoetName);
+    this.router.post('/poem/', this.controller.post);
+    this.router.put('/poem/:id', this.controller.update);
+    this.router.delete('/poem/:id', this.controller.remove);
   }
 }
