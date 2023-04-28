@@ -41,13 +41,13 @@ export default class PoemController {
       });
   };
 
-  public indexOneWithPoetName = (
+  public indexOneWithPoet = (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
     this.poemService
-      .getPoemWithPoetName(req.params.id)
+      .getPoemWithPoet(req.params.id)
       .then((poem) => {
         res.status(200).send(poem);
       })

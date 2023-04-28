@@ -22,13 +22,13 @@ export default class PoemService {
     );
   }
 
-  public async getPoemWithPoetName(id: string): Promise<PoemType> {
+  public async getPoemWithPoet(id: string): Promise<PoemType> {
     return (await Poem.findById(id, {
       intro: 1,
       poet: 1,
       verses: 1,
       reviewed: 1,
-    }).populate('poet', 'name')) as PoemType;
+    }).populate('poet', ['name', 'bio', 'time_period'])) as PoemType;
   }
 
   public async post(poemData: PoemType) {
