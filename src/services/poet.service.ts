@@ -12,12 +12,12 @@ export default class PoetService {
     return await Poet.find({}, { name: 1, time_period: 1 });
   }
 
-  public async post(peomData: PoetType) {
+  public async post(peotData: PoetType) {
     const poet = new Poet({
-      name: peomData.name,
-      time_period: peomData.time_period,
-      bio: peomData.bio,
-      reviewed: peomData.reviewed,
+      name: peotData.name,
+      time_period: peotData.time_period,
+      bio: peotData.bio,
+      reviewed: peotData.reviewed,
     });
 
     try {

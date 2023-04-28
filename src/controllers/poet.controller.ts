@@ -52,7 +52,7 @@ export default class PoetController {
     this.poetService
       .remove(req.params.id)
       .then(() => {
-        res.send('Deleted Successfully');
+        res.status(202).send('Deleted Successfully');
       })
       .catch((err) => logger.log(err));
   };
