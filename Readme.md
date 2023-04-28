@@ -1,6 +1,6 @@
-# Expressjs Starter with TypeScript
+# REST API for "Adeeb أديب", using Express with TypeScript
 
-Starter for expressjs, trying to use OOP architecture and design.
+A basic step towards OOP, with best practices.
 
 ### Used Middlewares
 
