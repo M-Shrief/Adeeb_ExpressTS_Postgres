@@ -4,7 +4,6 @@ import Poet from '../models/poet.model';
 import PoetType from '../interfaces/poet.interface';
 // Utils
 import { logger } from '../utils/logger';
-import { Logger } from 'winston';
 
 export default class PoetService {
   private Poet = new Poet();
