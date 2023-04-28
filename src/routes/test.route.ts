@@ -1,19 +1,26 @@
-import { Router } from "express";
-import TestController from "../controllers/test.controller";
-import { IRoute } from "../interfaces/route.interface";
+import { Router } from 'express';
+import { body, param } from 'express-validator';
+// Controller
+import TestController from '../controllers/test.controller';
+import { IRoute } from '../interfaces/route.interface';
+// Middlewares
+import validate from '../middlewares/validate.middleware';
 
 class TestRoute implements IRoute {
-    public path: string = "/test"
-    public router: Router = Router()
-    public controller: TestController = new TestController()
+  public router: Router = Router();
+  public controller: TestController = new TestController();
 
-    constructor(){
-        this.initializeRoutes()
-    }
+  constructor() {
+    this.initializeRoutes();
+  }
 
-    private initializeRoutes(){
-        this.router.get(this.path, this.controller.getHello)
-    }
+  private initializeRoutes() {
+    this.router.get(
+      '/tests',
+      validate([body('name').notEmpty().trim().escape()]),
+      this.controller.getHello
+    );
+  }
 }
 
-export default TestRoute
+export default TestRoute;
