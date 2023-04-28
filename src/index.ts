@@ -1,7 +1,6 @@
 import App from './app';
 // Routes
-import ExampleRoute from './routes/example.route';
-
-const app = new App([new ExampleRoute()]);
+import PoetRoute from './routes/poet.route';
+const app = new App([new PoetRoute()]);
 
 app.listen();

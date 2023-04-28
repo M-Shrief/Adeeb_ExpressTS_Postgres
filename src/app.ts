@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
+import mongoose from 'mongoose';
 // config
-import { PORT } from './config';
+import { DB_NAME, DB_URL, PORT } from './config';
 // Middlewares
 import cors from 'cors';
 import helmet from 'helmet';
@@ -23,6 +24,7 @@ export default class App {
     this.app = express();
     this.port = PORT || 3000;
     this.initializeMiddlewares();
+    this.connectToDB();
     this.initializeRoutes(routes);
     this.initializeErrorHandling();
   }
@@ -72,7 +74,15 @@ export default class App {
     });
   }
 
-  // private connectToDB() {}
+  private connectToDB() {
+    mongoose
+      .connect(DB_URL as string, {
+        dbName: DB_NAME,
+        // other option are no longer required for v6+
+      })
+      .then(() => console.log('connected'))
+      .catch((err) => logger.log(err));
+  }
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);
