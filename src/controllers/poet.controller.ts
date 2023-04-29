@@ -16,7 +16,7 @@ export default class PoetController {
         res.status(200).send(result);
       })
       .catch((err) => {
-        logger.log(err);
+        logger.error(err);
         res.status(404).send('No Poets Found');
       });
   };
@@ -28,7 +28,7 @@ export default class PoetController {
         res.status(201).send(result);
       })
       .catch((err) => {
-        logger.log(err);
+        logger.error(err);
         res.status(400).send('Bad Request');
       });
   };
@@ -36,14 +36,11 @@ export default class PoetController {
   public update = (req: Request, res: Response, next: NextFunction) => {
     this.poetService
       .update(req.params.id, req.body)
-      .then((updatedPoet) => {
-        res.status(201).json({
-          Status: true,
-          Poet: updatedPoet,
-        });
+      .then((result) => {
+        res.status(201).send(result);
       })
       .catch((err) => {
-        logger.log(err);
+        logger.error(err);
         res.status(400).send('Bad Request');
       });
   };
@@ -54,6 +51,6 @@ export default class PoetController {
       .then(() => {
         res.status(202).send('Deleted Successfully');
       })
-      .catch((err) => logger.log(err));
+      .catch((err) => logger.error(err));
   };
 }
