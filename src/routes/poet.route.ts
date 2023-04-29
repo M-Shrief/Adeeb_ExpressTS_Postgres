@@ -17,7 +17,11 @@ export default class PoetRoute implements IRoute {
 
   private initializeRoutes() {
     this.router.get('/poets', this.controller.index);
-    this.router.get('/poet/:id', this.controller.indexOneWithLiterature);
+    this.router.get(
+      '/poet/:id',
+      validate([param('id').notEmpty().isMongoId()]),
+      this.controller.indexOneWithLiterature
+    );
     this.router.post(
       '/poet',
       validate([
@@ -31,7 +35,7 @@ export default class PoetRoute implements IRoute {
     this.router.put(
       '/poet/:id',
       validate([
-        param('id').optional().notEmpty().isMongoId(),
+        param('id').notEmpty().isMongoId(),
         body('name').optional().notEmpty().isString().isLength({ max: 50 }),
         body('time_period').optional().isString().isLength({ max: 50 }),
         body('bio').optional().notEmpty().isString().isLength({ max: 300 }),
