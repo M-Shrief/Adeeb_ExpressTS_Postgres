@@ -17,5 +17,10 @@ export default class ChosenVerseRoute implements IRoute {
 
   private initializeRoutes() {
     this.router.get('/chosenverses', this.controller.indexWithPoetName);
+    this.router.get('/chosenverses/:num', this.controller.indexRandom);
+    this.router.get('/chosenverse/:id', this.controller.indexOneWithPoetName);
+    this.router.post('/chosenverse', this.controller.post);
+    this.router.put('/chosenverse/:id', this.controller.update);
+    this.router.delete('/chosenverse/:id', this.controller.remove);
   }
 }

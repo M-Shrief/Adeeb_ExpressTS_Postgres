@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 // Types
-import ChosenVerseType from '../interfaces/ChosenVerse.interface';
+import ChosenVerseType from '../interfaces/chosenVerse.interface';
 import { VerseType } from '../interfaces/__types__';
 const Schema = mongoose.Schema;
 
@@ -20,7 +20,7 @@ const ChosenVerseSchema = new Schema(
       type: String,
       required: true,
     },
-    verse: [] as VerseType[],
+    verses: [] as VerseType[],
     reviewed: {
       type: Boolean,
       default: false,
