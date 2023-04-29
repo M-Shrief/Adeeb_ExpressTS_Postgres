@@ -2,8 +2,6 @@
 import Prose from '../models/prose.mode';
 // Types
 import ProseType from '../interfaces/prose.interface';
-// Utils
-import { logger } from '../utils/logger';
 
 export default class ProseService {
   public async getAllWithPoetName(): Promise<ProseType[]> {
@@ -11,5 +9,18 @@ export default class ProseService {
       {},
       { poet: 1, tags: 1, qoute: 1, reviewed: 1 }
     ).populate('poet', 'name');
+  }
+
+  public async getRandom(num: number) {
+    return await Prose.aggregate([{ $sample: { size: num } }]);
+  }
+
+  public async getOneWithPoetName(id: string) {
+    return await Prose.findById(id, {
+      poet: 1,
+      tags: 1,
+      qoute: 1,
+      reviewed: 1,
+    }).populate('poet', 'name');
   }
 }

@@ -44,8 +44,8 @@ export default class ChosenVerseController {
   ) => {
     this.chosenVerseService
       .getOneWithPoetName(req.params.id)
-      .then((poem) => {
-        res.status(200).send(poem);
+      .then((result) => {
+        res.status(200).send(result);
       })
       .catch((err) => {
         logger.error(err);

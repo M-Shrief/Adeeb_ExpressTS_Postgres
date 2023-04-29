@@ -24,4 +24,32 @@ export default class ProseController {
         res.status(404).send('No Poets Found');
       });
   };
+
+  public indexRandom = (req: Request, res: Response, next: NextFunction) => {
+    this.proseService
+      .getRandom(Number(req.params.num))
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.status(400).send('bad request');
+      });
+  };
+
+  public indexOneWithPoetName = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    this.proseService
+      .getOneWithPoetName(req.params.id)
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.send(404).send('No Chosen Verse Found');
+      });
+  };
 }
