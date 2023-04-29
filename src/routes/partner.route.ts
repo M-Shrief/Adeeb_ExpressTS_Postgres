@@ -19,5 +19,7 @@ export default class PartnerRoute implements IRoute {
     this.router.get('/partner/:id', this.controller.indexInfo);
     this.router.post('/partner/signup', this.controller.signup);
     this.router.post('/partner/login', this.controller.login);
+    this.router.put('/partner/:id', this.controller.update);
+    this.router.delete('/partner/:id', this.controller.remove);
   }
 }

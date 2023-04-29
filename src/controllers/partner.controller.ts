@@ -66,4 +66,25 @@ export default class PartnerController {
       accessToken,
     });
   };
+
+  public update = async (req: Request, res: Response, next: NextFunction) => {
+    this.partnerService
+      .update(req.params.id, req.body)
+      .then((result) => {
+        res.status(201).send(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.status(400).send('Bad Request');
+      });
+  };
+
+  public remove = (req: Request, res: Response, next: NextFunction) => {
+    this.partnerService
+      .remove(req.params.id)
+      .then(() => {
+        res.status(202).send('Deleted Successfully');
+      })
+      .catch((err) => logger.error(err));
+  };
 }

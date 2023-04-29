@@ -40,4 +40,13 @@ export default class PartnerService {
 
     return existingPartner;
   }
+
+  public async update(id: string, partnerData: PartnerType) {
+    const partner = await Partner.findById(id);
+    return partner?.updateOne({ $set: partnerData });
+  }
+
+  public async remove(id: string) {
+    return await Partner.findByIdAndRemove(id);
+  }
 }

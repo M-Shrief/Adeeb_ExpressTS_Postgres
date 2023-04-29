@@ -13,6 +13,7 @@ const partnerSchema = new Schema(
     phone: {
       type: String,
       required: true,
+      unique: true,
     },
     address: {
       type: String || Array<String>,
