@@ -52,4 +52,37 @@ export default class ProseController {
         res.send(404).send('No Chosen Verse Found');
       });
   };
+
+  public post = (req: Request, res: Response, next: NextFunction) => {
+    this.proseService
+      .post(req.body)
+      .then((result) => {
+        res.status(201).send(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.status(400).send('Bad Request');
+      });
+  };
+
+  public update = (req: Request, res: Response, next: NextFunction) => {
+    this.proseService
+      .update(req.params.id, req.body)
+      .then((result) => {
+        res.status(202).json(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.status(400).send('Bad Request');
+      });
+  };
+
+  public remove = (req: Request, res: Response, next: NextFunction) => {
+    this.proseService
+      .remove(req.params.id)
+      .then(() => {
+        res.status(202).send('Deleted Successfully');
+      })
+      .catch((err) => logger.error(err));
+  };
 }

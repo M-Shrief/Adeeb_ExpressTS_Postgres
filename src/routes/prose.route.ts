@@ -19,5 +19,8 @@ export default class ProseRoute implements IRoute {
     this.router.get('/proses', this.controller.indexWithPoetName);
     this.router.get('/proses/:num', this.controller.indexRandom);
     this.router.get('/prose/:id', this.controller.indexOneWithPoetName);
+    this.router.post('/prose', this.controller.post);
+    this.router.put('/prose/:id', this.controller.update);
+    this.router.delete('/prose/:id', this.controller.remove);
   }
 }

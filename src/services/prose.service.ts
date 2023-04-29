@@ -23,4 +23,25 @@ export default class ProseService {
       reviewed: 1,
     }).populate('poet', 'name');
   }
+
+  public async post(proseData: ProseType) {
+    const prose = new Prose({
+      poet: proseData.poet,
+      tags: proseData.tags,
+      qoute: proseData.qoute,
+      reviewed: proseData.reviewed,
+    });
+
+    return await prose.save();
+  }
+
+  public async update(id: string, proseData: ProseType) {
+    const prose = await Prose.findById(id);
+
+    return await prose?.updateOne({ $set: proseData });
+  }
+
+  public async remove(id: string) {
+    return await Prose.findByIdAndRemove(id);
+  }
 }
