@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const partnerSchema = new Schema(
   {
-    fullname: {
+    name: {
       type: String,
       required: true,
       maxlength: 100,
@@ -14,8 +14,8 @@ const partnerSchema = new Schema(
       type: String,
       required: true,
     },
-    addresses: {
-      type: String,
+    address: {
+      type: String || Array<String>,
       required: true,
     },
     password: {
