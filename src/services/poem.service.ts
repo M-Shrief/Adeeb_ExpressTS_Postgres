@@ -6,21 +6,21 @@ import PoemType from '../interfaces/poem.interface';
 import { logger } from '../utils/logger';
 
 export default class PoemService {
-  public async getPoemsWithPoetName(): Promise<PoemType[]> {
+  public async getAllWithPoetName(): Promise<PoemType[]> {
     return await Poem.find(
       {},
       { intro: 1, poet: 1, verses: 1, reviewed: 1 }
     ).populate('poet', 'name');
   }
 
-  public async getPoemsIntrosWithPoetName(): Promise<PoemType[]> {
+  public async getAllIntrosWithPoetName(): Promise<PoemType[]> {
     return await Poem.find({}, { intro: 1, poet: 1, reviewed: 1 }).populate(
       'poet',
       'name'
     );
   }
 
-  public async getPoemWithPoet(id: string): Promise<PoemType> {
+  public async getOneWithPoet(id: string): Promise<PoemType> {
     return (await Poem.findById(id, {
       intro: 1,
       poet: 1,

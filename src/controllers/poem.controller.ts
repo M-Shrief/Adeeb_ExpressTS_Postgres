@@ -15,7 +15,7 @@ export default class PoemController {
     next: NextFunction
   ) => {
     this.poemService
-      .getPoemsWithPoetName()
+      .getAllWithPoetName()
       .then((result) => {
         res.status(200).send(result);
       })
@@ -31,7 +31,7 @@ export default class PoemController {
     next: NextFunction
   ) => {
     this.poemService
-      .getPoemsIntrosWithPoetName()
+      .getAllIntrosWithPoetName()
       .then((result) => {
         res.status(200).send(result);
       })
@@ -47,7 +47,7 @@ export default class PoemController {
     next: NextFunction
   ) => {
     this.poemService
-      .getPoemWithPoet(req.params.id)
+      .getOneWithPoet(req.params.id)
       .then((poem) => {
         res.status(200).send(poem);
       })

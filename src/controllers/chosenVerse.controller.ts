@@ -14,7 +14,7 @@ export default class ChosenVerseController {
     res: Response,
     next: NextFunction
   ) => {
-    this.ChosenVerseService.getChosenVerseWithPoetName()
+    this.ChosenVerseService.getAllWithPoetName()
       .then((result) => {
         res.status(200).send(result);
       })

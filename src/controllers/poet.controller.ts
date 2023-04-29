@@ -11,7 +11,7 @@ export default class PoetController {
 
   public index = (req: Request, res: Response, next: NextFunction) => {
     this.poetService
-      .getPoets()
+      .getAll()
       .then((result) => {
         res.status(200).send(result);
       })
