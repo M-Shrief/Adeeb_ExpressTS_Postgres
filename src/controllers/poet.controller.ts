@@ -21,6 +21,19 @@ export default class PoetController {
       });
   };
 
+  public indexOneWithLiterature = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    this.poetService
+      .getOneWithLiterature(req.params.id)
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => logger.error(err));
+  };
+
   public post = (req: Request, res: Response, next: NextFunction) => {
     this.poetService
       .post(req.body as PoetType)

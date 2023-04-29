@@ -17,6 +17,7 @@ export default class PoetRoute implements IRoute {
 
   private initializeRoutes() {
     this.router.get('/poets', this.controller.index);
+    this.router.get('/poet/:id', this.controller.indexOneWithLiterature);
     this.router.post(
       '/poet',
       validate([
