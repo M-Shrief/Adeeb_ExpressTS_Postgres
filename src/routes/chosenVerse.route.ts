@@ -50,6 +50,10 @@ export default class ChosenVerseRoute implements IRoute {
       ]),
       this.controller.update
     );
-    this.router.delete('/chosenverse/:id', this.controller.remove);
+    this.router.delete(
+      '/chosenverse/:id',
+      validate([param('id').optional().isMongoId()]),
+      this.controller.remove
+    );
   }
 }
