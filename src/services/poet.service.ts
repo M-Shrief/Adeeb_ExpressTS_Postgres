@@ -22,7 +22,7 @@ export default class PoetService {
         Prose.find({ poet: id }, { tags: 1, qoute: 1 }),
         ChosenVerse.find(
           { poet: id },
-          { reviewed: 1, tags: 1, verse: 1, poem: 1 }
+          { reviewed: 1, tags: 1, verses: 1, poem: 1 }
         ),
       ]);
     if (!poet) return;
