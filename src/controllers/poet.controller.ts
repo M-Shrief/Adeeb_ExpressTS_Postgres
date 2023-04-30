@@ -21,22 +21,23 @@ export default class PoetController {
       });
   };
 
-  public indexOneWithLiterature = (
+  public indexOneWithLiterature = async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    this.poetService
-      .getOneWithLiterature(req.params.id)
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => logger.error(err));
+    const poet = await this.poetService.getOneWithLiterature(req.params.id);
+
+    if (typeof poet == 'string') {
+      logger.error('Poet not found');
+      return res.status(404).send(poet);
+    }
+    return res.status(200).send(poet);
   };
 
   public post = (req: Request, res: Response, next: NextFunction) => {
     this.poetService
-      .post(req.body as PoetType)
+      .post(req.body as PoetType['details'])
       .then((result) => {
         res.status(201).send(result);
       })

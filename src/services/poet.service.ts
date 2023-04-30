@@ -9,11 +9,11 @@ import PoetType from '../interfaces/poet.interface';
 import { logger } from '../utils/logger';
 
 export default class PoetService {
-  public async getAll(): Promise<PoetType[]> {
+  public async getAll(): Promise<PoetType['details'][]> {
     return await Poet.find({}, { name: 1, time_period: 1 });
   }
 
-  public async getOneWithLiterature(id: string) {
+  public async getOneWithLiterature(id: string): Promise<PoetType | string> {
     const [poet, authoredPoems, authoredProses, authoredChosenVerses] =
       await Promise.all([
         Poet.findById(id, { name: 1, bio: 1, time_period: 1 }),
@@ -24,7 +24,7 @@ export default class PoetService {
           { reviewed: 1, tags: 1, verse: 1, poem: 1 }
         ),
       ]);
-
+    if (!poet) return 'No Poet Found';
     return {
       details: poet,
       authoredPoems,
@@ -33,7 +33,7 @@ export default class PoetService {
     };
   }
 
-  public async post(peotData: PoetType) {
+  public async post(peotData: PoetType['details']) {
     const poet = new Poet({
       name: peotData.name,
       time_period: peotData.time_period,
