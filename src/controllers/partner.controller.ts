@@ -15,7 +15,7 @@ export default class PartnerController {
     signToken(
       {
         Name: name,
-        permission: ['partner:read', 'partner:write'],
+        permissions: ['partner:read', 'partner:write'],
       },
       {
         algorithm: 'RS256',
@@ -68,7 +68,7 @@ export default class PartnerController {
   };
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
-    this.partnerService
+    await this.partnerService
       .update(req.params.id, req.body)
       .then((result) => {
         res.status(201).send(result);

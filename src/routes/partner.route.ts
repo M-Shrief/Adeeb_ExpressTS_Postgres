@@ -6,7 +6,7 @@ import PartnerController from '../controllers/partner.controller';
 import { IRoute } from '../interfaces/route.interface';
 // middlewares
 import validate from '../middlewares/validate.middleware';
-
+import { guard, jwtToken } from '../middlewares/auth.middleware';
 export default class PartnerRoute implements IRoute {
   public router: Router = Router();
   private controller: PartnerController = new PartnerController();
@@ -18,7 +18,13 @@ export default class PartnerRoute implements IRoute {
   private initializeRoutes() {
     this.router.get(
       '/partner/:id',
-      validate([param('id').isMongoId().withMessage('Partner not available')]),
+      [
+        validate([
+          param('id').isMongoId().withMessage('Partner not available'),
+        ]),
+        jwtToken(true),
+        guard.check(['partner:read', 'partner:write']),
+      ],
       this.controller.indexInfo
     );
     this.router.post(
@@ -61,36 +67,49 @@ export default class PartnerRoute implements IRoute {
     );
     this.router.put(
       '/partner/:id',
-      validate([
-        param('id').isMongoId().withMessage('Partner not available'),
+      [
+        validate([
+          param('id').isMongoId().withMessage('Partner not available'),
 
-        body('name')
-          .notEmpty()
-          .isString()
-          .isLength({ max: 50 })
-          .escape()
-          .withMessage('name should be letters, and max 50 letters length'),
+          body('name')
+            .optional()
+            .notEmpty()
+            .isString()
+            .isLength({ max: 50 })
+            .escape()
+            .withMessage('name should be letters, and max 50 letters length'),
 
-        body('phone')
-          .escape()
-          .isMobilePhone('any')
-          .withMessage('phone not right or not supported'),
+          body('phone')
+            .optional()
+            .escape()
+            .isMobilePhone('any')
+            .withMessage('phone not right or not supported'),
 
-        body('address').notEmpty().withMessage('address can not be empty'), // should have more
+          body('address').notEmpty().withMessage('address can not be empty'), // should have more
 
-        body('password')
-          .isString()
-          .isStrongPassword()
-          .escape()
-          .withMessage(
-            'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)'
-          ),
-      ]),
+          body('password')
+            .optional()
+            .isString()
+            .isStrongPassword()
+            .escape()
+            .withMessage(
+              'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)'
+            ),
+        ]),
+        jwtToken(true),
+        guard.check(['partner:read', 'partner:write']),
+      ],
       this.controller.update
     );
     this.router.delete(
       '/partner/:id',
-      validate([param('id').isMongoId().withMessage('Partner not available')]),
+      [
+        validate([
+          param('id').isMongoId().withMessage('Partner not available'),
+        ]),
+        jwtToken(true),
+        guard.check(['partner:read', 'partner:write']),
+      ],
       this.controller.remove
     );
   }
