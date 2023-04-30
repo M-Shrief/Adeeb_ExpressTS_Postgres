@@ -35,10 +35,9 @@ export default class PartnerRoute implements IRoute {
 
         body('phone')
           .isString()
-          .isLength({ max: 20 })
           .escape()
-          .isMobilePhone('ar-EG')
-          .withMessage('only support phone on egypt'),
+          .isMobilePhone('any')
+          .withMessage('phone not rigth or not supported'),
 
         body('address').notEmpty().withMessage('address can not be empty'), // should have more
 
@@ -77,10 +76,9 @@ export default class PartnerRoute implements IRoute {
 
         body('phone')
           .isString()
-          .isLength({ max: 20 })
           .escape()
-          .isMobilePhone('ar-EG')
-          .withMessage('phone length should be less than 20'),
+          .isMobilePhone('any')
+          .withMessage('phone not rigth or not supported'),
 
         body('address').notEmpty().withMessage('address can not be empty'), // should have more
 
