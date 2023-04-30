@@ -19,9 +19,7 @@ export default class PoetRoute implements IRoute {
     this.router.get('/poets', this.controller.index);
     this.router.get(
       '/poet/:id',
-      validate([
-        param('id').notEmpty().isMongoId().withMessage('Poet not found'),
-      ]),
+      validate([param('id').isMongoId().withMessage('Poet not found')]),
       this.controller.indexOneWithLiterature
     );
     this.router.post(
@@ -59,7 +57,7 @@ export default class PoetRoute implements IRoute {
     this.router.put(
       '/poet/:id',
       validate([
-        param('id').notEmpty().isMongoId().withMessage('Poet not Found'),
+        param('id').isMongoId().withMessage('Poet not Found'),
 
         body('name')
           .optional()
@@ -95,9 +93,7 @@ export default class PoetRoute implements IRoute {
     );
     this.router.delete(
       '/poet/:id',
-      validate([
-        param('id').notEmpty().isMongoId().withMessage('Poet not Found'),
-      ]),
+      validate([param('id').isMongoId().withMessage('Poet not Found')]),
       this.controller.remove
     );
   }
