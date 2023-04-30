@@ -19,33 +19,85 @@ export default class PoetRoute implements IRoute {
     this.router.get('/poets', this.controller.index);
     this.router.get(
       '/poet/:id',
-      validate([param('id').notEmpty().isMongoId()]),
+      validate([
+        param('id').notEmpty().isMongoId().withMessage('Poet not found'),
+      ]),
       this.controller.indexOneWithLiterature
     );
     this.router.post(
       '/poet',
       validate([
-        body('name').notEmpty().isString().isLength({ max: 50 }),
-        body('time_period').isString().isLength({ max: 50 }),
-        body('bio').notEmpty().isString().isLength({ max: 300 }),
-        body('reviewed').optional().notEmpty().isBoolean(),
+        body('name')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage('name should be letters, and max 50 letters length'),
+
+        body('time_period')
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage(
+            'time_period should be letters, and max 50 letters length'
+          ),
+
+        body('bio')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 300 })
+          .escape()
+          .withMessage('bio should be letters, and max 300 letters length'),
+
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed should be true or false'),
       ]),
       this.controller.post
     );
     this.router.put(
       '/poet/:id',
       validate([
-        param('id').notEmpty().isMongoId(),
-        body('name').optional().notEmpty().isString().isLength({ max: 50 }),
-        body('time_period').optional().isString().isLength({ max: 50 }),
-        body('bio').optional().notEmpty().isString().isLength({ max: 300 }),
-        body('reviewed').optional().notEmpty().isBoolean(),
+        param('id').notEmpty().isMongoId().withMessage('Poet not Found'),
+
+        body('name')
+          .optional()
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage('name should be letters, and max 50 letters length'),
+
+        body('time_period')
+          .optional()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage(
+            'time_period should be letters, and max 50 letters length'
+          ),
+
+        body('bio')
+          .optional()
+          .notEmpty()
+          .isString()
+          .isLength({ max: 300 })
+          .escape()
+          .withMessage('bio should be letters, and max 300 letters length'),
+
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed should be true or false'),
       ]),
       this.controller.update
     );
     this.router.delete(
       '/poet/:id',
-      validate([param('id').notEmpty().isMongoId()]),
+      validate([
+        param('id').notEmpty().isMongoId().withMessage('Poet not Found'),
+      ]),
       this.controller.remove
     );
   }

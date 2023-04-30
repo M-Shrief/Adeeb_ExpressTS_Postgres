@@ -56,9 +56,15 @@ export default class OrderRoute implements IRoute {
 
         body('address').notEmpty().withMessage('address can not be empty'), // should have more
 
-        body('reviewed').optional().isBoolean(),
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed should be true or false'),
 
-        body('completed').optional().isBoolean(),
+        body('completed')
+          .optional()
+          .isBoolean()
+          .withMessage('completed should be true or false'),
 
         body('products').notEmpty().withMessage('Order must have products'),
       ]),
