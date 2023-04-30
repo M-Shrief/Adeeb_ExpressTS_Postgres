@@ -11,7 +11,7 @@ export default class OrderRoute implements IRoute {
   }
 
   private initializeRoutes() {
-    this.router.get('/orders/user', this.controller.indexGuestOrders);
+    this.router.get('/orders/guest', this.controller.indexGuestOrders);
     this.router.get('/orders/:partner', this.controller.indexPartnerOrders);
     this.router.post('/order', this.controller.post);
     this.router.put('/order/:id', this.controller.update);
