@@ -18,7 +18,7 @@ export default class ChosenVerseRoute implements IRoute {
   private initializeRoutes() {
     this.router.get(
       '/chosenverses',
-      validate([query('num').isInt()]),
+      validate([query('num').optional().isInt()]),
       this.controller.indexWithPoetName
     );
     this.router.get(

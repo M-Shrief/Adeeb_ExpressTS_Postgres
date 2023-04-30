@@ -16,10 +16,88 @@ export default class PartnerRoute implements IRoute {
   }
 
   private initializeRoutes() {
-    this.router.get('/partner/:id', this.controller.indexInfo);
-    this.router.post('/partner/signup', this.controller.signup);
-    this.router.post('/partner/login', this.controller.login);
-    this.router.put('/partner/:id', this.controller.update);
-    this.router.delete('/partner/:id', this.controller.remove);
+    this.router.get(
+      '/partner/:id',
+      validate([param('id').isMongoId().withMessage('Partner not available')]),
+      this.controller.indexInfo
+    );
+    this.router.post(
+      '/partner/signup',
+      validate([
+        body('name')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage(
+            'name should be contain letters, and less than 50 in length'
+          ),
+
+        body('phone')
+          .isString()
+          .isLength({ max: 20 })
+          .escape()
+          .isMobilePhone('ar-EG')
+          .withMessage('only support phone on egypt'),
+
+        body('address').notEmpty().withMessage('address can not be empty'), // should have more
+
+        body('password')
+          .isString()
+          .isStrongPassword()
+          .escape()
+          .withMessage(
+            'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)'
+          ),
+      ]),
+      this.controller.signup
+    );
+    this.router.post(
+      '/partner/login',
+      validate([
+        body('phone').notEmpty().isString().isLength({ max: 20 }).escape(),
+
+        body('password').notEmpty().isString().escape(),
+      ]),
+      this.controller.login
+    );
+    this.router.put(
+      '/partner/:id',
+      validate([
+        param('id').isMongoId().withMessage('Partner not available'),
+
+        body('name')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage(
+            'name should be contain letters, and less than 50 in length'
+          ),
+
+        body('phone')
+          .isString()
+          .isLength({ max: 20 })
+          .escape()
+          .isMobilePhone('ar-EG')
+          .withMessage('phone length should be less than 20'),
+
+        body('address').notEmpty().withMessage('address can not be empty'), // should have more
+
+        body('password')
+          .isString()
+          .isStrongPassword()
+          .escape()
+          .withMessage(
+            'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)'
+          ),
+      ]),
+      this.controller.update
+    );
+    this.router.delete(
+      '/partner/:id',
+      validate([param('id').isMongoId().withMessage('Partner not available')]),
+      this.controller.remove
+    );
   }
 }
