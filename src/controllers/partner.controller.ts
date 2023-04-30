@@ -1,3 +1,4 @@
+import { NODE_ENV } from '../config';
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 // Services
 import PartnerService from '../services/partner.service';
@@ -6,7 +7,6 @@ import PartnerType from '../interfaces/partner.interface';
 // Utils
 import { logger } from '../utils/logger';
 import { decodeToken, signToken } from '../utils/auth';
-import { NODE_ENV } from '../config';
 
 export default class PartnerController {
   private partnerService = new PartnerService();
