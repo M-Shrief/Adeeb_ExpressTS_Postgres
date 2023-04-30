@@ -1,6 +1,38 @@
 # REST API for "Adeeb أديب", using Express with TypeScript
 
-A basic step towards OOP, with best practices.
+**Overview, and file structure**:
+
+- _app_ is the main file for app logic, initializing middlewares and routes, and
+  connecting to our MongoDB.
+
+- _index_ is the server file to run the app.
+
+- _./config_ file is to import all environment variables, and use a complex
+  configuration structure if needed.
+
+- _./interfaces_ file is for types' declarations, using (\*.interface.ts) naming
+  convention for every module, beside \_**\_types\_\_** for general types.
+
+- _./models_ file is for our mongoose models, representing app's data, using
+  (\*.model.ts) naming convention for every module.
+
+- _./service_ file is for communicating(read/write) to our database, and make
+  operations on data if needed, then return the data for _./controllers_, using
+  (\*.service.ts) naming convention for every module.
+
+- _./controllers_ file is for coordinating HTTP request & responses, and set
+  needed cookies and headers, using (\*.controller.ts) naming convention for
+  every module.
+
+- _./routes_ file is for establishing endpoints and controllers to every
+  modules. Beside validating requests, and jwt authentication. Using
+  (\*.route.ts) naming convention for every module.
+
+- _./middlewares_ file is for containing reused middlewares, which are used
+  across the app, using (\*.middleware.ts) naming convention for every module.
+
+- _./utils_ file is for containing reused functions, which are used across the
+  app.
 
 ### Used Middlewares
 
@@ -11,4 +43,6 @@ A basic step towards OOP, with best practices.
 - **Morgan & winston** for Logging
 - **Express-rate-limit**, to limit api requests.
 - **Express-validator**, to validate requests' body, params,...etc.
-- handmade middleware for **Caching**.
+- Basic hand-made middleware for **Caching**.
+- **jsonwebtoken, Express-jwt & Express-jwt-permissions**, for authentication,
+  guarding routes.
