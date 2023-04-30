@@ -28,9 +28,9 @@ export default class PoetController {
   ) => {
     const poet = await this.poetService.getOneWithLiterature(req.params.id);
 
-    if (typeof poet == 'string') {
-      logger.error('Poet not found');
-      return res.status(404).send(poet);
+    if (typeof poet == 'undefined') {
+      logger.error('Error: No Poet Found');
+      return res.status(404).send('Error: No Poet Found');
     }
     return res.status(200).send(poet);
   };

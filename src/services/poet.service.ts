@@ -7,13 +7,14 @@ import Prose from '../models/prose.mode';
 import PoetType from '../interfaces/poet.interface';
 // Utils
 import { logger } from '../utils/logger';
+import { STATUS_CODES } from 'http';
 
 export default class PoetService {
   public async getAll(): Promise<PoetType['details'][]> {
     return await Poet.find({}, { name: 1, time_period: 1 });
   }
 
-  public async getOneWithLiterature(id: string): Promise<PoetType | string> {
+  public async getOneWithLiterature(id: string): Promise<PoetType | void> {
     const [poet, authoredPoems, authoredProses, authoredChosenVerses] =
       await Promise.all([
         Poet.findById(id, { name: 1, bio: 1, time_period: 1 }),
@@ -24,7 +25,7 @@ export default class PoetService {
           { reviewed: 1, tags: 1, verse: 1, poem: 1 }
         ),
       ]);
-    if (!poet) return 'No Poet Found';
+    if (!poet) return;
     return {
       details: poet,
       authoredPoems,
