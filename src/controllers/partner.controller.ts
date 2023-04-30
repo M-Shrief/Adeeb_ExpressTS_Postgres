@@ -11,10 +11,10 @@ import { NODE_ENV } from '../config';
 export default class PartnerController {
   private partnerService = new PartnerService();
 
-  private signPartnerToken = (partnerName: string) =>
+  private signToken = (name: string) =>
     signToken(
       {
-        Name: partnerName,
+        Name: name,
         permission: ['partner:read', 'partner:write'],
       },
       {
@@ -23,7 +23,7 @@ export default class PartnerController {
       }
     );
 
-  private partnerCookie: CookieOptions = {
+  private cookieOptions: CookieOptions = {
     maxAge: 60 * 60 * 8, // 8 hours
     httpOnly: true,
     secure: NODE_ENV === 'production' ? true : false,
@@ -44,7 +44,7 @@ export default class PartnerController {
 
   public signup = async (req: Request, res: Response, next: NextFunction) => {
     const partner = await this.partnerService.signup(req.body);
-    const accessToken = this.signPartnerToken(partner.name);
+    const accessToken = this.signToken(partner.name);
     res.set('Authorization', `Bearer ${accessToken}`);
     res.status(202).json({
       Success: true,
@@ -59,7 +59,7 @@ export default class PartnerController {
     );
     if (!partner) return res.status(400).send('Unauthorized');
 
-    const accessToken = this.signPartnerToken(partner.name);
+    const accessToken = this.signToken(partner.name);
     res.set('Authorization', `Bearer ${accessToken}`);
     res.status(202).json({
       Success: true,
