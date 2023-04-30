@@ -18,38 +18,71 @@ export default class ProseRoute implements IRoute {
   private initalizeRoutes() {
     this.router.get(
       '/proses',
-      validate([query('num').optional().isInt()]),
+      validate([
+        query('num').optional().isInt().withMessage('Accepts numbers only'),
+      ]),
       this.controller.indexWithPoetName
     );
     this.router.get(
       '/prose/:id',
-      validate([param('id').isMongoId()]),
+      validate([param('id').isMongoId().withMessage('prose not found')]),
       this.controller.indexOneWithPoetName
     );
     this.router.post(
       '/prose',
       validate([
-        body('poet').isMongoId(),
-        body('tags').notEmpty().isString(),
-        body('qoute').notEmpty().isString().isLength({ max: 300 }),
-        body('reviewed').isBoolean(),
+        body('poet').isMongoId().withMessage('poet not found'),
+
+        body('tags')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage('tags should be letters, and max 50 letters length'),
+
+        body('qoute')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 400 })
+          .withMessage('qoute should be letters, and max 400 letters length'),
+
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed must be true or false'),
       ]),
       this.controller.post
     );
     this.router.put(
       '/prose/:id',
       validate([
-        param('id').isMongoId(),
-        body('poet').optional().isMongoId(),
-        body('tags').optional().notEmpty().isString(),
-        body('qoute').optional().notEmpty().isString().isLength({ max: 300 }),
-        body('reviewed').optional().isBoolean(),
+        param('id').isMongoId().withMessage('prose not found'),
+
+        body('poet').isMongoId().withMessage('poet not found'),
+
+        body('tags')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage('tags should be letters, and max 50 letters length'),
+
+        body('qoute')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 400 })
+          .withMessage('qoute should be letters, and max 400 letters length'),
+
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed must be true or false'),
       ]),
       this.controller.update
     );
     this.router.delete(
       '/prose/:id',
-      validate([param('id').isMongoId()]),
+      validate([param('id').isMongoId().withMessage('prose not found')]),
       this.controller.remove
     );
   }

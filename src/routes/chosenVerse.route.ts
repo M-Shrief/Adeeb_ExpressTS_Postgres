@@ -18,40 +18,81 @@ export default class ChosenVerseRoute implements IRoute {
   private initializeRoutes() {
     this.router.get(
       '/chosenverses',
-      validate([query('num').optional().isInt()]),
+      validate([
+        query('num').optional().isInt().withMessage('Accepts numbers only'),
+      ]),
       this.controller.indexWithPoetName
     );
     this.router.get(
       '/chosenverse/:id',
-      validate([param('id').isMongoId()]),
+      validate([param('id').isMongoId().withMessage('chosenVerse not found')]),
       this.controller.indexOneWithPoetName
     );
     this.router.post(
       '/chosenverse',
       validate([
-        body('poet').isMongoId(),
-        body('poem').isMongoId(),
-        body('tags').isString(),
-        body('verses.*').isString().isLength({ max: 50 }),
-        body('reviewed').optional().isBoolean(),
+        body('poet').isMongoId().withMessage('poet not found'),
+
+        body('poem').isMongoId().withMessage('poem not found'),
+
+        body('tags')
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage('tags should be letters, and max 50 letters length'),
+
+        body('verses.*')
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage(
+            "Verses's first and sec part should be less than 50 letters"
+          ),
+
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed must be true or false'),
       ]),
       this.controller.post
     );
     this.router.put(
       '/chosenverse/:id',
       validate([
-        param('id').optional().isMongoId(),
-        body('poet').optional().isMongoId(),
-        body('poem').optional().isMongoId(),
-        body('tags').optional().isString(),
-        body('verses.*').optional().isString().isLength({ max: 50 }),
-        body('reviewed').optional().isBoolean(),
+        param('id').isMongoId().withMessage('chosenVerse not found'),
+
+        body('poet').optional().isMongoId().withMessage('poet not found'),
+
+        body('poem').optional().isMongoId().withMessage('poem not found'),
+
+        body('tags')
+          .optional()
+          .notEmpty()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage('tags should be letters, and max 50 letters length'),
+
+        body('verses.*')
+          .optional()
+          .isString()
+          .isLength({ max: 50 })
+          .escape()
+          .withMessage(
+            "Verses's first and sec part should be less than 50 letters"
+          ),
+
+        body('reviewed')
+          .optional()
+          .isBoolean()
+          .withMessage('reviewed must be true or false'),
       ]),
       this.controller.update
     );
     this.router.delete(
       '/chosenverse/:id',
-      validate([param('id').optional().isMongoId()]),
+      validate([param('id').isMongoId().withMessage('chosenVerse not found')]),
       this.controller.remove
     );
   }
