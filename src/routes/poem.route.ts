@@ -24,7 +24,7 @@ export default class PoemRoute implements IRoute {
       this.controller.indexOneWithPoet
     );
     this.router.post(
-      '/poem/',
+      '/poem',
       validate([
         body('intro').notEmpty().isString().isLength({ max: 50 }),
         body('poet').isMongoId(),

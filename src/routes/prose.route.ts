@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body, param } from 'express-validator';
+import { body, param, query } from 'express-validator';
 // Controller
 import ProseController from '../controllers/prose.controller';
 // Types
@@ -16,11 +16,10 @@ export default class ProseRoute implements IRoute {
   }
 
   private initalizeRoutes() {
-    this.router.get('/proses', this.controller.indexWithPoetName);
     this.router.get(
-      '/proses/:num',
-      validate([param('num').isInt()]),
-      this.controller.indexRandom
+      '/proses',
+      validate([query('num').optional().isInt()]),
+      this.controller.indexWithPoetName
     );
     this.router.get(
       '/prose/:id',

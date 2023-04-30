@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body, param } from 'express-validator';
+import { body, query, param } from 'express-validator';
 // Controller
 import ChosenVerseController from '../controllers/chosenVerse.controller';
 // Types
@@ -16,11 +16,10 @@ export default class ChosenVerseRoute implements IRoute {
   }
 
   private initializeRoutes() {
-    this.router.get('/chosenverses', this.controller.indexWithPoetName);
     this.router.get(
-      '/chosenverses/:num',
-      validate([param('num').isInt()]),
-      this.controller.indexRandom
+      '/chosenverses',
+      validate([query('num').isInt()]),
+      this.controller.indexWithPoetName
     );
     this.router.get(
       '/chosenverse/:id',

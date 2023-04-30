@@ -15,25 +15,13 @@ export default class ChosenVerseController {
     next: NextFunction
   ) => {
     this.chosenVerseService
-      .getAllWithPoetName()
+      .getAllWithPoetName(Number(req.query.num))
       .then((result: ChosenVerseType[]) => {
         res.status(200).send(result);
       })
       .catch((err) => {
         logger.error(err);
         res.status(404).send('No Poems Found');
-      });
-  };
-
-  public indexRandom = (req: Request, res: Response, next: NextFunction) => {
-    this.chosenVerseService
-      .getRandom(Number(req.params.num))
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('bad request');
       });
   };
 
