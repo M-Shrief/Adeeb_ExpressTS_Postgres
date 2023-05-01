@@ -6,6 +6,7 @@ import OrderController from '../controllers/order.controller';
 import { IRoute } from '../interfaces/route.interface';
 // middlewares
 import validate from '../middlewares/validate.middleware';
+import setCache from '../middlewares/cache.middleware';
 export default class OrderRoute implements IRoute {
   public router: Router = Router();
   private controller = new OrderController();
@@ -15,21 +16,23 @@ export default class OrderRoute implements IRoute {
   }
 
   private initializeRoutes() {
-    this.router.get(
+    this.router.post(
       '/orders/guest',
-      validate([
-        body('name')
-          .notEmpty()
-          .isString()
-          .isLength({ max: 50 })
-          .escape()
-          .withMessage('name should be letters, and max 50 letters length'),
-
-        body('phone')
-          .escape()
-          .isMobilePhone('any')
-          .withMessage('phone not right or not supported'),
-      ]),
+      [
+        validate([
+          body('name')
+            .notEmpty()
+            .isString()
+            .isLength({ max: 50 })
+            .escape()
+            .withMessage('name is not valid'),
+          body('phone')
+            .escape()
+            .isMobilePhone('any')
+            .withMessage('phone is not valid'),
+        ]),
+        setCache,
+      ],
       this.controller.indexGuestOrders
     );
     this.router.get(

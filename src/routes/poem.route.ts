@@ -6,6 +6,7 @@ import PoemController from '../controllers/poem.controller';
 import { IRoute } from '../interfaces/route.interface';
 // middlewares
 import validate from '../middlewares/validate.middleware';
+import setCache from '../middlewares/cache.middleware';
 
 export default class PoemRoute implements IRoute {
   public router: Router = Router();
@@ -16,11 +17,18 @@ export default class PoemRoute implements IRoute {
   }
 
   private initializeRoutes() {
-    this.router.get('/poems', this.controller.indexWithPoetName);
-    this.router.get('/poems_intros', this.controller.indexIntrosWithPoetName);
+    this.router.get('/poems', setCache, this.controller.indexWithPoetName);
+    this.router.get(
+      '/poems_intros',
+      setCache,
+      this.controller.indexIntrosWithPoetName
+    );
     this.router.get(
       '/poem/:id',
-      validate([param('id').isMongoId().withMessage('Poem not found')]),
+      [
+        validate([param('id').isMongoId().withMessage('Poem not found')]),
+        setCache,
+      ],
       this.controller.indexOneWithPoet
     );
     this.router.post(
