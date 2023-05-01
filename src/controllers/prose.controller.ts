@@ -15,7 +15,23 @@ export default class ProseController {
     next: NextFunction
   ) => {
     this.proseService
-      .getAllWithPoetName(Number(req.query.num))
+      .getAllWithPoetName()
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.status(404).send('No Poets Found');
+      });
+  };
+
+  public indexRandomWithPoetName = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    this.proseService
+      .getRandomWithPoetName(Number(req.query.num))
       .then((result) => {
         res.status(200).send(result);
       })

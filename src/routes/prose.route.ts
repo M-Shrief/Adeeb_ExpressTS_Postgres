@@ -6,6 +6,7 @@ import ProseController from '../controllers/prose.controller';
 import { IRoute } from '../interfaces/route.interface';
 // middlewares
 import validate from '../middlewares/validate.middleware';
+import setCache from '../middlewares/cache.middleware';
 
 export default class ProseRoute implements IRoute {
   public router: Router = Router();
@@ -16,12 +17,13 @@ export default class ProseRoute implements IRoute {
   }
 
   private initalizeRoutes() {
+    this.router.get('/proses', setCache, this.controller.indexWithPoetName);
     this.router.get(
-      '/proses',
+      '/proses/random',
       validate([
         query('num').optional().isInt().withMessage('Accepts numbers only'),
       ]),
-      this.controller.indexWithPoetName
+      this.controller.indexRandomWithPoetName
     );
     this.router.get(
       '/prose/:id',

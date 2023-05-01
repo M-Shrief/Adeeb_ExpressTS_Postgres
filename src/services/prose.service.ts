@@ -5,21 +5,21 @@ import ProseType from '../interfaces/prose.interface';
 // Utils
 import shuffle from '../utils/durstenfeldShuffle';
 export default class ProseService {
-  public async getAllWithPoetName(num?: number): Promise<ProseType[]> {
-    let proses;
-    if (num) {
-      proses = await Prose.aggregate([
-        { $sample: { size: num } },
-        { $unset: ['_id', 'updatedAt', 'createdAt'] },
-      ]);
-    } else {
-      proses = await Prose.find(
-        {},
-        { poet: 1, tags: 1, qoute: 1, reviewed: 1 }
-      ).populate('poet', 'name');
-      shuffle(proses);
-    }
+  public async getAllWithPoetName(): Promise<ProseType[]> {
+    let proses = await Prose.find(
+      {},
+      { poet: 1, tags: 1, qoute: 1, reviewed: 1 }
+    ).populate('poet', 'name');
+    shuffle(proses);
+
     return proses;
+  }
+
+  public async getRandomWithPoetName(num: number): Promise<ProseType[]> {
+    return await Prose.aggregate([
+      { $sample: { size: num } },
+      { $unset: ['_id', 'updatedAt', 'createdAt'] },
+    ]);
   }
 
   public async getOneWithPoetName(id: string) {
