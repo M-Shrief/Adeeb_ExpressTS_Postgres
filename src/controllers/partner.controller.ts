@@ -48,6 +48,12 @@ export default class PartnerController {
     res.set('Authorization', `Bearer ${accessToken}`);
     res.status(202).json({
       Success: true,
+      partner: {
+        _id: partner._id,
+        name: partner.name,
+        phone: partner.phone,
+        address: partner.address,
+      },
       accessToken,
     });
   };
@@ -62,9 +68,20 @@ export default class PartnerController {
     const accessToken = this.signToken(partner.name);
     res.set('Authorization', `Bearer ${accessToken}`);
     res.status(202).json({
-      Success: true,
+      success: true,
+      partner: {
+        _id: partner._id,
+        name: partner.name,
+        phone: partner.phone,
+        address: partner.address,
+      },
       accessToken,
     });
+  };
+
+  public logout = async (req: Request, res: Response, next: NextFunction) => {
+    res.set('Authorization', undefined);
+    res.status(200).send('logged out');
   };
 
   public update = async (req: Request, res: Response, next: NextFunction) => {

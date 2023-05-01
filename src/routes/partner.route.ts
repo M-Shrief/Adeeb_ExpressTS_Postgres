@@ -7,6 +7,7 @@ import { IRoute } from '../interfaces/route.interface';
 // middlewares
 import validate from '../middlewares/validate.middleware';
 import { guard, jwtToken } from '../middlewares/auth.middleware';
+import setCache from '../middlewares/cache.middleware';
 export default class PartnerRoute implements IRoute {
   public router: Router = Router();
   private controller: PartnerController = new PartnerController();
@@ -24,6 +25,7 @@ export default class PartnerRoute implements IRoute {
         ]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
+        setCache,
       ],
       this.controller.indexInfo
     );
@@ -65,6 +67,7 @@ export default class PartnerRoute implements IRoute {
       ]),
       this.controller.login
     );
+    this.router.post('/partner/logout', this.controller.logout);
     this.router.put(
       '/partner/:id',
       [
