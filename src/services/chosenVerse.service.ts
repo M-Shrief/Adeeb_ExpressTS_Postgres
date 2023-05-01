@@ -5,21 +5,21 @@ import ChosenVerseType from '../interfaces/chosenVerse.interface';
 // Utils
 import shuffle from '../utils/durstenfeldShuffle';
 export default class ChosenVerseService {
-  public async getAllWithPoetName(num?: number): Promise<ChosenVerseType[]> {
-    let chosenVerses;
-    if (num) {
-      chosenVerses = await ChosenVerse.aggregate([
-        { $sample: { size: num } },
-        { $unset: ['_id', 'updatedAt', 'createdAt'] },
-      ]);
-    } else {
-      chosenVerses = await ChosenVerse.find(
-        {},
-        { reviewed: 1, tags: 1, verses: 1, poet: 1, poem: 1 }
-      ).populate('poet', 'name');
-      shuffle(chosenVerses);
-    }
+  public async getAllWithPoetName(): Promise<ChosenVerseType[]> {
+    const chosenVerses = await ChosenVerse.find(
+      {},
+      { reviewed: 1, tags: 1, verses: 1, poet: 1, poem: 1 }
+    ).populate('poet', 'name');
+    shuffle(chosenVerses);
+
     return chosenVerses;
+  }
+
+  public async getRandomWithPoetName(num: number): Promise<ChosenVerseType[]> {
+    return await ChosenVerse.aggregate([
+      { $sample: { size: num } },
+      { $unset: ['_id', 'updatedAt', 'createdAt'] },
+    ]);
   }
 
   public async getOneWithPoetName(id: string) {

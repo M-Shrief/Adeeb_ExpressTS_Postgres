@@ -15,7 +15,23 @@ export default class ChosenVerseController {
     next: NextFunction
   ) => {
     this.chosenVerseService
-      .getAllWithPoetName(Number(req.query.num))
+      .getAllWithPoetName()
+      .then((result: ChosenVerseType[]) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        logger.error(err);
+        res.status(404).send('No Poems Found');
+      });
+  };
+
+  public indexRandomWithPoetName = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    this.chosenVerseService
+      .getRandomWithPoetName(Number(req.query.num))
       .then((result: ChosenVerseType[]) => {
         res.status(200).send(result);
       })

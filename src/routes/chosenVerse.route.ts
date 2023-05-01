@@ -6,6 +6,7 @@ import ChosenVerseController from '../controllers/chosenVerse.controller';
 import { IRoute } from '../interfaces/route.interface';
 // middlewares
 import validate from '../middlewares/validate.middleware';
+import setCache from '../middlewares/cache.middleware';
 
 export default class ChosenVerseRoute implements IRoute {
   public router: Router = Router();
@@ -18,10 +19,15 @@ export default class ChosenVerseRoute implements IRoute {
   private initializeRoutes() {
     this.router.get(
       '/chosenverses',
+      setCache,
+      this.controller.indexWithPoetName
+    );
+    this.router.get(
+      '/chosenverses/random',
       validate([
         query('num').optional().isInt().withMessage('Accepts numbers only'),
       ]),
-      this.controller.indexWithPoetName
+      this.controller.indexRandomWithPoetName
     );
     this.router.get(
       '/chosenverse/:id',
