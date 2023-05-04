@@ -27,9 +27,6 @@
 - _./interfaces_ file for types' declarations, using (\*.interface.ts) naming
   convention for every module, beside \_**\_types\_\_** for general types.
 
-- _./models_ file for our mongoose models, representing app's data, using
-  (\*.model.ts) naming convention for every module.
-
 - _./middlewares_ file for containing reused middlewares, which are used across
   the app, using (\*.middleware.ts) naming convention for every module.
 
