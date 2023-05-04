@@ -7,34 +7,33 @@
 
 - _index_ is the server file to run the app.
 
-- _./config_ file is to import all environment variables, and use a complex
+- _./config_ file to import all environment variables, and use a complex
   configuration structure if needed.
 
 - _./components_ file contain app's solutions by self contained components with
 
-  - _service_ file is for communicating(read/write) to our database, and make
+  - _service_ file for communicating(read/write) to our database, and make
     operations on data if needed, then return the data for _./controllers_,
     using (\*.service.ts) naming convention for every module.
 
-  - _controller_ file is for coordinating HTTP request & responses, and set
-    needed cookies and headers, using (\*.controller.ts) naming convention for
-    every module.
+  - _controller_ file for coordinating HTTP request & responses, and set needed
+    cookies and headers, using (\*.controller.ts) naming convention for every
+    module.
 
-  - _route_ file is for establishing endpoints and controllers to every modules.
+  - _route_ file for establishing endpoints and controllers to every modules.
     Beside validating requests, and jwt authentication. Using (\*.route.ts)
     naming convention for every module.
 
-- _./interfaces_ file is for types' declarations, using (\*.interface.ts) naming
+- _./interfaces_ file for types' declarations, using (\*.interface.ts) naming
   convention for every module, beside \_**\_types\_\_** for general types.
 
-- _./models_ file is for our mongoose models, representing app's data, using
+- _./models_ file for our mongoose models, representing app's data, using
   (\*.model.ts) naming convention for every module.
 
-- _./middlewares_ file is for containing reused middlewares, which are used
-  across the app, using (\*.middleware.ts) naming convention for every module.
+- _./middlewares_ file for containing reused middlewares, which are used across
+  the app, using (\*.middleware.ts) naming convention for every module.
 
-- _./utils_ file is for containing reused functions, which are used across the
-  app.
+- _./utils_ file for containing reused functions, which are used across the app.
 
 ### Used Middlewares
 
