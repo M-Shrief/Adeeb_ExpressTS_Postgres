@@ -12,17 +12,17 @@
 
 - _./components_ file contain app's solutions by self contained components with
 
-  - _./service_ file is for communicating(read/write) to our database, and make
+  - _service_ file is for communicating(read/write) to our database, and make
     operations on data if needed, then return the data for _./controllers_,
     using (\*.service.ts) naming convention for every module.
 
-  - _./controllers_ file is for coordinating HTTP request & responses, and set
+  - _controller_ file is for coordinating HTTP request & responses, and set
     needed cookies and headers, using (\*.controller.ts) naming convention for
     every module.
 
-  - _./routes_ file is for establishing endpoints and controllers to every
-    modules. Beside validating requests, and jwt authentication. Using
-    (\*.route.ts) naming convention for every module.
+  - _route_ file is for establishing endpoints and controllers to every modules.
+    Beside validating requests, and jwt authentication. Using (\*.route.ts)
+    naming convention for every module.
 
 - _./interfaces_ file is for types' declarations, using (\*.interface.ts) naming
   convention for every module, beside \_**\_types\_\_** for general types.
