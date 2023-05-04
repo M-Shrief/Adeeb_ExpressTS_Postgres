@@ -1,12 +1,12 @@
 // Models
-import Poet from '../models/poet.model';
-import Poem from '../models/poem.model';
-import ChosenVerse from '../models/chosenVerse.model';
-import Prose from '../models/prose.mode';
+import Poet from './poet.model';
+import Poem from '../poem/poem.model';
+import ChosenVerse from '../chosenVerse/chosenVerse.model';
+import Prose from '../prose/prose.mode';
 // Types
-import PoetType from '../interfaces/poet.interface';
+import PoetType from '../../interfaces/poet.interface';
 // Utils
-import { logger } from '../utils/logger';
+import { logger } from '../../utils/logger';
 import { STATUS_CODES } from 'http';
 
 export default class PoetService {

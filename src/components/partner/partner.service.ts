@@ -1,10 +1,9 @@
 // Models
-import Partner from '../models/partner.model';
+import Partner from './partner.model';
 // Types
-import PartnerType from '../interfaces/partner.interface';
+import PartnerType from '../../interfaces/partner.interface';
 // Utils
-import { comparePassword, hashPassword } from '../utils/auth';
-import { logger } from '../utils/logger';
+import { comparePassword, hashPassword } from '../../utils/auth';
 
 export default class PartnerService {
   public async getInfo(id: string): Promise<PartnerType> {

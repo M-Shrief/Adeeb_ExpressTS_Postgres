@@ -1,5 +1,5 @@
-import OrderType from '../interfaces/order.interface';
-import Order from '../models/order.model';
+import OrderType from '../../interfaces/order.interface';
+import Order from './order.model';
 
 export default class OrderService {
   public async getGuestOrders(

@@ -1,12 +1,12 @@
-import { NODE_ENV } from '../config';
+import { NODE_ENV } from '../../config';
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 // Services
-import PartnerService from '../services/partner.service';
+import PartnerService from './partner.service';
 // Types
-import PartnerType from '../interfaces/partner.interface';
+import PartnerType from '../../interfaces/partner.interface';
 // Utils
-import { logger } from '../utils/logger';
-import { decodeToken, signToken } from '../utils/auth';
+import { logger } from '../../utils/logger';
+import { decodeToken, signToken } from '../../utils/auth';
 
 export default class PartnerController {
   private partnerService = new PartnerService();

@@ -1,9 +1,9 @@
 // Models
-import Prose from '../models/prose.mode';
+import Prose from './prose.mode';
 // Types
-import ProseType from '../interfaces/prose.interface';
+import ProseType from '../../interfaces/prose.interface';
 // Utils
-import shuffle from '../utils/durstenfeldShuffle';
+import shuffle from '../../utils/durstenfeldShuffle';
 export default class ProseService {
   public async getAllWithPoetName(): Promise<ProseType[]> {
     let proses = await Prose.find(

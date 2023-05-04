@@ -1,10 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import OrderService from '../services/order.service';
-// Types
-import OrderType from '../interfaces/order.interface';
+import OrderService from './order.service';
 // Utils
-import { logger } from '../utils/logger';
+import { logger } from '../../utils/logger';
 
 export default class OrderController {
   private orderService = new OrderService();

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import PoetService from '../services/poet.service';
+import PoetService from './poet.service';
 // Types
-import PoetType from '../interfaces/poet.interface';
+import PoetType from '../../interfaces/poet.interface';
 // Utils
-import { logger } from '../utils/logger';
+import { logger } from '../../utils/logger';
 
 export default class PoetController {
   private poetService = new PoetService();

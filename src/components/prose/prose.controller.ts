@@ -1,65 +1,65 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import PoemService from '../services/poem.service';
+import ProseService from './prose.service';
 // Types
-import PoemType from '../interfaces/poem.interface';
+import ProseType from '../../interfaces/prose.interface';
 // Utils
-import { logger } from '../utils/logger';
+import { logger } from '../../utils/logger';
 
-export default class PoemController {
-  private poemService = new PoemService();
+export default class ProseController {
+  private proseService: ProseService = new ProseService();
 
   public indexWithPoetName = (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    this.poemService
+    this.proseService
       .getAllWithPoetName()
       .then((result) => {
         res.status(200).send(result);
       })
       .catch((err) => {
         logger.error(err);
-        res.status(404).send('No Poems Found');
+        res.status(404).send('No Poets Found');
       });
   };
 
-  public indexIntrosWithPoetName = (
+  public indexRandomWithPoetName = (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    this.poemService
-      .getAllIntrosWithPoetName()
+    this.proseService
+      .getRandomWithPoetName(Number(req.query.num))
       .then((result) => {
         res.status(200).send(result);
       })
       .catch((err) => {
         logger.error(err);
-        res.status(404).send('No Poems Found');
+        res.status(404).send('No Poets Found');
       });
   };
 
-  public indexOneWithPoet = (
+  public indexOneWithPoetName = (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    this.poemService
-      .getOneWithPoet(req.params.id)
-      .then((poem) => {
-        res.status(200).send(poem);
+    this.proseService
+      .getOneWithPoetName(req.params.id)
+      .then((result) => {
+        res.status(200).send(result);
       })
       .catch((err) => {
         logger.error(err);
-        res.send(404).send('No Poem Found');
+        res.send(404).send('No Chosen Verse Found');
       });
   };
 
   public post = (req: Request, res: Response, next: NextFunction) => {
-    this.poemService
-      .post(req.body as PoemType)
+    this.proseService
+      .post(req.body)
       .then((result) => {
         res.status(201).send(result);
       })
@@ -70,10 +70,10 @@ export default class PoemController {
   };
 
   public update = (req: Request, res: Response, next: NextFunction) => {
-    this.poemService
-      .update(req.params.id, req.body as PoemType)
+    this.proseService
+      .update(req.params.id, req.body)
       .then((result) => {
-        res.status(201).send(result);
+        res.status(202).json(result);
       })
       .catch((err) => {
         logger.error(err);
@@ -82,7 +82,7 @@ export default class PoemController {
   };
 
   public remove = (req: Request, res: Response, next: NextFunction) => {
-    this.poemService
+    this.proseService
       .remove(req.params.id)
       .then(() => {
         res.status(202).send('Deleted Successfully');

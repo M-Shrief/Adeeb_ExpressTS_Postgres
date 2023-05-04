@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import ChosenVerseService from '../services/chosenVerse.service';
+import ChosenVerseService from './chosenVerse.service';
 // Types
-import ChosenVerseType from '../interfaces/chosenVerse.interface';
+import ChosenVerseType from '../../interfaces/chosenVerse.interface';
 // Utils
-import { logger } from '../utils/logger';
+import { logger } from '../../utils/logger';
 
 export default class ChosenVerseController {
   private chosenVerseService = new ChosenVerseService();

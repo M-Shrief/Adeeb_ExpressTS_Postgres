@@ -1,9 +1,9 @@
 // Models
-import ChosenVerse from '../models/chosenVerse.model';
+import ChosenVerse from './chosenVerse.model';
 // Types
-import ChosenVerseType from '../interfaces/chosenVerse.interface';
+import ChosenVerseType from '../../interfaces/chosenVerse.interface';
 // Utils
-import shuffle from '../utils/durstenfeldShuffle';
+import shuffle from '../../utils/durstenfeldShuffle';
 export default class ChosenVerseService {
   public async getAllWithPoetName(): Promise<ChosenVerseType[]> {
     const chosenVerses = await ChosenVerse.find(
