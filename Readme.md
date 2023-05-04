@@ -12,6 +12,9 @@
 
 - _./components_ file contain app's solutions by self contained components with
 
+  - _model_ file for our mongoose models, representing app's data, using
+    (\*.model.ts) naming convention for every module.
+
   - _service_ file for communicating(read/write) to our database, and make
     operations on data if needed, then return the data for _./controllers_,
     using (\*.service.ts) naming convention for every module.
