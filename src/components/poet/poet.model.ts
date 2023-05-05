@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 // Types
-import PoetType from '../../interfaces/poet.interface';
+import { PoetType } from '../../interfaces/poet.interface';
 
 const Schema = mongoose.Schema;
 const poetSchema = new Schema(
@@ -25,5 +25,4 @@ const poetSchema = new Schema(
   { timestamps: true }
 );
 
-const Poet = mongoose.model<PoetType['details']>('Poet', poetSchema);
-export default Poet;
+export const Poet = mongoose.model<PoetType['details']>('Poet', poetSchema);

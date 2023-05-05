@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 // Controller
-import PoetController from './poet.controller';
+import { PoetController } from './poet.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
 // middlewares
-import validate from '../../middlewares/validate.middleware';
-import setCache from '../../middlewares/cache.middleware';
+import { validate } from '../../middlewares/validate.middleware';
+import { setCache } from '../../middlewares/cache.middleware';
 
-export default class PoetRoute implements IRoute {
+export class PoetRoute implements IRoute {
   public router: Router = Router();
   private controller: PoetController = new PoetController();
 

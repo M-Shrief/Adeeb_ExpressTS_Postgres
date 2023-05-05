@@ -1,5 +1,5 @@
-import PoetType from './poet.interface';
-import PoemType from './poem.interface';
+import { PoetType } from './poet.interface';
+import { PoemType } from './poem.interface';
 // General and reused types
 export interface VerseType {
   first: string;

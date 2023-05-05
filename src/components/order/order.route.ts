@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 // controllers
-import OrderController from './order.controller';
+import { OrderController } from './order.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
 // middlewares
-import validate from '../../middlewares/validate.middleware';
-import setCache from '../../middlewares/cache.middleware';
-export default class OrderRoute implements IRoute {
+import { validate } from '../../middlewares/validate.middleware';
+import { setCache } from '../../middlewares/cache.middleware';
+export class OrderRoute implements IRoute {
   public router: Router = Router();
   private controller = new OrderController();
 

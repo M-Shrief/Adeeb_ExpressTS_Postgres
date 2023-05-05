@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import PoemService from './poem.service';
+import { PoemService } from './poem.service';
 // Types
-import PoemType from '../../interfaces/poem.interface';
+import { PoemType } from '../../interfaces/poem.interface';
 // Utils
 import { logger } from '../../utils/logger';
 
-export default class PoemController {
+export class PoemController {
   private poemService = new PoemService();
 
   public indexWithPoetName = (

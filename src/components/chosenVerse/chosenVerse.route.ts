@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { body, query, param } from 'express-validator';
 // Controller
-import ChosenVerseController from './chosenVerse.controller';
+import { ChosenVerseController } from './chosenVerse.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
 // middlewares
-import validate from '../../middlewares/validate.middleware';
-import setCache from '../../middlewares/cache.middleware';
+import { validate } from '../../middlewares/validate.middleware';
+import { setCache } from '../../middlewares/cache.middleware';
 
-export default class ChosenVerseRoute implements IRoute {
+export class ChosenVerseRoute implements IRoute {
   public router: Router = Router();
   private controller: ChosenVerseController = new ChosenVerseController();
 

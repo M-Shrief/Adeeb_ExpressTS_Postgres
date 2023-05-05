@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import ChosenVerseService from './chosenVerse.service';
+import { ChosenVerseService } from './chosenVerse.service';
 // Types
-import ChosenVerseType from '../../interfaces/chosenVerse.interface';
+import { ChosenVerseType } from '../../interfaces/chosenVerse.interface';
 // Utils
 import { logger } from '../../utils/logger';
 
-export default class ChosenVerseController {
+export class ChosenVerseController {
   private chosenVerseService = new ChosenVerseService();
 
   public indexWithPoetName = (

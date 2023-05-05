@@ -1,7 +1,7 @@
-import ChosenVerseType from './chosenVerse.interface';
-import PoemType from './poem.interface';
-import ProseType from './prose.interface';
-export default interface PoetType {
+import { ChosenVerseType } from './chosenVerse.interface';
+import { PoemType } from './poem.interface';
+import { ProseType } from './prose.interface';
+export interface PoetType {
   details: {
     _id: string;
     name: string;

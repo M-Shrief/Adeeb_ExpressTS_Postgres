@@ -1,11 +1,11 @@
 // Models
-import Poem from './poem.model';
+import { Poem } from './poem.model';
 // Types
-import PoemType from '../../interfaces/poem.interface';
+import { PoemType } from '../../interfaces/poem.interface';
 // Utils
 import { logger } from '../../utils/logger';
 
-export default class PoemService {
+export class PoemService {
   public async getAllWithPoetName(): Promise<PoemType[]> {
     return await Poem.find(
       {},

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 // Types
-import PartnerType from '../../interfaces/partner.interface';
+import { PartnerType } from '../../interfaces/partner.interface';
 const Schema = mongoose.Schema;
 
 const partnerSchema = new Schema(

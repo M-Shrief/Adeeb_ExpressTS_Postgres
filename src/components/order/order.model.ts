@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import OrderType from '../../interfaces/order.interface';
+import { OrderType } from '../../interfaces/order.interface';
 import { Product, ProductGroup } from '../../interfaces/__types__';
 const Schema = mongoose.Schema;
 
@@ -38,5 +38,4 @@ const orderSchema = new Schema(
   { timestamps: true }
 );
 
-const Order = mongoose.model<OrderType>('order', orderSchema);
-export default Order;
+export const Order = mongoose.model<OrderType>('order', orderSchema);

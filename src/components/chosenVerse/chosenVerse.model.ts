@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 // Types
-import ChosenVerseType from '../../interfaces/chosenVerse.interface';
+import { ChosenVerseType } from '../../interfaces/chosenVerse.interface';
 import { VerseType } from '../../interfaces/__types__';
 const Schema = mongoose.Schema;
 
@@ -29,8 +29,7 @@ const ChosenVerseSchema = new Schema(
   { timestamps: true }
 );
 
-const ChosenVerse = mongoose.model<ChosenVerseType>(
+export const ChosenVerse = mongoose.model<ChosenVerseType>(
   'ChosenVerse',
   ChosenVerseSchema
 );
-export default ChosenVerse;

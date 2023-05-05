@@ -7,10 +7,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
-import errorMiddleware from './middlewares/error.middleware';
-import morganMiddleware from './middlewares/morgan.middleware';
+import { errorMiddleware } from './middlewares/error.middleware';
+import { morganMiddleware } from './middlewares/morgan.middleware';
 import rateLimit from 'express-rate-limit';
-import setCache from './middlewares/cache.middleware';
 // Utils
 import { logger } from './utils/logger';
 // interfaces

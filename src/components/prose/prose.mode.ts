@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 // Types
-import ProseType from '../../interfaces/prose.interface';
+import { ProseType } from '../../interfaces/prose.interface';
 const Schema = mongoose.Schema;
 
 const proseShema = new Schema(
@@ -26,5 +26,4 @@ const proseShema = new Schema(
   { timestamps: true }
 );
 
-const Prose = mongoose.model<ProseType>('Prose', proseShema);
-export default Prose;
+export const Prose = mongoose.model<ProseType>('Prose', proseShema);

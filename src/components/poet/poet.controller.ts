@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import PoetService from './poet.service';
+import { PoetService } from './poet.service';
 // Types
-import PoetType from '../../interfaces/poet.interface';
+import { PoetType } from '../../interfaces/poet.interface';
 // Utils
 import { logger } from '../../utils/logger';
-
-export default class PoetController {
+export class PoetController {
   private poetService = new PoetService();
 
   public index = (req: Request, res: Response, next: NextFunction) => {
@@ -27,11 +26,7 @@ export default class PoetController {
     next: NextFunction
   ) => {
     const poet = await this.poetService.getOneWithLiterature(req.params.id);
-
-    if (typeof poet == 'undefined') {
-      logger.error('Error: No Poet Found');
-      return res.status(404).send('Error: No Poet Found');
-    }
+    if (!poet) return res.status(400).send("Poet doesn't exist");
     return res.status(200).send(poet);
   };
 

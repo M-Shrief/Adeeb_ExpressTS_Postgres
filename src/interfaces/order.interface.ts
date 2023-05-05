@@ -1,6 +1,6 @@
 import { Product, ProductGroup } from './__types__';
 
-export default interface OrderType {
+export interface OrderType {
   _id: string;
   partner?: string;
   products: Product[] | ProductGroup[];

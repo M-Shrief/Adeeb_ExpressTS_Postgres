@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
-import ProseService from './prose.service';
+import { ProseService } from './prose.service';
 // Types
-import ProseType from '../../interfaces/prose.interface';
+import { ProseType } from '../../interfaces/prose.interface';
 // Utils
 import { logger } from '../../utils/logger';
 
-export default class ProseController {
+export class ProseController {
   private proseService: ProseService = new ProseService();
 
   public indexWithPoetName = (

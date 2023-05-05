@@ -1,11 +1,11 @@
 // Models
 import Partner from './partner.model';
 // Types
-import PartnerType from '../../interfaces/partner.interface';
+import { PartnerType } from '../../interfaces/partner.interface';
 // Utils
 import { comparePassword, hashPassword } from '../../utils/auth';
 
-export default class PartnerService {
+export class PartnerService {
   public async getInfo(id: string): Promise<PartnerType> {
     return (await Partner.findById(id, {
       fullname: 1,
