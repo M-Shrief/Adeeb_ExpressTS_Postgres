@@ -6,15 +6,18 @@ import { PartnerType } from '../../interfaces/partner.interface';
 import { comparePassword, hashPassword } from '../../utils/auth';
 
 export class PartnerService {
-  public async getInfo(id: string): Promise<PartnerType> {
-    return (await Partner.findById(id, {
+  public async getInfo(id: string): Promise<PartnerType | false> {
+    const partner = await Partner.findById(id, {
       fullname: 1,
       address: 1,
       phone: 1,
-    })) as PartnerType;
+    });
+
+    if (!partner) return false;
+    return partner;
   }
 
-  public async signup(partnerData: PartnerType) {
+  public async signup(partnerData: PartnerType): Promise<PartnerType | false> {
     const password = await hashPassword(partnerData.password);
 
     const partner = new Partner({
@@ -24,10 +27,15 @@ export class PartnerService {
       password,
     });
 
-    return await partner.save();
+    const newPartner = await partner.save();
+    if (!newPartner) return false;
+    return partner;
   }
 
-  public async login(phone: string, password: string) {
+  public async login(
+    phone: string,
+    password: string,
+  ): Promise<PartnerType | false> {
     const existingPartner = await Partner.findOne(
       { phone },
       { name: 1, phone: 1, address: 1, password: 1 },
@@ -40,12 +48,20 @@ export class PartnerService {
     return existingPartner;
   }
 
-  public async update(id: string, partnerData: PartnerType) {
+  public async update(
+    id: string,
+    partnerData: PartnerType,
+  ): Promise<PartnerType | false> {
     const partner = await Partner.findById(id);
-    return partner?.updateOne({ $set: partnerData });
+    if (!partner) return false;
+    const newPartner = await partner.updateOne({ $set: partnerData });
+    if (!newPartner) return false;
+    return newPartner;
   }
 
-  public async remove(id: string) {
-    return await Partner.findByIdAndRemove(id);
+  public async remove(id: string): Promise<PartnerType | false> {
+    const partner = await Partner.findByIdAndRemove(id);
+    if (!partner) return false;
+    return partner;
   }
 }
