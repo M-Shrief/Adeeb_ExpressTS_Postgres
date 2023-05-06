@@ -5,80 +5,106 @@ import { ChosenVerseService } from './chosenVerse.service';
 import { ChosenVerseType } from '../../interfaces/chosenVerse.interface';
 // Utils
 import { logger } from '../../utils/logger';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class ChosenVerseController {
   private chosenVerseService = new ChosenVerseService();
 
-  public indexWithPoetName = (
+  public indexWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.chosenVerseService
-      .getAllWithPoetName()
-      .then((result: ChosenVerseType[]) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send('No Poems Found');
-      });
+    try {
+      const chosenVerses = await this.chosenVerseService.getAllWithPoetName();
+      if (!chosenVerses)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No chosenVerses available',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(chosenVerses);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public indexRandomWithPoetName = (
+  public indexRandomWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.chosenVerseService
-      .getRandomWithPoetName(Number(req.query.num))
-      .then((result: ChosenVerseType[]) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send('No Poems Found');
-      });
+    try {
+      const chosenVerses = await this.chosenVerseService.getRandomWithPoetName(
+        Number(req.query.num),
+      );
+      if (!chosenVerses)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No chosenVerses available',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(chosenVerses);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public indexOneWithPoetName = (
+  public indexOneWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.chosenVerseService
-      .getOneWithPoetName(req.params.id)
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.send(404).send('No Chosen Verse Found');
-      });
+    try {
+      const chosenVerse = await this.chosenVerseService.getOneWithPoetName(
+        req.params.id,
+      );
+      if (!chosenVerse)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          "ChosenVerse doesn't exist",
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(chosenVerse);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public post = (req: Request, res: Response, next: NextFunction) => {
-    this.chosenVerseService
-      .post(req.body as ChosenVerseType)
-      .then((result) => {
-        res.status(201).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public post = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const chosenVerse = await this.chosenVerseService.post(
+        req.body as ChosenVerseType,
+      );
+      if (!chosenVerse)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for chosenVerse is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(chosenVerse);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public update = (req: Request, res: Response, next: NextFunction) => {
-    this.chosenVerseService
-      .update(req.params.id, req.body)
-      .then((result) => {
-        res.status(201).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const chosenVerse = await this.chosenVerseService.update(
+        req.params.id,
+        req.body,
+      );
+      if (!chosenVerse)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for chosenVerse is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(chosenVerse);
+    } catch (error) {
+      next(error);
+    }
   };
 
   public remove = (req: Request, res: Response, next: NextFunction) => {
