@@ -17,7 +17,7 @@ export class PoetController {
       if (!poets) {
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No Poets available for now',
+          'No poets available',
           true,
         );
       }
@@ -71,7 +71,7 @@ export class PoetController {
           'Data for poet is not valid',
           true,
         );
-      res.status(HttpStatusCode.CREATED).send(poet);
+      res.status(HttpStatusCode.ACCEPTED).send(poet);
     } catch (errors) {
       next(errors);
     }
