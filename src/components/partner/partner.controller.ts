@@ -2,6 +2,8 @@ import { NODE_ENV } from '../../config';
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 // Services
 import { PartnerService } from './partner.service';
+// Types
+import { ERROR_MSG } from '../../interfaces/partner.interface';
 // Utils
 import { signToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
@@ -38,11 +40,7 @@ export class PartnerController {
       const partner = await this.partnerService.getInfo(req.params.id);
 
       if (!partner)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          "Partner doesn't exist",
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(partner);
     } catch (error) {
       next(error);
@@ -55,7 +53,7 @@ export class PartnerController {
       if (!partner)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for partner is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       const accessToken = this.signToken(partner.name);
@@ -84,7 +82,7 @@ export class PartnerController {
       if (!partner)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for partner is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
 
@@ -116,7 +114,7 @@ export class PartnerController {
       if (!partner)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for partner is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(201).send(partner);
@@ -129,7 +127,7 @@ export class PartnerController {
     try {
       const partner = await this.partnerService.remove(req.params.id);
       if (!partner)
-        throw new AppError(HttpStatusCode.NOT_FOUND, "Poet's not found", true);
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);

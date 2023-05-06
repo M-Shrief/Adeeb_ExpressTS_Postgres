@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { PoemService } from './poem.service';
 // Types
-import { PoemType } from '../../interfaces/poem.interface';
+import { PoemType, ERROR_MSG } from '../../interfaces/poem.interface';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
@@ -21,7 +21,7 @@ export class PoemController {
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No poems available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.OK).send(poems);
@@ -41,7 +41,7 @@ export class PoemController {
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No poems available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.OK).send(poems);
@@ -58,11 +58,7 @@ export class PoemController {
     try {
       const poem = await this.poemService.getOneWithPoet(req.params.id);
       if (!poem)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          'Poem was not found',
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(poem);
     } catch (error) {
       next(error);
@@ -75,7 +71,7 @@ export class PoemController {
       if (!poem)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for poem is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.CREATED).send(poem);
@@ -93,7 +89,7 @@ export class PoemController {
       if (!poem)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for poem is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.ACCEPTED).send(poem);
@@ -106,11 +102,7 @@ export class PoemController {
     try {
       const poem = await this.poemService.remove(req.params.id);
       if (!poem)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          'Poem was not found',
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send(poem);
     } catch (error) {
       next(error);

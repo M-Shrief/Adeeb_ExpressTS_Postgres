@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
 import { OrderService } from './order.service';
+// Types
+import { ERROR_MSG } from '../../interfaces/order.interface';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
@@ -21,7 +23,7 @@ export class OrderController {
       if (!orders)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No orders available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.OK).send(orders);
@@ -42,7 +44,7 @@ export class OrderController {
       if (!orders)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No orders available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.OK).send(orders);
@@ -57,7 +59,7 @@ export class OrderController {
       if (!order)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for Order is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.CREATED).send(order);
@@ -72,7 +74,7 @@ export class OrderController {
       if (!order)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for Order is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.ACCEPTED).send(order);
@@ -85,7 +87,7 @@ export class OrderController {
     try {
       const order = await this.orderService.remove(req.params.id);
       if (!order)
-        throw new AppError(HttpStatusCode.NOT_FOUND, "Order's not found", true);
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);

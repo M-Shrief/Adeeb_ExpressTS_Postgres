@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
 import { ProseService } from './prose.service';
+// Types
+import { ERROR_MSG } from '../../interfaces/prose.interface';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
@@ -18,7 +20,7 @@ export class ProseController {
       if (!proses)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No proses available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
 
@@ -40,7 +42,7 @@ export class ProseController {
       if (!proses)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No proses available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
 
@@ -58,11 +60,7 @@ export class ProseController {
     try {
       const prose = await this.proseService.getOneWithPoetName(req.params.id);
       if (!prose)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          "Prose doesn't exist",
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(prose);
     } catch (error) {
       next(error);
@@ -75,7 +73,7 @@ export class ProseController {
       if (!prose)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for prose is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.CREATED).send(prose);
@@ -90,7 +88,7 @@ export class ProseController {
       if (!prose)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for prose is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.ACCEPTED).send(prose);
@@ -103,7 +101,7 @@ export class ProseController {
     try {
       const prose = await this.proseService.remove(req.params.id);
       if (!prose)
-        throw new AppError(HttpStatusCode.NOT_FOUND, "Prose's not found", true);
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);

@@ -2,9 +2,11 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { ChosenVerseService } from './chosenVerse.service';
 // Types
-import { ChosenVerseType } from '../../interfaces/chosenVerse.interface';
+import {
+  ChosenVerseType,
+  ERROR_MSG,
+} from '../../interfaces/chosenVerse.interface';
 // Utils
-import { logger } from '../../utils/logger';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
@@ -21,7 +23,7 @@ export class ChosenVerseController {
       if (!chosenVerses)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No chosenVerses available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.OK).send(chosenVerses);
@@ -42,7 +44,7 @@ export class ChosenVerseController {
       if (!chosenVerses)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No chosenVerses available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.OK).send(chosenVerses);
@@ -61,11 +63,7 @@ export class ChosenVerseController {
         req.params.id,
       );
       if (!chosenVerse)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          "ChosenVerse doesn't exist",
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(chosenVerse);
     } catch (error) {
       next(error);
@@ -80,7 +78,7 @@ export class ChosenVerseController {
       if (!chosenVerse)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for chosenVerse is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.CREATED).send(chosenVerse);
@@ -98,7 +96,7 @@ export class ChosenVerseController {
       if (!chosenVerse)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for chosenVerse is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.ACCEPTED).send(chosenVerse);
@@ -113,7 +111,7 @@ export class ChosenVerseController {
       if (!chosenVerse)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          "chosenVerse's not found",
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { PoetService } from './poet.service';
 // Types
-import { PoetType } from '../../interfaces/poet.interface';
+import { PoetType, ERROR_MSG } from '../../interfaces/poet.interface';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
@@ -16,7 +16,7 @@ export class PoetController {
       if (!poets) {
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
-          'No poets available',
+          ERROR_MSG.NOT_AVAILABLE,
           true,
         );
       }
@@ -34,11 +34,7 @@ export class PoetController {
     try {
       const poet = await this.poetService.getOneWithLiterature(req.params.id);
       if (!poet)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          "Poet doesn't exist",
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       return res.status(HttpStatusCode.OK).send(poet);
     } catch (err) {
       next(err);
@@ -51,7 +47,7 @@ export class PoetController {
       if (!poet)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for poet is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.CREATED).send(poet);
@@ -66,7 +62,7 @@ export class PoetController {
       if (!poet)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
-          'Data for poet is not valid',
+          ERROR_MSG.NOT_VALID,
           true,
         );
       res.status(HttpStatusCode.ACCEPTED).send(poet);
@@ -79,7 +75,7 @@ export class PoetController {
     try {
       const poet = await this.poetService.remove(req.params.id);
       if (!poet)
-        throw new AppError(HttpStatusCode.NOT_FOUND, "Poet's not found", true);
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);
