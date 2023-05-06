@@ -21,6 +21,5 @@ export const validate = (validations: ValidationChain[]) => {
     } catch (errors) {
       next(errors);
     }
-    // res.status(400).send(`Bad Request`);
   };
 };

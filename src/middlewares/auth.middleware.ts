@@ -1,5 +1,8 @@
+import { Request, Response, NextFunction } from 'express';
 import { expressjwt } from 'express-jwt';
 import guardFactory from 'express-jwt-permissions';
+import HttpStatusCode from '../utils/httpStatusCode';
+import { AppError } from '../utils/errorsCenter/appError';
 
 export const jwtToken = (bln?: boolean) =>
   expressjwt({
@@ -10,6 +13,24 @@ export const jwtToken = (bln?: boolean) =>
   });
 
 export const guard = guardFactory();
+
+export const authErrorHandler = (
+  error: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (error.name == 'UnauthorizedError')
+      throw new AppError(
+        HttpStatusCode.UNAUTHORIZED,
+        "You're not authorized for that",
+        true,
+      );
+  } catch (err) {
+    next(err);
+  }
+};
 
 // import { NextFunction, Request, Response } from 'express';
 // import jwt, { Secret } from 'jsonwebtoken';
