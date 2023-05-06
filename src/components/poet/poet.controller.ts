@@ -4,7 +4,6 @@ import { PoetService } from './poet.service';
 // Types
 import { PoetType } from '../../interfaces/poet.interface';
 // Utils
-import { logger } from '../../utils/logger';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 export class PoetController {
@@ -40,7 +39,6 @@ export class PoetController {
           "Poet doesn't exist",
           true,
         );
-      // if (!poet) return res.status(400).send("Poet doesn't exist");
       return res.status(HttpStatusCode.OK).send(poet);
     } catch (err) {
       next(err);

@@ -101,18 +101,24 @@ export class ChosenVerseController {
           'Data for chosenVerse is not valid',
           true,
         );
-      res.status(HttpStatusCode.CREATED).send(chosenVerse);
+      res.status(HttpStatusCode.ACCEPTED).send(chosenVerse);
     } catch (error) {
       next(error);
     }
   };
 
-  public remove = (req: Request, res: Response, next: NextFunction) => {
-    this.chosenVerseService
-      .remove(req.params.id)
-      .then(() => {
-        res.status(202).send('Deleted Successfully');
-      })
-      .catch((err) => logger.error(err));
+  public remove = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const chosenVerse = await this.chosenVerseService.remove(req.params.id);
+      if (!chosenVerse)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          "chosenVerse's not found",
+          true,
+        );
+      res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
+    } catch (errors) {
+      next(errors);
+    }
   };
 }

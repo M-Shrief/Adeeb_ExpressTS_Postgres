@@ -6,7 +6,11 @@ import { PartnerController } from './partner.controller';
 import { IRoute } from '../../interfaces/route.interface';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
-import { guard, jwtToken } from '../../middlewares/auth.middleware';
+import {
+  guard,
+  jwtToken,
+  authErrorHandler,
+} from '../../middlewares/auth.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 export class PartnerRoute implements IRoute {
   public router: Router = Router();
@@ -25,6 +29,7 @@ export class PartnerRoute implements IRoute {
         ]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
+        authErrorHandler,
         setCache,
       ],
       this.controller.indexInfo,
@@ -101,6 +106,7 @@ export class PartnerRoute implements IRoute {
         ]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
+        authErrorHandler,
       ],
       this.controller.update,
     );
@@ -112,6 +118,7 @@ export class PartnerRoute implements IRoute {
         ]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
+        authErrorHandler,
       ],
       this.controller.remove,
     );

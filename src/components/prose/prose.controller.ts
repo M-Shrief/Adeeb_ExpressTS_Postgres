@@ -1,10 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 // Services
 import { ProseService } from './prose.service';
-// Types
-import { ProseType } from '../../interfaces/prose.interface';
 // Utils
-import { logger } from '../../utils/logger';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 

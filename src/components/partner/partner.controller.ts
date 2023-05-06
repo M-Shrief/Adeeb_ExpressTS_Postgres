@@ -3,7 +3,6 @@ import { CookieOptions, NextFunction, Request, Response } from 'express';
 // Services
 import { PartnerService } from './partner.service';
 // Utils
-import { logger } from '../../utils/logger';
 import { signToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';

@@ -5,8 +5,6 @@ import { ChosenVerse } from '../chosenVerse/chosenVerse.model';
 import { Prose } from '../prose/prose.mode';
 // Types
 import { PoetType } from '../../interfaces/poet.interface';
-// Utils
-import { logger } from '../../utils/logger';
 export class PoetService {
   public async getAll(): Promise<PoetType['details'][] | false> {
     const poets = await Poet.find({}, { name: 1, time_period: 1 });

@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { OrderService } from './order.service';
 // Utils
-import { logger } from '../../utils/logger';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 

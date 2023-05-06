@@ -4,7 +4,6 @@ import { PoemService } from './poem.service';
 // Types
 import { PoemType } from '../../interfaces/poem.interface';
 // Utils
-import { logger } from '../../utils/logger';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
