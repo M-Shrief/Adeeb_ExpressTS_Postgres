@@ -15,5 +15,5 @@ const skip = () => {
 
 export const morganMiddleware = morgan(
   ':method :url :status :res[content-length] - :response-time ms',
-  { stream, skip }
+  { stream, skip },
 );

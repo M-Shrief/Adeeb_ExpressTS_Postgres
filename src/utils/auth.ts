@@ -22,7 +22,7 @@ export const verifyToken = (token: string) => {
   const decoded = jwt.verify(
     token,
     JWT_PRIVATE as string,
-    { algorithms: ['RS256'] }
+    { algorithms: ['RS256'] },
     // function (err, payload) {
     // if token alg != RS256,  return err == invalid signature
     // }

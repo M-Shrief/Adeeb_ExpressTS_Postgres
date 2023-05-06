@@ -7,7 +7,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
-import { errorMiddleware } from './middlewares/error.middleware';
+import { errorMiddleware } from './middlewares/errorHandler.middleware';
 import { morganMiddleware } from './middlewares/morgan.middleware';
 import rateLimit from 'express-rate-limit';
 // Utils
@@ -31,7 +31,7 @@ export default class App {
   public listen(): void {
     this.app.listen(this.port, () => {
       logger.info(
-        `⚡️[server]: Server is running @ http://localhost:${this.port}`
+        `⚡️[server]: Server is running @ http://localhost:${this.port}`,
       );
     });
   }
@@ -48,7 +48,7 @@ export default class App {
         methods: ['GET'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
-      })
+      }),
     );
     this.app.use(morganMiddleware);
   }
@@ -78,8 +78,10 @@ export default class App {
         dbName: DB_NAME,
         // other option are no longer required for v6+
       })
-      .then(() => console.log('connected'))
-      .catch((err) => logger.log(err));
+      .then(() => logger.info('connected'))
+      .catch(() => {
+        logger.error("Database's not Connected");
+      });
   }
 
   private initializeErrorHandling() {

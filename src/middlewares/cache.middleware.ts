@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 export const setCache = function (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const period = 60 * 5; // 5 minutes
 
