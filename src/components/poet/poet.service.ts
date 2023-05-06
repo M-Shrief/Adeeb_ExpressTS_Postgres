@@ -8,8 +8,10 @@ import { PoetType } from '../../interfaces/poet.interface';
 // Utils
 import { logger } from '../../utils/logger';
 export class PoetService {
-  public async getAll(): Promise<PoetType['details'][]> {
-    return await Poet.find({}, { name: 1, time_period: 1 });
+  public async getAll(): Promise<PoetType['details'][] | false> {
+    const poets = await Poet.find({}, { name: 1, time_period: 1 });
+    if (poets.length === 0) return false;
+    return poets;
   }
 
   public async getOneWithLiterature(id: string): Promise<PoetType | false> {
@@ -32,33 +34,34 @@ export class PoetService {
     };
   }
 
-  public async post(peotData: PoetType['details']) {
+  public async post(
+    peotData: PoetType['details'],
+  ): Promise<PoetType['details'] | false> {
     const poet = new Poet({
       name: peotData.name,
       time_period: peotData.time_period,
       bio: peotData.bio,
       reviewed: peotData.reviewed,
     });
-    try {
-      await poet.save();
-    } catch (err) {
-      return err;
-    }
+    const newPoet = await poet.save();
+    if (!newPoet) return false;
+    return newPoet;
   }
 
-  public async update(id: string, poetData: PoetType) {
+  public async update(
+    id: string,
+    poetData: PoetType,
+  ): Promise<PoetType['details'] | false> {
     const poet = await Poet.findById(id);
-
-    if (poet) {
-      return poet
-        .updateOne({ $set: poetData })
-        .catch((err) => logger.error(err));
-    } else {
-      logger.error(`Poet not found`);
-    }
+    if (!poet) return false;
+    const newPoet = await poet.updateOne({ $set: poetData });
+    if (!newPoet) return false;
+    return newPoet;
   }
 
-  public async remove(id: string) {
-    return await Poet.findByIdAndRemove(id);
+  public async remove(id: string): Promise<PoetType['details'] | false> {
+    const poet = await Poet.findByIdAndRemove(id);
+    if (!poet) return false;
+    return poet;
   }
 }
