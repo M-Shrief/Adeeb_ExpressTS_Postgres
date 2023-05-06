@@ -5,15 +5,19 @@ export class OrderService {
   public async getGuestOrders(
     name: string,
     phone: string,
-  ): Promise<OrderType[]> {
-    return await Order.find({ name, phone }, {});
+  ): Promise<OrderType[] | false> {
+    const orders = await Order.find({ name, phone }, {});
+    if (orders.length === 0) return false;
+    return orders;
   }
 
-  public async getPartnerOrders(partner: string): Promise<OrderType[]> {
-    return await Order.find({ partner });
+  public async getPartnerOrders(partner: string): Promise<OrderType[] | false> {
+    const orders = await Order.find({ partner });
+    if (orders.length === 0) return false;
+    return orders;
   }
 
-  public async post(orderData: OrderType) {
+  public async post(orderData: OrderType): Promise<OrderType | false> {
     let order;
     if (orderData.partner) {
       order = new Order({
@@ -36,16 +40,26 @@ export class OrderService {
       });
     }
 
-    return await order.save();
+    const newOrder = await order.save();
+    if (!newOrder) return false;
+    return newOrder;
   }
 
-  public async update(id: string, orderData: OrderType) {
-    const order = Order.findById(id);
-
-    return await order.updateOne({ $set: orderData });
+  public async update(
+    id: string,
+    orderData: OrderType,
+  ): Promise<OrderType | false> {
+    const order = await Order.findById(id);
+    if (!order) return false;
+    const newOrder = await order.updateOne({ $set: orderData });
+    if (!newOrder) return false;
+    // return newOrder;
+    return order;
   }
 
-  public async remove(id: string) {
-    return await Order.findByIdAndRemove(id);
+  public async remove(id: string): Promise<OrderType | false> {
+    const order = await Order.findByIdAndRemove(id);
+    if (!order) return false;
+    return order;
   }
 }

@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { OrderService } from './order.service';
 // Utils
 import { logger } from '../../utils/logger';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class OrderController {
   private orderService = new OrderService();
@@ -12,15 +14,21 @@ export class OrderController {
     res: Response,
     next: NextFunction,
   ) => {
-    await this.orderService
-      .getGuestOrders(req.body.name, req.body.phone)
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send(err);
-      });
+    try {
+      const orders = await this.orderService.getGuestOrders(
+        req.body.name as string,
+        req.body.phone as string,
+      );
+      if (!orders)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No orders available',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(orders);
+    } catch (error) {
+      next(error);
+    }
   };
 
   public indexPartnerOrders = async (
@@ -28,53 +36,60 @@ export class OrderController {
     res: Response,
     next: NextFunction,
   ) => {
-    await this.orderService
-      .getPartnerOrders(req.params.partner)
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send(err);
-      });
+    try {
+      const orders = await this.orderService.getPartnerOrders(
+        req.params.partner,
+      );
+      if (!orders)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No orders available',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(orders);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public post = (req: Request, res: Response, next: NextFunction) => {
-    this.orderService
-      .post(req.body)
-      .then((newOrder) =>
-        res.status(201).json({
-          success: true,
-          Order: newOrder,
-        }),
-      )
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public post = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const order = await this.orderService.post(req.body);
+      if (!order)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for Order is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(order);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public update = (req: Request, res: Response, next: NextFunction) => {
-    this.orderService
-      .update(req.params.id, req.body)
-      .then((updatedOrder) =>
-        res.status(202).json({
-          success: true,
-          Order: updatedOrder,
-        }),
-      )
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const order = await this.orderService.update(req.params.id, req.body);
+      if (!order)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for Order is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.ACCEPTED).send(order);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public remove = (req: Request, res: Response, next: NextFunction) => {
-    this.orderService
-      .remove(req.params.id)
-      .then(() => {
-        res.status(202).send('Deleted Successfully');
-      })
-      .catch((err) => logger.error(err));
+  public remove = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const order = await this.orderService.remove(req.params.id);
+      if (!order)
+        throw new AppError(HttpStatusCode.NOT_FOUND, "Order's not found", true);
+      res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
+    } catch (errors) {
+      next(errors);
+    }
   };
 }
