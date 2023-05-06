@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../utils/errorHandler';
-import { logger } from '../utils/logger';
+import { AppError } from '../utils/errorsCenter/appError';
 import {
   handleTrustedError,
   isTrustedError,
