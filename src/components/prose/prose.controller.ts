@@ -5,88 +5,111 @@ import { ProseService } from './prose.service';
 import { ProseType } from '../../interfaces/prose.interface';
 // Utils
 import { logger } from '../../utils/logger';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class ProseController {
   private proseService: ProseService = new ProseService();
 
-  public indexWithPoetName = (
+  public indexWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.proseService
-      .getAllWithPoetName()
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send('No Poets Found');
-      });
+    try {
+      const proses = await this.proseService.getAllWithPoetName();
+      if (!proses)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No proses available',
+          true,
+        );
+
+      res.status(HttpStatusCode.OK).send(proses);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public indexRandomWithPoetName = (
+  public indexRandomWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.proseService
-      .getRandomWithPoetName(Number(req.query.num))
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send('No Poets Found');
-      });
+    try {
+      const proses = await this.proseService.getRandomWithPoetName(
+        Number(req.query.num),
+      );
+      if (!proses)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No proses available',
+          true,
+        );
+
+      res.status(HttpStatusCode.OK).send(proses);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public indexOneWithPoetName = (
+  public indexOneWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.proseService
-      .getOneWithPoetName(req.params.id)
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.send(404).send('No Chosen Verse Found');
-      });
+    try {
+      const prose = await this.proseService.getOneWithPoetName(req.params.id);
+      if (!prose)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          "Prose doesn't exist",
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(prose);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public post = (req: Request, res: Response, next: NextFunction) => {
-    this.proseService
-      .post(req.body)
-      .then((result) => {
-        res.status(201).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public post = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const prose = await this.proseService.post(req.body);
+      if (!prose)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for prose is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(prose);
+    } catch (errors) {
+      next(errors);
+    }
   };
 
-  public update = (req: Request, res: Response, next: NextFunction) => {
-    this.proseService
-      .update(req.params.id, req.body)
-      .then((result) => {
-        res.status(202).json(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const prose = await this.proseService.update(req.params.id, req.body);
+      if (!prose)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for prose is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.ACCEPTED).send(prose);
+    } catch (errors) {
+      next(errors);
+    }
   };
 
-  public remove = (req: Request, res: Response, next: NextFunction) => {
-    this.proseService
-      .remove(req.params.id)
-      .then(() => {
-        res.status(202).send('Deleted Successfully');
-      })
-      .catch((err) => logger.error(err));
+  public remove = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const prose = await this.proseService.remove(req.params.id);
+      if (!prose)
+        throw new AppError(HttpStatusCode.NOT_FOUND, "Prose's not found", true);
+      res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
+    } catch (errors) {
+      next(errors);
+    }
   };
 }
