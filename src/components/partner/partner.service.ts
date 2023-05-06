@@ -30,7 +30,7 @@ export class PartnerService {
   public async login(phone: string, password: string) {
     const existingPartner = await Partner.findOne(
       { phone },
-      { name: 1, phone: 1, address: 1, password: 1 }
+      { name: 1, phone: 1, address: 1, password: 1 },
     );
     if (!existingPartner) return false;
 

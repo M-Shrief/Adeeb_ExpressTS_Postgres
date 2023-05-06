@@ -21,7 +21,7 @@ export class PoemRoute implements IRoute {
     this.router.get(
       '/poems_intros',
       setCache,
-      this.controller.indexIntrosWithPoetName
+      this.controller.indexIntrosWithPoetName,
     );
     this.router.get(
       '/poem/:id',
@@ -29,15 +29,15 @@ export class PoemRoute implements IRoute {
         validate([param('id').isMongoId().withMessage('Poem not found')]),
         setCache,
       ],
-      this.controller.indexOneWithPoet
+      this.controller.indexOneWithPoet,
     );
     this.router.post(
       '/poem',
       validate([
         body('intro')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('intro should be letters, and max 50 letters length'),
 
@@ -45,11 +45,11 @@ export class PoemRoute implements IRoute {
 
         body('verses.*')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            "Verses's first and sec part should be less than 50 letters"
+            "Verses's first and sec part should be less than 50 letters",
           ),
 
         body('reviewed')
@@ -57,7 +57,7 @@ export class PoemRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed should be true or false'),
       ]),
-      this.controller.post
+      this.controller.post,
     );
     this.router.put(
       '/poem/:id',
@@ -66,8 +66,8 @@ export class PoemRoute implements IRoute {
 
         body('intro')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('intro should be letters, and max 50 letters length'),
 
@@ -75,11 +75,11 @@ export class PoemRoute implements IRoute {
 
         body('verses.*')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            "Verses's first and sec part should be less than 50 letters"
+            "Verses's first and sec part should be less than 50 letters",
           ),
 
         body('reviewed')
@@ -87,7 +87,7 @@ export class PoemRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed should be true or false'),
       ]),
-      this.controller.update
+      this.controller.update,
     );
 
     this.router.delete(
@@ -95,7 +95,7 @@ export class PoemRoute implements IRoute {
       validate([
         param('id').optional().isMongoId().withMessage('Poem not found'),
       ]),
-      this.controller.remove
+      this.controller.remove,
     );
   }
 }

@@ -20,19 +20,19 @@ export class ChosenVerseRoute implements IRoute {
     this.router.get(
       '/chosenverses',
       setCache,
-      this.controller.indexWithPoetName
+      this.controller.indexWithPoetName,
     );
     this.router.get(
       '/chosenverses/random',
       validate([
         query('num').optional().isInt().withMessage('Accepts numbers only'),
       ]),
-      this.controller.indexRandomWithPoetName
+      this.controller.indexRandomWithPoetName,
     );
     this.router.get(
       '/chosenverse/:id',
       validate([param('id').isMongoId().withMessage('chosenVerse not found')]),
-      this.controller.indexOneWithPoetName
+      this.controller.indexOneWithPoetName,
     );
     this.router.post(
       '/chosenverse',
@@ -43,17 +43,17 @@ export class ChosenVerseRoute implements IRoute {
 
         body('tags')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('verses.*')
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            "Verses's first and sec part should be less than 50 letters"
+            "Verses's first and sec part should be less than 50 letters",
           ),
 
         body('reviewed')
@@ -61,7 +61,7 @@ export class ChosenVerseRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed must be true or false'),
       ]),
-      this.controller.post
+      this.controller.post,
     );
     this.router.put(
       '/chosenverse/:id',
@@ -75,18 +75,18 @@ export class ChosenVerseRoute implements IRoute {
         body('tags')
           .optional()
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('verses.*')
           .optional()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            "Verses's first and sec part should be less than 50 letters"
+            "Verses's first and sec part should be less than 50 letters",
           ),
 
         body('reviewed')
@@ -94,12 +94,12 @@ export class ChosenVerseRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed must be true or false'),
       ]),
-      this.controller.update
+      this.controller.update,
     );
     this.router.delete(
       '/chosenverse/:id',
       validate([param('id').isMongoId().withMessage('chosenVerse not found')]),
-      this.controller.remove
+      this.controller.remove,
     );
   }
 }

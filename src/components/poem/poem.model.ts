@@ -17,7 +17,7 @@ const poemSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Poem = mongoose.model<PoemType>('Poem', poemSchema);

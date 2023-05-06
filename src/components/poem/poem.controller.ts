@@ -12,7 +12,7 @@ export class PoemController {
   public indexWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.poemService
       .getAllWithPoetName()
@@ -28,7 +28,7 @@ export class PoemController {
   public indexIntrosWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.poemService
       .getAllIntrosWithPoetName()
@@ -44,7 +44,7 @@ export class PoemController {
   public indexOneWithPoet = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.poemService
       .getOneWithPoet(req.params.id)

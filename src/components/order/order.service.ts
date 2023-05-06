@@ -4,7 +4,7 @@ import { Order } from './order.model';
 export class OrderService {
   public async getGuestOrders(
     name: string,
-    phone: string
+    phone: string,
   ): Promise<OrderType[]> {
     return await Order.find({ name, phone }, {});
   }

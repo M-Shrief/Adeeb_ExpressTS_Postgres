@@ -26,10 +26,10 @@ const ChosenVerseSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const ChosenVerse = mongoose.model<ChosenVerseType>(
   'ChosenVerse',
-  ChosenVerseSchema
+  ChosenVerseSchema,
 );

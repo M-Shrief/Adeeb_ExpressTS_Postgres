@@ -27,18 +27,18 @@ export class PartnerRoute implements IRoute {
         guard.check(['partner:read', 'partner:write']),
         setCache,
       ],
-      this.controller.indexInfo
+      this.controller.indexInfo,
     );
     this.router.post(
       '/partner/signup',
       validate([
         body('name')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            'name should be contain letters, and less than 50 in length'
+            'name should be contain letters, and less than 50 in length',
           ),
 
         body('phone')
@@ -53,19 +53,19 @@ export class PartnerRoute implements IRoute {
           .isStrongPassword()
           .escape()
           .withMessage(
-            'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)'
+            'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)',
           ),
       ]),
-      this.controller.signup
+      this.controller.signup,
     );
     this.router.post(
       '/partner/login',
       validate([
-        body('phone').notEmpty().isString().isLength({ max: 20 }).escape(),
+        body('phone').notEmpty().isLength({ max: 20 }).isString().escape(),
 
         body('password').notEmpty().isString().escape(),
       ]),
-      this.controller.login
+      this.controller.login,
     );
     this.router.post('/partner/logout', this.controller.logout);
     this.router.put(
@@ -77,8 +77,8 @@ export class PartnerRoute implements IRoute {
           body('name')
             .optional()
             .notEmpty()
-            .isString()
             .isLength({ max: 50 })
+            .isString()
             .escape()
             .withMessage('name should be letters, and max 50 letters length'),
 
@@ -96,13 +96,13 @@ export class PartnerRoute implements IRoute {
             .isStrongPassword()
             .escape()
             .withMessage(
-              'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)'
+              'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)',
             ),
         ]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
       ],
-      this.controller.update
+      this.controller.update,
     );
     this.router.delete(
       '/partner/:id',
@@ -113,7 +113,7 @@ export class PartnerRoute implements IRoute {
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
       ],
-      this.controller.remove
+      this.controller.remove,
     );
   }
 }

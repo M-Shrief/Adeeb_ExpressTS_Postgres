@@ -22,8 +22,8 @@ export class OrderRoute implements IRoute {
         validate([
           body('name')
             .notEmpty()
-            .isString()
             .isLength({ max: 50 })
+            .isString()
             .escape()
             .withMessage('name is not valid'),
           body('phone')
@@ -33,12 +33,12 @@ export class OrderRoute implements IRoute {
         ]),
         setCache,
       ],
-      this.controller.indexGuestOrders
+      this.controller.indexGuestOrders,
     );
     this.router.get(
       '/orders/:partner',
       validate([param('partner').isMongoId().withMessage('Partner not found')]),
-      this.controller.indexPartnerOrders
+      this.controller.indexPartnerOrders,
     );
     this.router.post(
       '/order',
@@ -47,8 +47,8 @@ export class OrderRoute implements IRoute {
 
         body('name')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
 
@@ -71,7 +71,7 @@ export class OrderRoute implements IRoute {
 
         body('products').notEmpty().withMessage('Order must have products'),
       ]),
-      this.controller.post
+      this.controller.post,
     );
     this.router.put(
       '/order/:id',
@@ -83,8 +83,8 @@ export class OrderRoute implements IRoute {
         body('name')
           .optional()
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
 
@@ -108,13 +108,13 @@ export class OrderRoute implements IRoute {
           .notEmpty()
           .withMessage('Order must have products'),
       ]),
-      this.controller.update
+      this.controller.update,
     );
 
     this.router.delete(
       '/order/:id',
       validate([param('id').isMongoId().withMessage('Order not Found')]),
-      this.controller.remove
+      this.controller.remove,
     );
   }
 }

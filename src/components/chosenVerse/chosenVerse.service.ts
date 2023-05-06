@@ -8,7 +8,7 @@ export class ChosenVerseService {
   public async getAllWithPoetName(): Promise<ChosenVerseType[]> {
     const chosenVerses = await ChosenVerse.find(
       {},
-      { reviewed: 1, tags: 1, verses: 1, poet: 1, poem: 1 }
+      { reviewed: 1, tags: 1, verses: 1, poet: 1, poem: 1 },
     ).populate('poet', 'name');
     shuffle(chosenVerses);
 

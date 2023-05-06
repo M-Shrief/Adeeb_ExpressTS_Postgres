@@ -12,7 +12,7 @@ export class PoetService {
     return await Poet.find({}, { name: 1, time_period: 1 });
   }
 
-  public async getOneWithLiterature(id: string): Promise<PoetType | void> {
+  public async getOneWithLiterature(id: string): Promise<PoetType | false> {
     const [poet, authoredPoems, authoredProses, authoredChosenVerses] =
       await Promise.all([
         Poet.findById(id, { name: 1, bio: 1, time_period: 1 }),
@@ -20,10 +20,10 @@ export class PoetService {
         Prose.find({ poet: id }, { tags: 1, qoute: 1 }),
         ChosenVerse.find(
           { poet: id },
-          { reviewed: 1, tags: 1, verses: 1, poem: 1 }
+          { reviewed: 1, tags: 1, verses: 1, poem: 1 },
         ),
       ]);
-    if (!poet) return;
+    if (!poet) return false;
     return {
       details: poet,
       authoredPoems,
@@ -39,11 +39,10 @@ export class PoetService {
       bio: peotData.bio,
       reviewed: peotData.reviewed,
     });
-
     try {
-      return await poet.save();
+      await poet.save();
     } catch (err) {
-      return logger.error(err);
+      return err;
     }
   }
 

@@ -6,7 +6,7 @@ import { PartnerService } from './partner.service';
 import { PartnerType } from '../../interfaces/partner.interface';
 // Utils
 import { logger } from '../../utils/logger';
-import { decodeToken, signToken } from '../../utils/auth';
+import { signToken } from '../../utils/auth';
 
 export class PartnerController {
   private partnerService = new PartnerService();
@@ -20,7 +20,7 @@ export class PartnerController {
       {
         algorithm: 'RS256',
         expiresIn: '8h',
-      }
+      },
     );
 
   private cookieOptions: CookieOptions = {
@@ -61,7 +61,7 @@ export class PartnerController {
   public login = async (req: Request, res: Response, next: NextFunction) => {
     const partner = await this.partnerService.login(
       req.body.phone,
-      req.body.password
+      req.body.password,
     );
     if (!partner) return res.status(400).send('Unauthorized');
 

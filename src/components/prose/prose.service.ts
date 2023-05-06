@@ -6,9 +6,9 @@ import { ProseType } from '../../interfaces/prose.interface';
 import { shuffle } from '../../utils/shuffle';
 export class ProseService {
   public async getAllWithPoetName(): Promise<ProseType[]> {
-    let proses = await Prose.find(
+    const proses = await Prose.find(
       {},
-      { poet: 1, tags: 1, qoute: 1, reviewed: 1 }
+      { poet: 1, tags: 1, qoute: 1, reviewed: 1 },
     ).populate('poet', 'name');
     shuffle(proses);
 

@@ -24,30 +24,31 @@ export class PoetRoute implements IRoute {
         validate([param('id').isMongoId().withMessage('Poet not found')]),
         setCache,
       ],
-      this.controller.indexOneWithLiterature
+      this.controller.indexOneWithLiterature,
     );
     this.router.post(
       '/poet',
       validate([
         body('name')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
 
         body('time_period')
-          .isString()
+          .notEmpty()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            'time_period should be letters, and max 50 letters length'
+            'time_period should be letters, and max 50 letters length',
           ),
 
         body('bio')
           .notEmpty()
-          .isString()
           .isLength({ max: 300 })
+          .isString()
           .escape()
           .withMessage('bio should be letters, and max 300 letters length'),
 
@@ -56,7 +57,7 @@ export class PoetRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed should be true or false'),
       ]),
-      this.controller.post
+      this.controller.post,
     );
     this.router.put(
       '/poet/:id',
@@ -66,25 +67,25 @@ export class PoetRoute implements IRoute {
         body('name')
           .optional()
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
 
         body('time_period')
           .optional()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage(
-            'time_period should be letters, and max 50 letters length'
+            'time_period should be letters, and max 50 letters length',
           ),
 
         body('bio')
           .optional()
           .notEmpty()
-          .isString()
           .isLength({ max: 300 })
+          .isString()
           .escape()
           .withMessage('bio should be letters, and max 300 letters length'),
 
@@ -93,12 +94,12 @@ export class PoetRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed should be true or false'),
       ]),
-      this.controller.update
+      this.controller.update,
     );
     this.router.delete(
       '/poet/:id',
       validate([param('id').isMongoId().withMessage('Poet not Found')]),
-      this.controller.remove
+      this.controller.remove,
     );
   }
 }

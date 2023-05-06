@@ -23,7 +23,7 @@ const proseShema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Prose = mongoose.model<ProseType>('Prose', proseShema);

@@ -9,14 +9,14 @@ export class PoemService {
   public async getAllWithPoetName(): Promise<PoemType[]> {
     return await Poem.find(
       {},
-      { intro: 1, poet: 1, verses: 1, reviewed: 1 }
+      { intro: 1, poet: 1, verses: 1, reviewed: 1 },
     ).populate('poet', 'name');
   }
 
   public async getAllIntrosWithPoetName(): Promise<PoemType[]> {
     return await Poem.find({}, { intro: 1, poet: 1, reviewed: 1 }).populate(
       'poet',
-      'name'
+      'name',
     );
   }
 

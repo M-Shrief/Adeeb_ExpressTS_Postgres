@@ -23,12 +23,12 @@ export class ProseRoute implements IRoute {
       validate([
         query('num').optional().isInt().withMessage('Accepts numbers only'),
       ]),
-      this.controller.indexRandomWithPoetName
+      this.controller.indexRandomWithPoetName,
     );
     this.router.get(
       '/prose/:id',
       validate([param('id').isMongoId().withMessage('prose not found')]),
-      this.controller.indexOneWithPoetName
+      this.controller.indexOneWithPoetName,
     );
     this.router.post(
       '/prose',
@@ -53,7 +53,7 @@ export class ProseRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed must be true or false'),
       ]),
-      this.controller.post
+      this.controller.post,
     );
     this.router.put(
       '/prose/:id',
@@ -64,15 +64,15 @@ export class ProseRoute implements IRoute {
 
         body('tags')
           .notEmpty()
-          .isString()
           .isLength({ max: 50 })
+          .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('qoute')
           .notEmpty()
-          .isString()
           .isLength({ max: 400 })
+          .isString()
           .withMessage('qoute should be letters, and max 400 letters length'),
 
         body('reviewed')
@@ -80,12 +80,12 @@ export class ProseRoute implements IRoute {
           .isBoolean()
           .withMessage('reviewed must be true or false'),
       ]),
-      this.controller.update
+      this.controller.update,
     );
     this.router.delete(
       '/prose/:id',
       validate([param('id').isMongoId().withMessage('prose not found')]),
-      this.controller.remove
+      this.controller.remove,
     );
   }
 }

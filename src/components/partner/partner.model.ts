@@ -16,7 +16,7 @@ const partnerSchema = new Schema(
       unique: true,
     },
     address: {
-      type: String || Array<String>,
+      type: String || Array<string>,
       required: true,
     },
     password: {
@@ -24,7 +24,7 @@ const partnerSchema = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Partner = mongoose.model<PartnerType>('Partner', partnerSchema);

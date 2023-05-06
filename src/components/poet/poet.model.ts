@@ -22,7 +22,7 @@ const poetSchema = new Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Poet = mongoose.model<PoetType['details']>('Poet', poetSchema);

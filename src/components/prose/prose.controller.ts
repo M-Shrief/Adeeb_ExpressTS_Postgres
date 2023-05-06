@@ -12,7 +12,7 @@ export class ProseController {
   public indexWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.proseService
       .getAllWithPoetName()
@@ -28,7 +28,7 @@ export class ProseController {
   public indexRandomWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.proseService
       .getRandomWithPoetName(Number(req.query.num))
@@ -44,7 +44,7 @@ export class ProseController {
   public indexOneWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.proseService
       .getOneWithPoetName(req.params.id)

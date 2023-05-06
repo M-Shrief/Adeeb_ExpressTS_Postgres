@@ -10,7 +10,7 @@ export class OrderController {
   public indexGuestOrders = async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     await this.orderService
       .getGuestOrders(req.body.name, req.body.phone)
@@ -26,7 +26,7 @@ export class OrderController {
   public indexPartnerOrders = async (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     await this.orderService
       .getPartnerOrders(req.params.partner)
@@ -46,7 +46,7 @@ export class OrderController {
         res.status(201).json({
           success: true,
           Order: newOrder,
-        })
+        }),
       )
       .catch((err) => {
         logger.error(err);
@@ -61,7 +61,7 @@ export class OrderController {
         res.status(202).json({
           success: true,
           Order: updatedOrder,
-        })
+        }),
       )
       .catch((err) => {
         logger.error(err);

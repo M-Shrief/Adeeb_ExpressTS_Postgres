@@ -12,7 +12,7 @@ export class ChosenVerseController {
   public indexWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.chosenVerseService
       .getAllWithPoetName()
@@ -28,7 +28,7 @@ export class ChosenVerseController {
   public indexRandomWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.chosenVerseService
       .getRandomWithPoetName(Number(req.query.num))
@@ -44,7 +44,7 @@ export class ChosenVerseController {
   public indexOneWithPoetName = (
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     this.chosenVerseService
       .getOneWithPoetName(req.params.id)
