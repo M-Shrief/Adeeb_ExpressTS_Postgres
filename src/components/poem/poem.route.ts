@@ -62,18 +62,20 @@ export class PoemRoute implements IRoute {
     this.router.put(
       '/poem/:id',
       validate([
-        param('id').optional().isMongoId().withMessage('Poem not found'),
+        param('id').isMongoId().withMessage('Poem not found'),
 
         body('intro')
+          .optional()
           .notEmpty()
           .isLength({ max: 50 })
           .isString()
           .escape()
           .withMessage('intro should be letters, and max 50 letters length'),
 
-        body('poet').isMongoId().withMessage('Poet not found'),
+        body('poet').optional().isMongoId().withMessage('Poet not found'),
 
         body('verses.*')
+          .optional()
           .notEmpty()
           .isLength({ max: 50 })
           .isString()

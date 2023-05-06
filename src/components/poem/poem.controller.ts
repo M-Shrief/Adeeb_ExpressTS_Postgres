@@ -5,88 +5,116 @@ import { PoemService } from './poem.service';
 import { PoemType } from '../../interfaces/poem.interface';
 // Utils
 import { logger } from '../../utils/logger';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class PoemController {
   private poemService = new PoemService();
 
-  public indexWithPoetName = (
+  public indexWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.poemService
-      .getAllWithPoetName()
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send('No Poems Found');
-      });
+    try {
+      const poems = await this.poemService.getAllWithPoetName();
+
+      if (!poems)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No poems available',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(poems);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public indexIntrosWithPoetName = (
+  public indexIntrosWithPoetName = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.poemService
-      .getAllIntrosWithPoetName()
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(404).send('No Poems Found');
-      });
+    try {
+      const poems = await this.poemService.getAllIntrosWithPoetName();
+
+      if (!poems)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'No poems available',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(poems);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public indexOneWithPoet = (
+  public indexOneWithPoet = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
-    this.poemService
-      .getOneWithPoet(req.params.id)
-      .then((poem) => {
-        res.status(200).send(poem);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.send(404).send('No Poem Found');
-      });
+    try {
+      const poem = await this.poemService.getOneWithPoet(req.params.id);
+      if (!poem)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'Poem was not found',
+          true,
+        );
+      res.status(HttpStatusCode.OK).send(poem);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public post = (req: Request, res: Response, next: NextFunction) => {
-    this.poemService
-      .post(req.body as PoemType)
-      .then((result) => {
-        res.status(201).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public post = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const poem = await this.poemService.post(req.body as PoemType);
+      if (!poem)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for poem is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(poem);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public update = (req: Request, res: Response, next: NextFunction) => {
-    this.poemService
-      .update(req.params.id, req.body as PoemType)
-      .then((result) => {
-        res.status(201).send(result);
-      })
-      .catch((err) => {
-        logger.error(err);
-        res.status(400).send('Bad Request');
-      });
+  public update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const poem = await this.poemService.update(
+        req.params.id,
+        req.body as PoemType,
+      );
+      if (!poem)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          'Data for poem is not valid',
+          true,
+        );
+      res.status(HttpStatusCode.ACCEPTED).send(poem);
+    } catch (error) {
+      next(error);
+    }
   };
 
-  public remove = (req: Request, res: Response, next: NextFunction) => {
-    this.poemService
-      .remove(req.params.id)
-      .then(() => {
-        res.status(202).send('Deleted Successfully');
-      })
-      .catch((err) => logger.error(err));
+  public remove = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const poem = await this.poemService.remove(req.params.id);
+      if (!poem)
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          'Poem was not found',
+          true,
+        );
+      res.status(HttpStatusCode.ACCEPTED).send(poem);
+    } catch (error) {
+      next(error);
+    }
   };
 }

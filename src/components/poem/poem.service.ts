@@ -6,55 +6,63 @@ import { PoemType } from '../../interfaces/poem.interface';
 import { logger } from '../../utils/logger';
 
 export class PoemService {
-  public async getAllWithPoetName(): Promise<PoemType[]> {
-    return await Poem.find(
+  public async getAllWithPoetName(): Promise<PoemType[] | false> {
+    const poems = await Poem.find(
       {},
       { intro: 1, poet: 1, verses: 1, reviewed: 1 },
     ).populate('poet', 'name');
+
+    if (poems.length === 0) return false;
+    return poems;
   }
 
-  public async getAllIntrosWithPoetName(): Promise<PoemType[]> {
-    return await Poem.find({}, { intro: 1, poet: 1, reviewed: 1 }).populate(
-      'poet',
-      'name',
-    );
+  public async getAllIntrosWithPoetName(): Promise<PoemType[] | false> {
+    const poems = await Poem.find(
+      {},
+      { intro: 1, poet: 1, reviewed: 1 },
+    ).populate('poet', 'name');
+    if (poems.length === 0) return false;
+    return poems;
   }
 
-  public async getOneWithPoet(id: string): Promise<PoemType> {
-    return (await Poem.findById(id, {
+  public async getOneWithPoet(id: string): Promise<PoemType | false> {
+    const poem = await Poem.findById(id, {
       intro: 1,
       poet: 1,
       verses: 1,
       reviewed: 1,
-    }).populate('poet', ['name', 'bio', 'time_period'])) as PoemType;
+    }).populate('poet', ['name', 'bio', 'time_period']);
+
+    if (!poem) return false;
+    return poem;
   }
 
-  public async post(poemData: PoemType) {
+  public async post(poemData: PoemType): Promise<PoemType | false> {
     const poem = new Poem({
       intro: poemData.intro,
       poet: poemData.poet,
       verses: poemData.verses,
       reviewed: poemData.reviewed,
     });
-    try {
-      return await poem.save();
-    } catch (err) {
-      return logger.error(err);
-    }
+    const newPoem = await poem.save();
+    if (!newPoem) return false;
+    return newPoem;
   }
 
-  public async update(id: string, poemData: PoemType) {
+  public async update(
+    id: string,
+    poemData: PoemType,
+  ): Promise<PoemType | false> {
     const poem = await Poem.findById(id);
-    if (poem) {
-      return poem
-        .updateOne({ $set: poemData })
-        .catch((err) => logger.error(err));
-    } else {
-      logger.error(`Poet not found`);
-    }
+    if (!poem) return false;
+    const newPoem = await poem.updateOne({ $set: poemData });
+    if (!newPoem) return false;
+    return newPoem;
   }
 
-  public async remove(id: string) {
-    return await Poem.findByIdAndRemove(id);
+  public async remove(id: string): Promise<PoemType | false> {
+    const poem = await Poem.findByIdAndRemove(id);
+    if (!poem) return false;
+    return poem;
   }
 }
