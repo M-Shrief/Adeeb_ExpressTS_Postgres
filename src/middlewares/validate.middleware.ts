@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult, ValidationChain } from 'express-validator';
-import { AppError } from '../utils/errorCenter/appError';
+import { AppError } from '../utils/errorsCenter/appError';
 // can be reused by many routes
 
 // sequential processing, stops running validations chain if the previous one fails.

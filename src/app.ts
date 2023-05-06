@@ -12,8 +12,13 @@ import { morganMiddleware } from './middlewares/morgan.middleware';
 import rateLimit from 'express-rate-limit';
 // Utils
 import { logger } from './utils/logger';
+import {
+  isTrustedError,
+  handleTrustedError,
+} from './utils/errorsCenter/errorHandlers';
 // interfaces
 import { IRoute } from './interfaces/route.interface';
+import { AppError } from './utils/errorsCenter/appError';
 
 export default class App {
   public app: Application;
@@ -85,6 +90,16 @@ export default class App {
   }
 
   private initializeErrorHandling() {
+    // if error is not operational/trusted/known we shall exit then use a package to restart.
+    process.on('unhandledRejection', (reason: Error) => {
+      throw reason;
+    });
+
+    process.on('uncaughtException', async (error: Error, res: Response) => {
+      if (!isTrustedError(error)) process.exit(1);
+      handleTrustedError(error as AppError, res);
+    });
+
     this.app.use(errorMiddleware);
   }
 }
