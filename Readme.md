@@ -33,7 +33,7 @@
 - _./middlewares_ file for containing reused middlewares, which are used across
   the app, using (\*.middleware.ts) naming convention for every module.
 
-- _./utils_ file for containing reused functions, which are used across the app.
+- _./utils_ file for containing reused functions and centralized error handlin, which are used across the app.
 
 ### Used Middlewares
 

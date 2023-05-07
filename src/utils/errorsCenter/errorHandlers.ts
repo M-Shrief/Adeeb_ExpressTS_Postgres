@@ -18,6 +18,6 @@ export const handleTrustedError = (error: AppError, res: Response): void => {
     stack: error.stack,
   });
   res
-    ?.status(error.httpCode)
+    .status(error.httpCode)
     .json({ status: error.httpCode, message: error.message });
 };
