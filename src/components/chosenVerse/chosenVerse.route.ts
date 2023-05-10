@@ -48,10 +48,19 @@ export class ChosenVerseRoute implements IRoute {
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
-        body('verses')
+        body('verses.*.first')
           .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
           .escape()
-          .withMessage("Verses can't be empty "),
+          .withMessage("Verses must be strings, and can't be empty."),
+
+        body('verses.*.sec')
+          .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
+          .escape()
+          .withMessage("Verses must be strings, and can't be empty."),
 
         body('reviewed')
           .optional()
@@ -77,11 +86,21 @@ export class ChosenVerseRoute implements IRoute {
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
-        body('verses')
+        body('verses.*.first')
           .optional()
           .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
           .escape()
-          .withMessage("Verses can't be empty "),
+          .withMessage("Verses must be strings, and can't be empty."),
+
+        body('verses.*.sec')
+          .optional()
+          .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
+          .escape()
+          .withMessage("Verses must be strings, and can't be empty."),
 
         body('reviewed')
           .optional()

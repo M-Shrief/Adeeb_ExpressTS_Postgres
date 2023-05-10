@@ -43,10 +43,19 @@ export class PoemRoute implements IRoute {
 
         body('poet').isMongoId().withMessage('Poet not found'),
 
-        body('verses')
+        body('verses.*.first')
           .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
           .escape()
-          .withMessage("Verses can't be empty "),
+          .withMessage("Verses must be strings, and can't be empty."),
+
+        body('verses.*.sec')
+          .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
+          .escape()
+          .withMessage("Verses must be strings, and can't be empty."),
 
         body('reviewed')
           .optional()
@@ -70,11 +79,21 @@ export class PoemRoute implements IRoute {
 
         body('poet').optional().isMongoId().withMessage('Poet not found'),
 
-        body('verses')
+        body('verses.*.first')
           .optional()
           .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
           .escape()
-          .withMessage("Verses can't be empty "),
+          .withMessage("Verses must be strings, and can't be empty."),
+
+        body('verses.*.sec')
+          .optional()
+          .notEmpty()
+          .isLength({ max: 50 })
+          .isString()
+          .escape()
+          .withMessage("Verses must be strings, and can't be empty."),
 
         body('reviewed')
           .optional()
