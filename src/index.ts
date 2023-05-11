@@ -1,4 +1,5 @@
 import App from './app';
+import './db';
 // Routes
 import { PoetRoute } from './components/poet/poet.route';
 import { PoemRoute } from './components/poem/poem.route';
@@ -16,4 +17,4 @@ const app = new App([
   new OrderRoute(),
 ]);
 
-app.listen();
+export default app.listen();
