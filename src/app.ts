@@ -1,7 +1,5 @@
 import express, { Application, Request, Response } from 'express';
-// import mongoose from 'mongoose';
-// config
-// import { DB_NAME, DB_URL, PORT } from './config';
+// Config
 import { PORT } from './config';
 // Middlewares
 import cors from 'cors';
