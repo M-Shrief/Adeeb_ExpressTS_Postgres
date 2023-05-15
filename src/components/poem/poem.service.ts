@@ -2,9 +2,6 @@
 import { Poem } from './poem.model';
 // Types
 import { PoemType } from '../../interfaces/poem.interface';
-// Utils
-import { logger } from '../../utils/logger';
-
 export class PoemService {
   public async getAllWithPoetName(): Promise<PoemType[] | false> {
     const poems = await Poem.find(
