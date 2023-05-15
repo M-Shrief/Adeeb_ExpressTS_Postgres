@@ -2,6 +2,12 @@ node_modules
 
 dist
 
+coverage
+
 .env
+
+*.log
+
+ecosystem.config.js
 
 can_use.md
