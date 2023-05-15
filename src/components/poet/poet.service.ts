@@ -48,7 +48,7 @@ export class PoetService {
 
   public async update(
     id: string,
-    poetData: PoetType,
+    poetData: PoetType['details'],
   ): Promise<PoetType['details'] | false> {
     const poet = await Poet.findById(id);
     if (!poet) return false;

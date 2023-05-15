@@ -42,22 +42,19 @@ export class ChosenVerseRoute implements IRoute {
         body('poem').isMongoId().withMessage('poem not found'),
 
         body('tags')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('verses.*.first')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage("Verses must be strings, and can't be empty."),
 
         body('verses.*.sec')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage("Verses must be strings, and can't be empty."),
@@ -80,24 +77,21 @@ export class ChosenVerseRoute implements IRoute {
 
         body('tags')
           .optional()
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('verses.*.first')
           .optional()
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage("Verses must be strings, and can't be empty."),
 
         body('verses.*.sec')
           .optional()
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage("Verses must be strings, and can't be empty."),

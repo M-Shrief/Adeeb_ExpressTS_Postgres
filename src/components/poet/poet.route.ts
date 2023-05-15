@@ -21,24 +21,23 @@ export class PoetRoute implements IRoute {
     this.router.get(
       '/poet/:id',
       [
-        validate([param('id').isMongoId().withMessage('Poet not found')]),
+        validate([param('id').isMongoId().withMessage("Poet's not found")]),
         setCache,
       ],
       this.controller.indexOneWithLiterature,
     );
     this.router.post(
       '/poet',
+      // removed isEmpty(), to responds with the right message
       validate([
         body('name')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
 
         body('time_period')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(
@@ -46,8 +45,7 @@ export class PoetRoute implements IRoute {
           ),
 
         body('bio')
-          .notEmpty()
-          .isLength({ max: 300 })
+          .isLength({ min: 4, max: 300 })
           .isString()
           .escape()
           .withMessage('bio should be letters, and max 300 letters length'),
@@ -66,15 +64,14 @@ export class PoetRoute implements IRoute {
 
         body('name')
           .optional()
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
 
         body('time_period')
           .optional()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(
@@ -83,8 +80,7 @@ export class PoetRoute implements IRoute {
 
         body('bio')
           .optional()
-          .notEmpty()
-          .isLength({ max: 300 })
+          .isLength({ min: 4, max: 300 })
           .isString()
           .escape()
           .withMessage('bio should be letters, and max 300 letters length'),

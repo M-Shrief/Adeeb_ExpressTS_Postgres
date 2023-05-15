@@ -38,8 +38,7 @@ export class PartnerRoute implements IRoute {
       '/partner/signup',
       validate([
         body('name')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(
@@ -81,8 +80,7 @@ export class PartnerRoute implements IRoute {
 
           body('name')
             .optional()
-            .notEmpty()
-            .isLength({ max: 50 })
+            .isLength({ min: 4, max: 50 })
             .isString()
             .escape()
             .withMessage('name should be letters, and max 50 letters length'),

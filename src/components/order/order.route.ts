@@ -21,8 +21,7 @@ export class OrderRoute implements IRoute {
       [
         validate([
           body('name')
-            .notEmpty()
-            .isLength({ max: 50 })
+            .isLength({ min: 4, max: 50 })
             .isString()
             .escape()
             .withMessage('name is not valid'),
@@ -46,8 +45,7 @@ export class OrderRoute implements IRoute {
         body('partner').optional().isMongoId().withMessage('Partner not found'),
 
         body('name')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
@@ -57,7 +55,9 @@ export class OrderRoute implements IRoute {
           .isMobilePhone('any')
           .withMessage('phone not right or not supported'),
 
-        body('address').notEmpty().withMessage('address can not be empty'), // should have more
+        body('address')
+          .isLength({ min: 4, max: 100 })
+          .withMessage('address can not be empty'), // should have more
 
         body('reviewed')
           .optional()
@@ -82,8 +82,7 @@ export class OrderRoute implements IRoute {
 
         body('name')
           .optional()
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('name should be letters, and max 50 letters length'),
@@ -96,14 +95,29 @@ export class OrderRoute implements IRoute {
 
         body('address')
           .optional()
-          .notEmpty()
+          .isLength({ min: 4, max: 100 })
           .withMessage('address can not be empty'), // should have more
 
         body('reviewed').optional().isBoolean(),
 
         body('completed').optional().isBoolean(),
 
-        body('products')
+        body('products.fontType')
+          .optional()
+          .isLength({ max: 10 })
+          .isString()
+          .withMessage('Order must have products'),
+        body('products.fontColor')
+          .optional()
+          .isLength({ max: 8 })
+          .isString()
+          .withMessage('Order must have products'),
+        body('products.backgroundColor')
+          .optional()
+          .isLength({ max: 8 })
+          .isString()
+          .withMessage('Order must have products'),
+        body('products.print')
           .optional()
           .notEmpty()
           .withMessage('Order must have products'),

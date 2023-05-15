@@ -37,15 +37,13 @@ export class ProseRoute implements IRoute {
         body('poet').isMongoId().withMessage('poet not found'),
 
         body('tags')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('qoute')
-          .notEmpty()
-          .isLength({ max: 400 })
+          .isLength({ min: 4, max: 400 })
           .isString()
           .withMessage('qoute should be letters, and max 400 letters length'),
 
@@ -64,15 +62,13 @@ export class ProseRoute implements IRoute {
         body('poet').isMongoId().withMessage('poet not found'),
 
         body('tags')
-          .notEmpty()
-          .isLength({ max: 50 })
+          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage('tags should be letters, and max 50 letters length'),
 
         body('qoute')
-          .notEmpty()
-          .isLength({ max: 400 })
+          .isLength({ min: 4, max: 400 })
           .isString()
           .withMessage('qoute should be letters, and max 400 letters length'),
 
