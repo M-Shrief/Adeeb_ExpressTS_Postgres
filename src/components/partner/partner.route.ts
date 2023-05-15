@@ -4,6 +4,7 @@ import { body, param } from 'express-validator';
 import { PartnerController } from './partner.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
+import { ERROR_MSG } from '../../interfaces/partner.interface';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import {
@@ -24,9 +25,7 @@ export class PartnerRoute implements IRoute {
     this.router.get(
       '/partner/:id',
       [
-        validate([
-          param('id').isMongoId().withMessage('Partner not available'),
-        ]),
+        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,
@@ -41,33 +40,39 @@ export class PartnerRoute implements IRoute {
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage(
-            'name should be contain letters, and less than 50 in length',
-          ),
+          .withMessage(ERROR_MSG.NAME),
 
         body('phone')
           .escape()
           .isMobilePhone('any')
-          .withMessage('phone not right or not supported'),
+          .withMessage(ERROR_MSG.PHONE),
 
-        body('address').notEmpty().withMessage('address can not be empty'), // should have more
+        body('address')
+          .isLength({ min: 4, max: 100 })
+          .withMessage(ERROR_MSG.ADDRESS),
 
         body('password')
           .isString()
           .isStrongPassword()
           .escape()
-          .withMessage(
-            'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)',
-          ),
+          .withMessage(ERROR_MSG.PASSWORD),
       ]),
       this.controller.signup,
     );
     this.router.post(
       '/partner/login',
       validate([
-        body('phone').notEmpty().isLength({ max: 20 }).isString().escape(),
+        body('phone')
+          .isLength({ min: 4, max: 20 })
+          .isString()
+          .escape()
+          .withMessage(ERROR_MSG.PHONE),
 
-        body('password').notEmpty().isString().escape(),
+        body('password')
+          .isLength({ min: 4, max: 20 })
+          .isString()
+          .escape()
+          .withMessage(ERROR_MSG.PASSWORD),
       ]),
       this.controller.login,
     );
@@ -76,31 +81,31 @@ export class PartnerRoute implements IRoute {
       '/partner/:id',
       [
         validate([
-          param('id').isMongoId().withMessage('Partner not available'),
+          param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
 
           body('name')
             .optional()
             .isLength({ min: 4, max: 50 })
             .isString()
             .escape()
-            .withMessage('name should be letters, and max 50 letters length'),
+            .withMessage(ERROR_MSG.NAME),
 
           body('phone')
             .optional()
             .escape()
             .isMobilePhone('any')
-            .withMessage('phone not right or not supported'),
+            .withMessage(ERROR_MSG.PHONE),
 
-          body('address').notEmpty().withMessage('address can not be empty'), // should have more
+          body('address')
+            .isLength({ min: 4, max: 100 })
+            .withMessage(ERROR_MSG.ADDRESS), // should have more
 
           body('password')
             .optional()
             .isString()
             .isStrongPassword()
             .escape()
-            .withMessage(
-              'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)',
-            ),
+            .withMessage(ERROR_MSG.PASSWORD),
         ]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
@@ -111,9 +116,7 @@ export class PartnerRoute implements IRoute {
     this.router.delete(
       '/partner/:id',
       [
-        validate([
-          param('id').isMongoId().withMessage('Partner not available'),
-        ]),
+        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,
