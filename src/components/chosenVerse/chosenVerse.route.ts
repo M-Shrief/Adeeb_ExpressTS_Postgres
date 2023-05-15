@@ -4,6 +4,7 @@ import { body, query, param } from 'express-validator';
 import { ChosenVerseController } from './chosenVerse.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
+import { ERROR_MSG } from '../../interfaces/chosenVerse.interface';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
@@ -24,88 +25,77 @@ export class ChosenVerseRoute implements IRoute {
     );
     this.router.get(
       '/chosenverses/random',
-      validate([
-        query('num').optional().isInt().withMessage('Accepts numbers only'),
-      ]),
+      validate([query('num').optional().isInt().withMessage(ERROR_MSG.NUM)]),
       this.controller.indexRandomWithPoetName,
     );
     this.router.get(
       '/chosenverse/:id',
-      validate([param('id').isMongoId().withMessage('chosenVerse not found')]),
+      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.indexOneWithPoetName,
     );
     this.router.post(
       '/chosenverse',
       validate([
-        body('poet').isMongoId().withMessage('poet not found'),
+        body('poet').isMongoId().withMessage(ERROR_MSG.POET),
 
-        body('poem').isMongoId().withMessage('poem not found'),
+        body('poem').isMongoId().withMessage(ERROR_MSG.POEM),
 
         body('tags')
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage('tags should be letters, and max 50 letters length'),
-
+          .withMessage(ERROR_MSG.TAGS),
         body('verses.*.first')
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage("Verses must be strings, and can't be empty."),
-
+          .withMessage(ERROR_MSG.VERSES),
         body('verses.*.sec')
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage("Verses must be strings, and can't be empty."),
-
-        body('reviewed')
-          .optional()
-          .isBoolean()
-          .withMessage('reviewed must be true or false'),
+          .withMessage(ERROR_MSG.VERSES),
+        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
       ]),
       this.controller.post,
     );
     this.router.put(
       '/chosenverse/:id',
       validate([
-        param('id').isMongoId().withMessage('chosenVerse not found'),
+        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('poet').optional().isMongoId().withMessage('poet not found'),
+        body('poet').optional().isMongoId().withMessage(ERROR_MSG.POET),
 
-        body('poem').optional().isMongoId().withMessage('poem not found'),
+        body('poem').optional().isMongoId().withMessage(ERROR_MSG.POEM),
 
         body('tags')
           .optional()
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage('tags should be letters, and max 50 letters length'),
+          .withMessage(ERROR_MSG.TAGS),
 
         body('verses.*.first')
           .optional()
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage("Verses must be strings, and can't be empty."),
+          .withMessage(ERROR_MSG.VERSES),
 
         body('verses.*.sec')
           .optional()
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage("Verses must be strings, and can't be empty."),
+          .withMessage(ERROR_MSG.VERSES),
 
-        body('reviewed')
-          .optional()
-          .isBoolean()
-          .withMessage('reviewed must be true or false'),
+        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
       ]),
       this.controller.update,
     );
     this.router.delete(
       '/chosenverse/:id',
-      validate([param('id').isMongoId().withMessage('chosenVerse not found')]),
+      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.remove,
     );
   }
