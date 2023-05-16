@@ -4,6 +4,7 @@ import { body, param } from 'express-validator';
 import { OrderController } from './order.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
+import { ERROR_MSG } from '../../interfaces/order.interface';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
@@ -24,11 +25,11 @@ export class OrderRoute implements IRoute {
             .isLength({ min: 4, max: 50 })
             .isString()
             .escape()
-            .withMessage('name is not valid'),
+            .withMessage(ERROR_MSG.NAME),
           body('phone')
             .escape()
             .isMobilePhone('any')
-            .withMessage('phone is not valid'),
+            .withMessage(ERROR_MSG.PHONE),
         ]),
         setCache,
       ],
@@ -36,98 +37,120 @@ export class OrderRoute implements IRoute {
     );
     this.router.get(
       '/orders/:partner',
-      validate([param('partner').isMongoId().withMessage('Partner not found')]),
+      validate([param('partner').isMongoId().withMessage(ERROR_MSG.PARTNER)]),
       this.controller.indexPartnerOrders,
     );
     this.router.post(
       '/order',
       validate([
-        body('partner').optional().isMongoId().withMessage('Partner not found'),
+        body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
 
         body('name')
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage('name should be letters, and max 50 letters length'),
+          .withMessage(ERROR_MSG.NAME),
 
         body('phone')
           .escape()
           .isMobilePhone('any')
-          .withMessage('phone not right or not supported'),
+          .withMessage(ERROR_MSG.PHONE),
 
         body('address')
           .isLength({ min: 4, max: 100 })
-          .withMessage('address can not be empty'), // should have more
+          .withMessage(ERROR_MSG.ADDRESS), // should have more
 
-        body('reviewed')
-          .optional()
-          .isBoolean()
-          .withMessage('reviewed should be true or false'),
+        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 
         body('completed')
           .optional()
           .isBoolean()
-          .withMessage('completed should be true or false'),
+          .withMessage(ERROR_MSG.COMPLETED),
 
-        body('products').notEmpty().withMessage('Order must have products'),
+        body('products.*.fontType')
+          .optional()
+          .isLength({ max: 10 })
+          .isString()
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.fontColor')
+          .optional()
+          .isLength({ max: 8 })
+          .isString()
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.backgroundColor')
+          .optional()
+          .isLength({ max: 8 })
+          .isString()
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.print')
+          .optional()
+          .isObject()
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.prints')
+          .optional()
+          .isArray()
+          .withMessage(ERROR_MSG.PRODUCTS),
       ]),
       this.controller.post,
     );
     this.router.put(
       '/order/:id',
       validate([
-        param('id').isMongoId().withMessage('Order not Found'),
+        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('partner').optional().isMongoId().withMessage('Partner not found'),
+        body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
 
         body('name')
           .optional()
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
-          .withMessage('name should be letters, and max 50 letters length'),
+          .withMessage(ERROR_MSG.NAME),
 
         body('phone')
           .optional()
           .escape()
           .isMobilePhone('any')
-          .withMessage('phone not right or not supported'),
+          .withMessage(ERROR_MSG.PHONE),
 
         body('address')
           .optional()
           .isLength({ min: 4, max: 100 })
-          .withMessage('address can not be empty'), // should have more
+          .withMessage(ERROR_MSG.ADDRESS), // should have more
 
-        body('reviewed').optional().isBoolean(),
+        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 
-        body('completed').optional().isBoolean(),
+        body('completed')
+          .optional()
+          .isBoolean()
+          .withMessage(ERROR_MSG.COMPLETED),
 
-        body('products.fontType')
+        body('products.*.fontType')
           .optional()
           .isLength({ max: 10 })
           .isString()
-          .withMessage('Order must have products'),
-        body('products.fontColor')
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.fontColor')
           .optional()
           .isLength({ max: 8 })
           .isString()
-          .withMessage('Order must have products'),
-        body('products.backgroundColor')
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.backgroundColor')
           .optional()
           .isLength({ max: 8 })
           .isString()
-          .withMessage('Order must have products'),
-        body('products.print')
+          .withMessage(ERROR_MSG.PRODUCTS),
+        body('products.*.print.*')
           .optional()
-          .notEmpty()
-          .withMessage('Order must have products'),
+          .isString()
+          .withMessage(ERROR_MSG.PRODUCTS),
       ]),
       this.controller.update,
     );
 
     this.router.delete(
       '/order/:id',
-      validate([param('id').isMongoId().withMessage('Order not Found')]),
+      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.remove,
     );
   }

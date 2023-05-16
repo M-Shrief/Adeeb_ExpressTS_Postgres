@@ -6,13 +6,27 @@ export class OrderService {
     name: string,
     phone: string,
   ): Promise<OrderType[] | false> {
-    const orders = await Order.find({ name, phone }, {});
+    const orders = await Order.find(
+      { name, phone },
+      { name: 1, phone: 1, address: 1, reviewed: 1, completed: 1, products: 1 },
+    );
     if (orders.length === 0) return false;
     return orders;
   }
 
   public async getPartnerOrders(partner: string): Promise<OrderType[] | false> {
-    const orders = await Order.find({ partner });
+    const orders = await Order.find(
+      { partner },
+      {
+        partner: 1,
+        name: 1,
+        phone: 1,
+        address: 1,
+        reviewed: 1,
+        completed: 1,
+        products: 1,
+      },
+    );
     if (orders.length === 0) return false;
     return orders;
   }
