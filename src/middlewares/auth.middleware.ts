@@ -24,7 +24,7 @@ export const authErrorHandler = (
     if (error.name == 'UnauthorizedError')
       throw new AppError(
         HttpStatusCode.UNAUTHORIZED,
-        "You're not authorized for that",
+        'Unautorized for this request',
         true,
       );
   } catch (err) {

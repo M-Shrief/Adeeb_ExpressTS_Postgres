@@ -63,7 +63,6 @@ describe("Testing getting partner's info, /GET to partner/:id", () => {
       if (error instanceof AxiosError) {
         expect(error.response?.data.status).toBe(400);
         expect(error.response?.data.message).toBe(ERROR_MSG.NOT_FOUND);
-        expect(error.response?.data.message).toBe(ERROR_MSG.NOT_VALID);
       }
     }
   });

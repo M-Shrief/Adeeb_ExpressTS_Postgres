@@ -34,6 +34,8 @@ export class ChosenVerseService {
       reviewed: 1,
       tags: 1,
       verses: 1,
+      poet: 1,
+      poem: 1,
     }).populate('poet', 'name');
     if (!chosenVerse) return false;
     return chosenVerse;

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult, ValidationChain } from 'express-validator';
 import { AppError } from '../utils/errorsCenter/appError';
+import HttpStatusCode from '../utils/httpStatusCode';
 // can be reused by many routes
 
 // sequential processing, stops running validations chain if the previous one fails.
@@ -16,7 +17,7 @@ export const validate = (validations: ValidationChain[]) => {
 
     try {
       errors.array().forEach((err) => {
-        throw new AppError(400, err.msg, true);
+        throw new AppError(HttpStatusCode.BAD_REQUEST, err.msg, true);
       });
     } catch (errors) {
       next(errors);
