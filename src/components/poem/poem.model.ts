@@ -11,7 +11,10 @@ const poemSchema = new Schema(
       required: true,
     },
     poet: { type: Schema.Types.ObjectId, ref: 'Poet', required: true },
-    verses: [] as VerseType[],
+    verses: {
+      type: [] as VerseType[],
+      required: true,
+    },
     reviewed: {
       type: Boolean,
       default: false,

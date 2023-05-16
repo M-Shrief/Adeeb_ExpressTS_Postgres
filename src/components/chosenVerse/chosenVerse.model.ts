@@ -20,7 +20,10 @@ const ChosenVerseSchema = new Schema(
       type: String,
       required: true,
     },
-    verses: [] as VerseType[],
+    verses: {
+      type: [] as VerseType[],
+      required: true,
+    },
     reviewed: {
       type: Boolean,
       default: false,
