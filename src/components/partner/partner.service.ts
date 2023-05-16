@@ -8,7 +8,7 @@ import { comparePassword, hashPassword } from '../../utils/auth';
 export class PartnerService {
   public async getInfo(id: string): Promise<PartnerType | false> {
     const partner = await Partner.findById(id, {
-      fullname: 1,
+      name: 1,
       address: 1,
       phone: 1,
     });

@@ -25,10 +25,10 @@ export class PartnerRoute implements IRoute {
     this.router.get(
       '/partner/:id',
       [
-        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,
+        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
         setCache,
       ],
       this.controller.indexInfo,
@@ -66,13 +66,13 @@ export class PartnerRoute implements IRoute {
           .isLength({ min: 4, max: 20 })
           .isString()
           .escape()
-          .withMessage(ERROR_MSG.PHONE),
+          .withMessage(ERROR_MSG.NOT_VALID),
 
         body('password')
           .isLength({ min: 4, max: 20 })
           .isString()
           .escape()
-          .withMessage(ERROR_MSG.PASSWORD),
+          .withMessage(ERROR_MSG.NOT_VALID),
       ]),
       this.controller.login,
     );
