@@ -3,7 +3,7 @@
 **Overview, and file structure**:
 
 - _app_ is the main file for app logic, initializing middlewares and routes, and
-  connecting to our MongoDB.
+  connecting to our Postgres Database.
 
 - _index_ is the server file to run the app.
 
@@ -11,9 +11,6 @@
   configuration structure if needed.
 
 - _./components_ file contain app's solutions by self contained components with
-
-  - _model_ file for our mongoose models, representing app's data, using
-    (\*.model.ts) naming convention for every module.
 
   - _service_ file for communicating(read/write) to our database, and make
     operations on data if needed, then return the data for _./controllers_,
