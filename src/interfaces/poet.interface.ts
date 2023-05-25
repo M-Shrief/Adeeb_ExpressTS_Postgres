@@ -4,9 +4,15 @@ import { ProseType } from './prose.interface';
 
 export interface PoetType {
   details: {
-    _id: string;
+    id: string;
     name: string;
-    time_period: string;
+    time_period:
+      | 'جاهلي'
+      | 'أموي'
+      | 'عباسي'
+      | 'أندلسي'
+      | 'عثماني ومملوكي'
+      | 'متأخر وحديث';
     bio: string;
     reviewed: boolean;
   };

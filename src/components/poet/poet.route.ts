@@ -22,14 +22,13 @@ export class PoetRoute implements IRoute {
     this.router.get(
       '/poet/:id',
       [
-        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+        validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
         setCache,
       ],
       this.controller.indexOneWithLiterature,
     );
     this.router.post(
       '/poet',
-      // removed isEmpty(), to responds with the right message
       validate([
         body('name')
           .isLength({ min: 4, max: 50 })
@@ -56,7 +55,7 @@ export class PoetRoute implements IRoute {
     this.router.put(
       '/poet/:id',
       validate([
-        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
         body('name')
           .optional()
@@ -85,7 +84,7 @@ export class PoetRoute implements IRoute {
     );
     this.router.delete(
       '/poet/:id',
-      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+      [validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)])],
       this.controller.remove,
     );
   }

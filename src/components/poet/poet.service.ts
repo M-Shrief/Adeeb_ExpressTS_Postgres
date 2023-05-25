@@ -1,9 +1,18 @@
 // Types
 import { PoetType } from '../../interfaces/poet.interface';
+// Models
+import { Poet } from '../../db/models/poet.model';
+import { logger } from '../../utils/logger';
 export class PoetService {
   public async getAll() {
-    // if (poets.length === 0) return false;
-    // return poets;
+    const poets = await Poet.findAll({
+      attributes: ['id', 'name', 'time_period', 'bio', 'reviewed'],
+      where: {
+        reviewed: true,
+      },
+    });
+    if (poets.length === 0) return false;
+    return poets;
   }
 
   public async getOneWithLiterature(id: string) {
@@ -19,24 +28,34 @@ export class PoetService {
   }
 
   public async post(peotData: PoetType['details']) {
-    // const poet = new Poet({
-    //   name: peotData.name,
-    //   time_period: peotData.time_period,
-    //   bio: peotData.bio,
-    //   reviewed: peotData.reviewed,
-    // });
-    // if (!newPoet) return false;
-    // return newPoet;
+    const newPoet = await Poet.create({
+      name: peotData.name,
+      time_period: peotData.time_period,
+      bio: peotData.bio,
+      reviewed: peotData.reviewed,
+    });
+    if (!newPoet) {
+      logger.error(newPoet);
+      return false;
+    }
+    return newPoet;
   }
 
   public async update(id: string, poetData: PoetType['details']) {
-    // if (!poet) return false;
+    const poet = await Poet.update(
+      { ...poetData },
+      {
+        where: { id },
+      },
+    );
+    if (!poet) return false;
     // if (!newPoet) return false;
-    // return newPoet;
+    return poet;
   }
 
   public async remove(id: string) {
-    // if (!poet) return false;
-    // return poet;
+    const poet = await Poet.destroy({ where: { id } });
+    if (!poet) return false;
+    return poet;
   }
 }

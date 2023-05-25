@@ -1,7 +1,7 @@
 import App from './app';
 import './db';
 // Routes
-// import { PoetRoute } from './components/poet/poet.route';
+import { PoetRoute } from './components/poet/poet.route';
 // import { PoemRoute } from './components/poem/poem.route';
 // import { ChosenVerseRoute } from './components/chosenVerse/chosenVerse.route';
 // import { ProseRoute } from './components/prose/prose.route';
@@ -9,7 +9,7 @@ import './db';
 // import { OrderRoute } from './components/order/order.route';
 
 const app = new App([
-  // new PoetRoute(),
+  new PoetRoute(),
   // new PoemRoute(),
   // new ChosenVerseRoute(),
   // new ProseRoute(),

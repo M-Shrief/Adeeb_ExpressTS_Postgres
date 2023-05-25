@@ -12,7 +12,6 @@ export class PoetController {
   public index = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const poets = await this.poetService.getAll();
-
       if (!poets) {
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -32,10 +31,10 @@ export class PoetController {
     next: NextFunction,
   ) => {
     try {
-      const poet = await this.poetService.getOneWithLiterature(req.params.id);
-      if (!poet)
-        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
-      return res.status(HttpStatusCode.OK).send(poet);
+      // const poet = await this.poetService.getOneWithLiterature(req.params.id);
+      // if (!poet)
+      //   throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
+      // return res.status(HttpStatusCode.OK).send(poet);
     } catch (err) {
       next(err);
     }
