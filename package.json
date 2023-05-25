@@ -32,9 +32,12 @@
     "express-validator": "^7.0.1",
     "helmet": "^6.1.5",
     "jsonwebtoken": "^9.0.0",
-    "knex": "^2.4.2",
     "morgan": "^1.10.0",
     "pg": "^8.11.0",
+    "pg-hstore": "^2.3.4",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.31.1",
+    "sequelize-typescript": "^2.1.5",
     "winston": "^3.8.2"
   },
   "devDependencies": {
