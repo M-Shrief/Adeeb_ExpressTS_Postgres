@@ -1,3 +1,11 @@
+export interface PartnerType {
+  _id: string;
+  name: string;
+  phone: string;
+  address: string | string[];
+  password: string;
+}
+
 export enum ERROR_MSG {
   NOT_FOUND = "Partner's not found",
   NOT_VALID = 'Data for partner is not valid',
@@ -6,11 +14,4 @@ export enum ERROR_MSG {
   PHONE = 'phone not right or not supported',
   ADDRESS = 'address can not be empty',
   PASSWORD = 'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)',
-}
-export interface PartnerType {
-  _id: string;
-  name: string;
-  phone: string;
-  address: string | string[];
-  password: string;
 }

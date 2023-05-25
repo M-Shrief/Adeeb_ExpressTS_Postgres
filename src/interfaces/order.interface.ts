@@ -1,4 +1,15 @@
 import { Product, ProductGroup } from './__types__';
+export interface OrderType {
+  _id: string;
+  partner?: string;
+  products: Product[] | ProductGroup[];
+  name: string;
+  phone: string;
+  address: string;
+  reviewed: boolean;
+  completed: boolean;
+}
+
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No Order available',
   NOT_FOUND = "Order's not found",
@@ -11,14 +22,4 @@ export enum ERROR_MSG {
   REVIEWED = 'reviewed should be true or false',
   COMPLETED = 'completed should be true or false',
   PRODUCTS = 'Order must have products',
-}
-export interface OrderType {
-  _id: string;
-  partner?: string;
-  products: Product[] | ProductGroup[];
-  name: string;
-  phone: string;
-  address: string;
-  reviewed: boolean;
-  completed: boolean;
 }
