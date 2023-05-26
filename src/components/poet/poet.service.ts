@@ -1,17 +1,27 @@
-// Types
-import { PoetType } from '../../interfaces/poet.interface';
 // Database
 import { AppDataSource } from '../../db';
 // Entities
 import { Poet } from './poet.entity';
 export class PoetService {
-  public async getAll() {
-    const poets = await AppDataSource.getRepository(Poet).find();
+  public async getAll(): Promise<Poet[] | false> {
+    const poets = await AppDataSource.getRepository(Poet).find({
+      select: {
+        name: true,
+        time_period: true,
+        bio: true,
+        poems: {
+          id: true,
+          intro: true,
+        },
+      },
+      relations: { poems: true },
+      cache: true,
+    });
     if (poets.length === 0) return false;
     return poets;
   }
 
-  public async getOneWithLiterature(id: string) {
+  public async getOneWithLiterature(id: string): Promise<Poet | false> {
     // const [poet, authoredPoems, authoredProses, authoredChosenVerses] =
     //   await Promise.all([]);
     const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
@@ -25,7 +35,7 @@ export class PoetService {
     // };
   }
 
-  public async post(peotData: PoetType['details']) {
+  public async post(peotData: Poet): Promise<Poet | false> {
     const poet = new Poet();
     poet.name = peotData.name;
     poet.time_period = peotData.time_period;
@@ -38,7 +48,7 @@ export class PoetService {
     return newPoet;
   }
 
-  public async update(id: string, poetData: Poet) {
+  public async update(id: string, poetData: Poet): Promise<Poet | false> {
     const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
     if (!poet) return false;
     AppDataSource.getRepository(Poet).merge(poet, poetData);
@@ -47,9 +57,9 @@ export class PoetService {
     return newPoet;
   }
 
-  public async remove(id: string) {
+  public async remove(id: string): Promise<number | false> {
     const poet = await AppDataSource.getRepository(Poet).delete(id);
-    if (!poet) return false;
-    return poet;
+    if (!poet.affected) return false;
+    return poet.affected;
   }
 }

@@ -1,6 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 // Types
 import { Time_Period } from '../../interfaces/poet.interface';
+// Entities
+import { Poem } from '../poem/poem.entity';
 
 @Entity()
 export class Poet {
@@ -24,4 +32,8 @@ export class Poet {
 
   @Column('boolean', { default: true })
   reviewed!: boolean;
+
+  @OneToMany((type) => Poem, (poem) => poem.poet)
+  @JoinColumn({ name: 'poems' })
+  poems!: Poem[];
 }
