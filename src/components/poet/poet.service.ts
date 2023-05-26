@@ -1,16 +1,12 @@
 // Types
 import { PoetType } from '../../interfaces/poet.interface';
-// Models
-import { Poet } from '../../utils/poet.model';
-import { logger } from '../../utils/logger';
+// Database
+import { AppDataSource } from '../../db';
+// Entities
+import { Poet } from './poet.entity';
 export class PoetService {
   public async getAll() {
-    const poets = await Poet.findAll({
-      attributes: ['id', 'name', 'time_period', 'bio', 'reviewed'],
-      where: {
-        reviewed: true,
-      },
-    });
+    const poets = await AppDataSource.getRepository(Poet).find();
     if (poets.length === 0) return false;
     return poets;
   }
@@ -18,7 +14,9 @@ export class PoetService {
   public async getOneWithLiterature(id: string) {
     // const [poet, authoredPoems, authoredProses, authoredChosenVerses] =
     //   await Promise.all([]);
-    // if (!poet) return false;
+    const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
+    if (!poet) return false;
+    return poet;
     // return {
     //   details: poet,
     //   authoredPoems,
@@ -28,33 +26,29 @@ export class PoetService {
   }
 
   public async post(peotData: PoetType['details']) {
-    const newPoet = await Poet.create({
-      name: peotData.name,
-      time_period: peotData.time_period,
-      bio: peotData.bio,
-      reviewed: peotData.reviewed,
-    });
-    if (!newPoet) {
-      logger.error(newPoet);
-      return false;
-    }
+    const poet = new Poet();
+    poet.name = peotData.name;
+    poet.time_period = peotData.time_period;
+    poet.bio = peotData.bio;
+    poet.reviewed = peotData.reviewed;
+
+    const newPoet = await AppDataSource.getRepository(Poet).save(poet);
+
+    if (!newPoet) return false;
     return newPoet;
   }
 
-  public async update(id: string, poetData: PoetType['details']) {
-    const poet = await Poet.update(
-      { ...poetData },
-      {
-        where: { id },
-      },
-    );
+  public async update(id: string, poetData: Poet) {
+    const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
     if (!poet) return false;
-    // if (!newPoet) return false;
-    return poet;
+    AppDataSource.getRepository(Poet).merge(poet, poetData);
+    const newPoet = await AppDataSource.getRepository(Poet).save(poet);
+    if (!newPoet) return false;
+    return newPoet;
   }
 
   public async remove(id: string) {
-    const poet = await Poet.destroy({ where: { id } });
+    const poet = await AppDataSource.getRepository(Poet).delete(id);
     if (!poet) return false;
     return poet;
   }
