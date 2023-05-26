@@ -1,7 +1,7 @@
 // Types
 import { PoetType } from '../../interfaces/poet.interface';
 // Models
-import { Poet } from '../../db/models/poet.model';
+import { Poet } from '../../utils/poet.model';
 import { logger } from '../../utils/logger';
 export class PoetService {
   public async getAll() {

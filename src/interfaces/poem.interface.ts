@@ -2,6 +2,7 @@ import { VerseType } from './__types__';
 import { PoetType } from './poet.interface';
 
 export interface PoemType {
+  id: string;
   intro: string;
   poet: string | PoetType['details'];
   verses: VerseType[];
