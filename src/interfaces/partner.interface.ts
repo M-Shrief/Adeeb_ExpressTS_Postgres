@@ -1,5 +1,5 @@
 export interface PartnerType {
-  _id: string;
+  id: string;
   name: string;
   phone: string;
   address: string | string[];

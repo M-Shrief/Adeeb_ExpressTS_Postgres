@@ -6,13 +6,7 @@ export interface PoetType {
   details: {
     id: string;
     name: string;
-    time_period:
-      | 'جاهلي'
-      | 'أموي'
-      | 'عباسي'
-      | 'أندلسي'
-      | 'عثماني ومملوكي'
-      | 'متأخر وحديث';
+    time_period: Time_Period;
     bio: string;
     reviewed: boolean;
   };
@@ -20,6 +14,14 @@ export interface PoetType {
   authoredChosenVerses: ChosenVerseType[];
   authoredProses: ProseType[];
 }
+
+export type Time_Period =
+  | 'جاهلي'
+  | 'أموي'
+  | 'عباسي'
+  | 'أندلسي'
+  | 'عثماني ومملوكي'
+  | 'متأخر وحديث';
 
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No poet available',
