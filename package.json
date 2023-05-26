@@ -34,7 +34,6 @@
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
     "pg": "^8.11.0",
-    "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.16",
     "winston": "^3.8.2"

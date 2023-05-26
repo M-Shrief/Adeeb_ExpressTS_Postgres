@@ -1,4 +1,5 @@
 import App from './app';
+// Database
 import './db';
 // Routes
 import { PoetRoute } from './components/poet/poet.route';
