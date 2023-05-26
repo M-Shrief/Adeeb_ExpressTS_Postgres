@@ -27,7 +27,7 @@ export class PoemRoute implements IRoute {
     this.router.get(
       '/poem/:id',
       [
-        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+        validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
         setCache,
       ],
       this.controller.indexOneWithPoet,
@@ -41,7 +41,7 @@ export class PoemRoute implements IRoute {
           .escape()
           .withMessage(ERROR_MSG.INTRO),
 
-        body('poet').isMongoId().withMessage(ERROR_MSG.POET),
+        body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
 
         body('verses.*.first')
           .isLength({ min: 4, max: 50 })
@@ -62,7 +62,7 @@ export class PoemRoute implements IRoute {
     this.router.put(
       '/poem/:id',
       validate([
-        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
         body('intro')
           .optional()
@@ -71,7 +71,7 @@ export class PoemRoute implements IRoute {
           .escape()
           .withMessage(ERROR_MSG.INTRO),
 
-        body('poet').optional().isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        body('poet').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
         body('verses.*.first')
           .optional()
@@ -95,7 +95,7 @@ export class PoemRoute implements IRoute {
     this.router.delete(
       '/poem/:id',
       validate([
-        param('id').optional().isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        param('id').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
       ]),
       this.controller.remove,
     );

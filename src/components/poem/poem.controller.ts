@@ -6,6 +6,7 @@ import { PoemType, ERROR_MSG } from '../../interfaces/poem.interface';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
+import { Poem } from './poem.entity';
 
 export class PoemController {
   private poemService = new PoemService();
@@ -17,7 +18,6 @@ export class PoemController {
   ) => {
     try {
       const poems = await this.poemService.getAllWithPoetName();
-
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -37,7 +37,6 @@ export class PoemController {
   ) => {
     try {
       const poems = await this.poemService.getAllIntrosWithPoetName();
-
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -67,7 +66,7 @@ export class PoemController {
 
   public post = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poem = await this.poemService.post(req.body as PoemType);
+      const poem = await this.poemService.post(req.body as Poem);
       if (!poem)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -84,7 +83,7 @@ export class PoemController {
     try {
       const poem = await this.poemService.update(
         req.params.id,
-        req.body as PoemType,
+        req.body as Poem,
       );
       if (!poem)
         throw new AppError(
