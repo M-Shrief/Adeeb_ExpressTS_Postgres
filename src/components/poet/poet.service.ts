@@ -6,6 +6,7 @@ export class PoetService {
   public async getAll(): Promise<Poet[] | false> {
     const poets = await AppDataSource.getRepository(Poet).find({
       select: {
+        id: true,
         name: true,
         time_period: true,
         bio: true,

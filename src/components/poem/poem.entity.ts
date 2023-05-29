@@ -4,10 +4,12 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 // entities
 import { Poet } from '../poet/poet.entity';
 import { VerseType } from '../../interfaces/__types__';
+import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
 @Entity()
 export class Poem {
   @PrimaryGeneratedColumn('uuid')
@@ -19,6 +21,10 @@ export class Poem {
   @ManyToOne((type) => Poet, (poet) => poet.poems)
   @JoinColumn({ name: 'poet' })
   poet!: Poet;
+
+  @OneToMany((type) => ChosenVerse, (chosenVerse) => chosenVerse.poem)
+  @JoinColumn({ name: 'chosenverses' })
+  chosenVerses!: ChosenVerse[];
 
   @Column('jsonb', { nullable: false })
   verses!: VerseType[];
