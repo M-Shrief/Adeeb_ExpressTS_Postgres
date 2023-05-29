@@ -3,7 +3,7 @@
 **Overview, and file structure**:
 
 - _app_ is the main file for app logic, initializing middlewares and routes, and
-  connecting to our Postgres Database.
+  connecting to our Postgres Database using TypeORM.
 
 - _index_ is the server file to run the app.
 
@@ -11,6 +11,8 @@
   configuration structure if needed.
 
 - _./components_ file contain app's solutions by self contained components with
+
+  - _entity_ file for TypeORM entities, representing app's data, using (\*.entity.ts) naming convention for each one.
 
   - _service_ file for communicating(read/write) to our database, and make
     operations on data if needed, then return the data for _./controllers_,
