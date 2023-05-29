@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Order } from '../order/order.entity';
 
 @Entity()
 export class Partner {
@@ -16,4 +23,8 @@ export class Partner {
 
   @Column({ type: 'varchar', length: 100 })
   password!: string;
+
+  @OneToMany((type) => Order, (order) => order.partner)
+  @JoinColumn({ name: 'orders' })
+  orders!: Order;
 }

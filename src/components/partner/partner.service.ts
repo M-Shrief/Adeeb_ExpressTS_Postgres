@@ -13,7 +13,14 @@ export class PartnerService {
         name: true,
         phone: true,
         addresses: true,
+        orders: {
+          id: true,
+          // address: true,
+          // reviewed: true,
+          // completed: true,
+        },
       },
+      relations: { orders: true },
       cache: 1000 * 60,
     });
     if (!partner) return false;

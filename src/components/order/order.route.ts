@@ -37,13 +37,13 @@ export class OrderRoute implements IRoute {
     );
     this.router.get(
       '/orders/:partner',
-      validate([param('partner').isMongoId().withMessage(ERROR_MSG.PARTNER)]),
+      validate([param('partner').isUUID().withMessage(ERROR_MSG.PARTNER)]),
       this.controller.indexPartnerOrders,
     );
     this.router.post(
       '/order',
       validate([
-        body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
+        body('partner').optional().isUUID().withMessage(ERROR_MSG.PARTNER),
 
         body('name')
           .isLength({ min: 4, max: 50 })
@@ -57,7 +57,7 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.PHONE),
 
         body('address')
-          .isLength({ min: 4, max: 100 })
+          .isLength({ min: 4, max: 50 })
           .withMessage(ERROR_MSG.ADDRESS), // should have more
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
@@ -68,17 +68,14 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.COMPLETED),
 
         body('products.*.fontType')
-          .optional()
           .isLength({ max: 10 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.fontColor')
-          .optional()
           .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.backgroundColor')
-          .optional()
           .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
@@ -96,7 +93,7 @@ export class OrderRoute implements IRoute {
     this.router.put(
       '/order/:id',
       validate([
-        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
         body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
 
@@ -115,7 +112,7 @@ export class OrderRoute implements IRoute {
 
         body('address')
           .optional()
-          .isLength({ min: 4, max: 100 })
+          .isLength({ min: 4, max: 50 })
           .withMessage(ERROR_MSG.ADDRESS), // should have more
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
@@ -150,7 +147,7 @@ export class OrderRoute implements IRoute {
 
     this.router.delete(
       '/order/:id',
-      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.remove,
     );
   }
