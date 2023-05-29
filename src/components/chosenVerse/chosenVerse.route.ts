@@ -30,15 +30,15 @@ export class ChosenVerseRoute implements IRoute {
     );
     this.router.get(
       '/chosenverse/:id',
-      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.indexOneWithPoetName,
     );
     this.router.post(
       '/chosenverse',
       validate([
-        body('poet').isMongoId().withMessage(ERROR_MSG.POET),
+        body('poet').isUUID().withMessage(ERROR_MSG.POET),
 
-        body('poem').isMongoId().withMessage(ERROR_MSG.POEM),
+        body('poem').isUUID().withMessage(ERROR_MSG.POEM),
 
         body('tags')
           .isLength({ min: 4, max: 50 })
@@ -62,7 +62,7 @@ export class ChosenVerseRoute implements IRoute {
     this.router.put(
       '/chosenverse/:id',
       validate([
-        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
         body('poet').optional().isMongoId().withMessage(ERROR_MSG.POET),
 
@@ -95,7 +95,7 @@ export class ChosenVerseRoute implements IRoute {
     );
     this.router.delete(
       '/chosenverse/:id',
-      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.remove,
     );
   }

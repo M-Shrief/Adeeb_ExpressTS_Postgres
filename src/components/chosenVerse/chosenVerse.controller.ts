@@ -9,6 +9,7 @@ import {
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
+import { ChosenVerse } from './chosenVerse.entity';
 
 export class ChosenVerseController {
   private chosenVerseService = new ChosenVerseService();
@@ -73,7 +74,7 @@ export class ChosenVerseController {
   public post = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const chosenVerse = await this.chosenVerseService.post(
-        req.body as ChosenVerseType,
+        req.body as ChosenVerse,
       );
       if (!chosenVerse)
         throw new AppError(

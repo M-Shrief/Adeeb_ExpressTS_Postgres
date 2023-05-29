@@ -1,43 +1,109 @@
 // Types
+import { Raw } from 'typeorm';
+import { AppDataSource } from '../../db';
 import { ChosenVerseType } from '../../interfaces/chosenVerse.interface';
+// Entities
+import { ChosenVerse } from './chosenVerse.entity';
 // Utils
-import { shuffle } from '../../utils/shuffle';
+// import { shuffle } from '../../utils/shuffle';
 export class ChosenVerseService {
-  public async getAllWithPoetName() {
-    // if (chosenVerses.length === 0) return false;
-    // return chosenVerses;
+  public async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
+    const chosenVerses = await AppDataSource.getRepository(ChosenVerse).find({
+      select: {
+        id: true,
+        poet: {
+          name: true,
+        },
+        poem: {
+          id: true,
+        },
+        tags: true,
+        verses: true,
+        reviewed: true,
+      },
+      relations: { poet: true, poem: true },
+      cache: true,
+    });
+    if (chosenVerses.length === 0) return false;
+    return chosenVerses;
   }
 
-  public async getRandomWithPoetName(num: number) {
-    // if (chosenVerses.length === 0) return false;
-    // return chosenVerses;
+  public async getRandomWithPoetName(
+    num: number,
+  ): Promise<ChosenVerse[] | false> {
+    const chosenVerses = await AppDataSource.getRepository(ChosenVerse)
+      .createQueryBuilder('chosen_verses')
+      .orderBy('RANDOM()')
+      .limit(num)
+      .getMany();
+    if (chosenVerses.length === 0) return false;
+    return chosenVerses;
   }
 
-  public async getOneWithPoetName(id: string) {
-    // if (!chosenVerse) return false;
-    // return chosenVerse;
+  public async getOneWithPoetName(id: string): Promise<ChosenVerse | false> {
+    const chosenVerse = await AppDataSource.getRepository(ChosenVerse).findOne({
+      where: { id },
+      select: {
+        id: true,
+        poet: {
+          name: true,
+        },
+        poem: {
+          id: true,
+        },
+        tags: true,
+        verses: true,
+        reviewed: true,
+      },
+      relations: { poet: true, poem: true },
+      cache: true,
+    });
+    if (!chosenVerse) return false;
+    return chosenVerse;
   }
 
-  public async post(chosenVerseData: ChosenVerseType) {
-    // const chosenVerse = new ChosenVerse({
-    //   poet: chosenVerseData.poet,
-    //   poem: chosenVerseData.poem,
-    //   tags: chosenVerseData.tags,
-    //   verses: chosenVerseData.verses,
-    //   reviewed: chosenVerseData.reviewed,
-    // });
-    // if (!newChosenVerse) return false;
-    // return newChosenVerse;
+  public async post(
+    chosenVerseData: ChosenVerse,
+  ): Promise<ChosenVerse | false> {
+    const chosenVerse = new ChosenVerse();
+    chosenVerse.poet = chosenVerseData.poet;
+    chosenVerse.poem = chosenVerseData.poem;
+    chosenVerse.tags = chosenVerseData.tags;
+    chosenVerse.verses = chosenVerseData.verses;
+    chosenVerse.reviewed = chosenVerseData.reviewed;
+    const newChosenVerse = await AppDataSource.getRepository(ChosenVerse).save(
+      chosenVerse,
+    );
+    if (!newChosenVerse) return false;
+    return newChosenVerse;
   }
 
-  public async update(id: string, chosenVerseData: ChosenVerseType) {
-    // if (!chosenVerse) return false;
-    // if (!newChosenVerse) return false;
-    // return newChosenVerse;
+  public async update(
+    id: string,
+    chosenVerseData: ChosenVerse,
+  ): Promise<ChosenVerse | false> {
+    const chosenVerse = await AppDataSource.getRepository(
+      ChosenVerse,
+    ).findOneBy({
+      id,
+    });
+    if (!chosenVerse) return false;
+    AppDataSource.getRepository(ChosenVerse).merge(
+      chosenVerse,
+      chosenVerseData,
+    );
+    const newChosenVerse = await AppDataSource.getRepository(ChosenVerse).save(
+      chosenVerse,
+    );
+    if (!newChosenVerse) return false;
+    return newChosenVerse;
   }
 
-  public async remove(id: string) {
-    // if (!poet) return false;
-    // return poet;
+  public async remove(id: string): Promise<number | false> {
+    const chosenVerse = await AppDataSource.getRepository(ChosenVerse).delete(
+      id,
+    );
+    if (!chosenVerse.affected) return false;
+    return chosenVerse.affected;
   }
 }
