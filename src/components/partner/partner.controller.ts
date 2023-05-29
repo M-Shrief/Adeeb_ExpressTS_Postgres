@@ -38,7 +38,6 @@ export class PartnerController {
   ) => {
     try {
       const partner = await this.partnerService.getInfo(req.params.id);
-
       if (!partner)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(partner);
@@ -61,10 +60,10 @@ export class PartnerController {
       res.status(HttpStatusCode.CREATED).json({
         Success: true,
         partner: {
-          _id: partner._id,
+          id: partner.id,
           name: partner.name,
           phone: partner.phone,
-          address: partner.address,
+          addresses: partner.addresses,
         },
         accessToken,
       });
@@ -85,16 +84,16 @@ export class PartnerController {
           ERROR_MSG.NOT_VALID,
           true,
         );
-
       const accessToken = this.signToken(partner.name);
       res.set('Authorization', `Bearer ${accessToken}`);
       res.status(HttpStatusCode.ACCEPTED).json({
         success: true,
         partner: {
-          _id: partner._id,
+          id: partner.id,
           name: partner.name,
           phone: partner.phone,
-          address: partner.address,
+          addresses: partner.addresses,
+          password: partner.password,
         },
         accessToken,
       });

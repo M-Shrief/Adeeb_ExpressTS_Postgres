@@ -1,41 +1,69 @@
+import { AppDataSource } from '../../db';
 // Types
 import { PartnerType } from '../../interfaces/partner.interface';
 // Utils
 import { comparePassword, hashPassword } from '../../utils/auth';
+import { Partner } from './partner.entity';
 
 export class PartnerService {
-  public async getInfo(id: string) {
-    // if (!partner) return false;
-    // return partner;
+  public async getInfo(id: string): Promise<Partner | false> {
+    const partner = await AppDataSource.getRepository(Partner).findOne({
+      where: { id },
+      select: {
+        name: true,
+        phone: true,
+        addresses: true,
+      },
+      cache: 1000 * 60,
+    });
+    if (!partner) return false;
+    return partner;
   }
 
-  public async signup(partnerData: PartnerType) {
-    // const password = await hashPassword(partnerData.password);
-    // const partner = new Partner({
-    //   name: partnerData.name,
-    //   phone: partnerData.phone,
-    //   address: partnerData.address,
-    //   password,
-    // });
-    // if (!newPartner) return false;
-    // return partner;
+  public async signup(partnerData: Partner): Promise<Partner | false> {
+    const password = await hashPassword(partnerData.password);
+    const partner = new Partner();
+
+    partner.name = partnerData.name;
+    partner.phone = partnerData.phone;
+    partner.addresses = partnerData.addresses;
+    partner.password = password;
+
+    const newPartner = await AppDataSource.getRepository(Partner).save(partner);
+    if (!newPartner) return false;
+    return partner;
   }
 
-  public async login(phone: string, password: string) {
-    // if (!existingPartner) return false;
-    // const isValid = comparePassword(password, existingPartner.password);
-    // if (!isValid) return false;
-    // return existingPartner;
+  public async login(
+    phone: string,
+    password: string,
+  ): Promise<Partner | false> {
+    const existingPartner = await AppDataSource.getRepository(
+      Partner,
+    ).findOneBy({ phone });
+    if (!existingPartner) return false;
+    const isValid = comparePassword(password, existingPartner.password);
+    if (!isValid) return false;
+    return existingPartner;
   }
 
-  public async update(id: string, partnerData: PartnerType) {
-    // if (!partner) return false;
-    // if (!newPartner) return false;
-    // return newPartner;
+  public async update(
+    id: string,
+    partnerData: Partner,
+  ): Promise<Partner | false> {
+    const partner = await AppDataSource.getRepository(Partner).findOneBy({
+      id,
+    });
+    if (!partner) return false;
+    AppDataSource.getRepository(Partner).merge(partner, partnerData);
+    const newPartner = await AppDataSource.getRepository(Partner).save(partner);
+    if (!newPartner) return false;
+    return newPartner;
   }
 
-  public async remove(id: string) {
-    // if (!partner) return false;
-    // return partner;
+  public async remove(id: string): Promise<number | false> {
+    const partner = await AppDataSource.getRepository(Partner).delete(id);
+    if (!partner.affected) return false;
+    return partner.affected;
   }
 }

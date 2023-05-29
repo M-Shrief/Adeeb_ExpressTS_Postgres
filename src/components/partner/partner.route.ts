@@ -28,7 +28,7 @@ export class PartnerRoute implements IRoute {
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,
-        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+        validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
         setCache,
       ],
       this.controller.indexInfo,
@@ -47,9 +47,7 @@ export class PartnerRoute implements IRoute {
           .isMobilePhone('any')
           .withMessage(ERROR_MSG.PHONE),
 
-        body('address')
-          .isLength({ min: 4, max: 100 })
-          .withMessage(ERROR_MSG.ADDRESS),
+        body('addresses').isArray({ min: 1 }).withMessage(ERROR_MSG.ADDRESSES),
 
         body('password')
           .isString()
@@ -81,7 +79,7 @@ export class PartnerRoute implements IRoute {
       '/partner/:id',
       [
         validate([
-          param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+          param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
           body('name')
             .optional()
@@ -96,9 +94,10 @@ export class PartnerRoute implements IRoute {
             .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
 
-          body('address')
-            .isLength({ min: 4, max: 100 })
-            .withMessage(ERROR_MSG.ADDRESS), // should have more
+          body('addresses')
+            .optional()
+            .isArray({ min: 1 })
+            .withMessage(ERROR_MSG.ADDRESSES), // should have more
 
           body('password')
             .optional()
@@ -116,7 +115,7 @@ export class PartnerRoute implements IRoute {
     this.router.delete(
       '/partner/:id',
       [
-        validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+        validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,
