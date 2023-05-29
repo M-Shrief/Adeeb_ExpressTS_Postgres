@@ -29,13 +29,13 @@ export class ProseRoute implements IRoute {
     );
     this.router.get(
       '/prose/:id',
-      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.indexOneWithPoetName,
     );
     this.router.post(
       '/prose',
       validate([
-        body('poet').isMongoId().withMessage(ERROR_MSG.POET),
+        body('poet').isUUID().withMessage(ERROR_MSG.POET),
 
         body('tags')
           .isLength({ min: 4, max: 50 })
@@ -55,17 +55,19 @@ export class ProseRoute implements IRoute {
     this.router.put(
       '/prose/:id',
       validate([
-        param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND),
+        param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('poet').isMongoId().withMessage(ERROR_MSG.POET),
+        body('poet').optional().isUUID().withMessage(ERROR_MSG.POET),
 
         body('tags')
+          .optional()
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.TAGS),
 
         body('qoute')
+          .optional()
           .isLength({ min: 4, max: 400 })
           .isString()
           .withMessage(ERROR_MSG.QOUTE),
@@ -76,7 +78,7 @@ export class ProseRoute implements IRoute {
     );
     this.router.delete(
       '/prose/:id',
-      validate([param('id').isMongoId().withMessage(ERROR_MSG.NOT_FOUND)]),
+      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
       this.controller.remove,
     );
   }

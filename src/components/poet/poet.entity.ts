@@ -10,6 +10,7 @@ import { Time_Period } from '../../interfaces/poet.interface';
 // Entities
 import { Poem } from '../poem/poem.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
+import { Prose } from '../prose/prose.entity';
 
 @Entity()
 export class Poet {
@@ -39,6 +40,10 @@ export class Poet {
   poems!: Poem[];
 
   @OneToMany((type) => ChosenVerse, (chosenVerse) => chosenVerse.poet)
-  @JoinColumn({ name: 'chosenverse' })
+  @JoinColumn({ name: 'chosenverses' })
   chosenVerses!: ChosenVerse[];
+
+  @OneToMany((type) => Prose, (prose) => prose.poet)
+  @JoinColumn({ name: 'proses' })
+  proses!: Prose[];
 }

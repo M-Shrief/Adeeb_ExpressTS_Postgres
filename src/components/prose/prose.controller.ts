@@ -23,7 +23,6 @@ export class ProseController {
           ERROR_MSG.NOT_AVAILABLE,
           true,
         );
-
       res.status(HttpStatusCode.OK).send(proses);
     } catch (error) {
       next(error);
@@ -45,7 +44,6 @@ export class ProseController {
           ERROR_MSG.NOT_AVAILABLE,
           true,
         );
-
       res.status(HttpStatusCode.OK).send(proses);
     } catch (error) {
       next(error);

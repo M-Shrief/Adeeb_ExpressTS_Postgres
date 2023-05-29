@@ -1,11 +1,9 @@
 // Types
-import { Raw } from 'typeorm';
 import { AppDataSource } from '../../db';
-import { ChosenVerseType } from '../../interfaces/chosenVerse.interface';
 // Entities
 import { ChosenVerse } from './chosenVerse.entity';
 // Utils
-// import { shuffle } from '../../utils/shuffle';
+import { shuffle } from '../../utils/shuffle';
 export class ChosenVerseService {
   public async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
     const chosenVerses = await AppDataSource.getRepository(ChosenVerse).find({
@@ -24,6 +22,8 @@ export class ChosenVerseService {
       relations: { poet: true, poem: true },
       cache: true,
     });
+    // shuffle the ChosenVerse[]
+    shuffle(chosenVerses);
     if (chosenVerses.length === 0) return false;
     return chosenVerses;
   }
