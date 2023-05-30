@@ -23,17 +23,34 @@ export class PoetService {
   }
 
   public async getOneWithLiterature(id: string): Promise<Poet | false> {
-    // const [poet, authoredPoems, authoredProses, authoredChosenVerses] =
-    //   await Promise.all([]);
-    const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
+    const poet = await AppDataSource.getRepository(Poet).findOne({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        time_period: true,
+        bio: true,
+        poems: {
+          id: true,
+          intro: true,
+        },
+        chosenVerses: {
+          id: true,
+          poem: { id: true },
+          verses: true,
+          tags: true,
+        },
+        proses: {
+          id: true,
+          qoute: true,
+          tags: true,
+        },
+      },
+      relations: { poems: true, chosenVerses: true, proses: true },
+      cache: 1000 * 5,
+    });
     if (!poet) return false;
     return poet;
-    // return {
-    //   details: poet,
-    //   authoredPoems,
-    //   authoredProses,
-    //   authoredChosenVerses,
-    // };
   }
 
   public async post(peotData: Poet): Promise<Poet | false> {
