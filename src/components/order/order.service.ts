@@ -1,7 +1,4 @@
 import { AppDataSource } from '../../db';
-// Types
-import { OrderType } from '../../interfaces/order.interface';
-import { Partner } from '../partner/partner.entity';
 // Entities
 import { Order } from './order.entity';
 
@@ -13,6 +10,7 @@ export class OrderService {
     const orders = await AppDataSource.getRepository(Order).find({
       where: { name, phone },
       select: {
+        id: true,
         name: true,
         phone: true,
         address: true,

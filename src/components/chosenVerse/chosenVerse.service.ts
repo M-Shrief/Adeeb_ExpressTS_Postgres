@@ -10,6 +10,7 @@ export class ChosenVerseService {
       select: {
         id: true,
         poet: {
+          id: true,
           name: true,
         },
         poem: {
@@ -46,6 +47,7 @@ export class ChosenVerseService {
       select: {
         id: true,
         poet: {
+          id: true,
           name: true,
         },
         poem: {

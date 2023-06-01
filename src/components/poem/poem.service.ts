@@ -31,6 +31,7 @@ export class PoemService {
         intro: true,
         reviewed: true,
         poet: {
+          id: true,
           name: true,
         },
       },
@@ -50,6 +51,7 @@ export class PoemService {
         verses: true,
         reviewed: true,
         poet: {
+          id: true,
           name: true,
           time_period: true,
           bio: true,

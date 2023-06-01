@@ -10,6 +10,7 @@ export class ProseService {
       select: {
         id: true,
         poet: {
+          id: true,
           name: true,
         },
         tags: true,
@@ -40,6 +41,7 @@ export class ProseService {
       select: {
         id: true,
         poet: {
+          id: true,
           name: true,
         },
         tags: true,
