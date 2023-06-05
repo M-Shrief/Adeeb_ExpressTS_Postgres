@@ -1,9 +1,8 @@
-import { AppDataSource } from '../../db';
-// Types
-import { PartnerType } from '../../interfaces/partner.interface';
-// Utils
-import { comparePassword, hashPassword } from '../../utils/auth';
+import { AppDataSource } from '@/db';
+// Entites
 import { Partner } from './partner.entity';
+// Utils
+import { comparePassword, hashPassword } from '@/utils/auth';
 
 export class PartnerService {
   public async getInfo(id: string): Promise<Partner | false> {

@@ -5,7 +5,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Order } from '../order/order.entity';
+// Entites
+import { Order } from '@order/order.entity';
 
 @Entity()
 export class Partner {

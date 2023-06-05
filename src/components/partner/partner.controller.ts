@@ -1,13 +1,13 @@
-import { NODE_ENV } from '../../config';
+import { NODE_ENV } from '@/config';
 import { CookieOptions, NextFunction, Request, Response } from 'express';
 // Services
 import { PartnerService } from './partner.service';
 // Types
-import { ERROR_MSG } from '../../interfaces/partner.interface';
+import { ERROR_MSG } from '@/interfaces/partner.interface';
 // Utils
-import { signToken } from '../../utils/auth';
-import { AppError } from '../../utils/errorsCenter/appError';
-import HttpStatusCode from '../../utils/httpStatusCode';
+import { signToken } from '@/utils/auth';
+import { AppError } from '@/utils/errorsCenter/appError';
+import HttpStatusCode from '@/utils/httpStatusCode';
 
 export class PartnerController {
   private partnerService = new PartnerService();
