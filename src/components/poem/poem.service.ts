@@ -1,4 +1,4 @@
-import { AppDataSource } from '../../db';
+import { AppDataSource } from '@/db';
 // Entities
 import { Poem } from './poem.entity';
 export class PoemService {
