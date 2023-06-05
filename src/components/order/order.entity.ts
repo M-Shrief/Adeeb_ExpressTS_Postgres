@@ -6,10 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 // Entities
-import { Partner } from '../partner/partner.entity';
+import { Partner } from '@partner/partner.entity';
 // Types
-import { Product, ProductGroup } from '../../interfaces/__types__';
-import { truncate } from 'fs';
+import { Product, ProductGroup } from '@/interfaces/__types__';
 
 @Entity()
 export class Order {

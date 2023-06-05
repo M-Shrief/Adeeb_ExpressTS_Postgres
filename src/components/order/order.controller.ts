@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { OrderService } from './order.service';
 // Types
-import { ERROR_MSG } from '../../interfaces/order.interface';
+import { ERROR_MSG } from '@/interfaces/order.interface';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
-import HttpStatusCode from '../../utils/httpStatusCode';
+import { AppError } from '@/utils/errorsCenter/appError';
+import HttpStatusCode from '@/utils/httpStatusCode';
 
 export class OrderController {
   private orderService = new OrderService();
