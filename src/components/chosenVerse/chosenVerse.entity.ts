@@ -6,10 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 // Entities
-import { Poet } from '../poet/poet.entity';
-import { Poem } from '../poem/poem.entity';
+import { Poet } from '@poet/poet.entity';
+import { Poem } from '@poem/poem.entity';
 // Types
-import { VerseType } from '../../interfaces/__types__';
+import { VerseType } from '@/interfaces/__types__';
 
 @Entity()
 export class ChosenVerse {

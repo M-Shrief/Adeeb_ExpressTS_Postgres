@@ -2,14 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { ChosenVerseService } from './chosenVerse.service';
 // Types
-import {
-  ChosenVerseType,
-  ERROR_MSG,
-} from '../../interfaces/chosenVerse.interface';
+import { ERROR_MSG } from '@/interfaces/chosenVerse.interface';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
-import HttpStatusCode from '../../utils/httpStatusCode';
-import { ChosenVerse } from './chosenVerse.entity';
+import { AppError } from '@/utils/errorsCenter/appError';
+import HttpStatusCode from '@/utils/httpStatusCode';
 
 export class ChosenVerseController {
   private chosenVerseService = new ChosenVerseService();
@@ -73,9 +69,7 @@ export class ChosenVerseController {
 
   public post = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const chosenVerse = await this.chosenVerseService.post(
-        req.body as ChosenVerse,
-      );
+      const chosenVerse = await this.chosenVerseService.post(req.body);
       if (!chosenVerse)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,

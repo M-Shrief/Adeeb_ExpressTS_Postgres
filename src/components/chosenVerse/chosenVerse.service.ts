@@ -1,9 +1,9 @@
 // Types
-import { AppDataSource } from '../../db';
+import { AppDataSource } from '@/db';
 // Entities
 import { ChosenVerse } from './chosenVerse.entity';
 // Utils
-import { shuffle } from '../../utils/shuffle';
+import { shuffle } from '@/utils/shuffle';
 export class ChosenVerseService {
   public async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
     const chosenVerses = await AppDataSource.getRepository(ChosenVerse).find({
@@ -36,6 +36,7 @@ export class ChosenVerseService {
       .createQueryBuilder('chosen_verses')
       .orderBy('RANDOM()')
       .limit(num)
+      .cache(false)
       .getMany();
     if (chosenVerses.length === 0) return false;
     return chosenVerses;
