@@ -5,8 +5,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-// Types
-import { Time_Period } from '../../interfaces/poet.interface';
+import { Time_Period } from '@/interfaces/poet.interface';
 // Entities
 import { Poem } from '../poem/poem.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
@@ -28,7 +27,7 @@ export class Poet {
 
   @Column({
     type: 'varchar',
-    length: 400,
+    length: 500,
   })
   bio!: string;
 

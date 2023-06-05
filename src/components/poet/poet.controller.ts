@@ -2,11 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { PoetService } from './poet.service';
 // Types
-import { PoetType, ERROR_MSG } from '../../interfaces/poet.interface';
+import { ERROR_MSG } from '@/interfaces/poet.interface';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
-import HttpStatusCode from '../../utils/httpStatusCode';
-import { Poet } from './poet.entity';
+import { AppError } from '@/utils/errorsCenter/appError';
+import HttpStatusCode from '@/utils/httpStatusCode';
 export class PoetController {
   private poetService = new PoetService();
 
@@ -43,7 +42,7 @@ export class PoetController {
 
   public post = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await this.poetService.post(req.body as Poet);
+      const poet = await this.poetService.post(req.body);
       if (!poet)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -58,10 +57,7 @@ export class PoetController {
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await this.poetService.update(
-        req.params.id,
-        req.body as Poet,
-      );
+      const poet = await this.poetService.update(req.params.id, req.body);
       if (!poet)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
