@@ -13,7 +13,7 @@ describe('Testing /GET request to /chosenverses', () => {
     expect(res.data[0]).toHaveProperty('verses[0].sec');
     expect(res.data[0]).toHaveProperty('reviewed');
     expect(res.data[0]).toHaveProperty('poet.name');
-    expect(res.data[0]).toHaveProperty('poem');
+    expect(res.data[0]).toHaveProperty('poem.id');
   });
 });
 
@@ -27,8 +27,6 @@ describe('Testing /GET request to /chosenverses/random?num=3', () => {
     expect(res.data[0]).toHaveProperty('verses[0].first');
     expect(res.data[0]).toHaveProperty('verses[0].sec');
     expect(res.data[0]).toHaveProperty('reviewed');
-    expect(res.data[0]).toHaveProperty('poet');
-    expect(res.data[0]).toHaveProperty('poem');
   });
 
   test("Doesn't accept types other than number, and throws and error with 400 status", async () => {
@@ -46,7 +44,7 @@ describe('Testing /GET request to /chosenverses/random?num=3', () => {
 describe('Testing /GET req to /chosenvers/:id', () => {
   test("json response, contains a chosenVerse, with the poets' name", async () => {
     const res = await axios.get(
-      `${apiUrl}/chosenverse/6371f27eac76f350635f7017`,
+      `${apiUrl}/chosenverse/7924d314-e6e0-429a-bfae-a080d191ff89`,
     );
     expect(res.status).toEqual(200);
 
@@ -57,7 +55,7 @@ describe('Testing /GET req to /chosenvers/:id', () => {
     expect(res.data).toHaveProperty('poet.name');
   });
 
-  test('Handling non MongoID param', async () => {
+  test('Handling non UUID param', async () => {
     try {
       await axios.get(`${apiUrl}/chosenverse/1`);
     } catch (error) {
@@ -70,7 +68,9 @@ describe('Testing /GET req to /chosenvers/:id', () => {
 
   test('Handling non existing id', async () => {
     try {
-      await axios.get(`${apiUrl}/chosenverse/6371f27eac76f350635f7007`);
+      await axios.get(
+        `${apiUrl}/chosenverse/7924d314-e6e0-429a-bfae-a080d191ff81`,
+      );
     } catch (error) {
       if (error instanceof AxiosError) {
         expect(error.response?.data.status).toBe(404);

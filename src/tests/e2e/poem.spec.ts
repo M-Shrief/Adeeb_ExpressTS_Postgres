@@ -31,7 +31,9 @@ describe('Testing /GET req to /poems_intros', () => {
 
 describe('Testing /GET req to /poem/:id', () => {
   test("json response, contains a poem, with the poets' name", async () => {
-    const res = await axios.get(`${apiUrl}/poem/6371eb6690c2ad965846c221`);
+    const res = await axios.get(
+      `${apiUrl}/poem/3496aa52-6946-4b02-9428-5a57b7522219`,
+    );
     expect(res.status).toEqual(200);
 
     expect(res.data).toHaveProperty('intro');
@@ -41,7 +43,7 @@ describe('Testing /GET req to /poem/:id', () => {
     expect(res.data).toHaveProperty('reviewed');
   });
 
-  test('Handling non MongoID param', async () => {
+  test('Handling non UUID param', async () => {
     try {
       await axios.get(`${apiUrl}/poem/1`);
     } catch (error) {
@@ -54,7 +56,7 @@ describe('Testing /GET req to /poem/:id', () => {
 
   test('Handling non existing id', async () => {
     try {
-      await axios.get(`${apiUrl}/poem/62b55cf712eec0bb274cecd4`);
+      await axios.get(`${apiUrl}/poem/3496aa52-6946-4b02-9428-5a57b7522211`);
     } catch (error) {
       if (error instanceof AxiosError) {
         expect(error.response?.data.status).toBe(404);

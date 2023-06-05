@@ -21,7 +21,6 @@ describe('Testing /GET requests for /proses/random?num=', () => {
 
     expect(res.status).toEqual(200);
     expect(res.data.length).toEqual(3);
-    expect(res.data[0]).toHaveProperty('poet');
     expect(res.data[0]).toHaveProperty('tags');
     expect(res.data[0]).toHaveProperty('qoute');
     expect(res.data[0]).toHaveProperty('reviewed');
@@ -41,7 +40,9 @@ describe('Testing /GET requests for /proses/random?num=', () => {
 
 describe('Testing /GET requests for /prose/:id', () => {
   test("json response, contains a prose with poets' name", async () => {
-    const res = await axios.get(`${apiUrl}/prose/639b60c8b5e253099333b138`);
+    const res = await axios.get(
+      `${apiUrl}/prose/d91a6822-963b-419c-8026-87450191f48d`,
+    );
 
     expect(res.status).toEqual(200);
     expect(res.data).toHaveProperty('poet.name');
@@ -63,7 +64,7 @@ describe('Testing /GET requests for /prose/:id', () => {
 
   test('Handling non existing id', async () => {
     try {
-      await axios.get(`${apiUrl}/prose/62b55cf712eec0bb274cecd4`);
+      await axios.get(`${apiUrl}/prose/d91a6822-963b-419c-8026-87450191f484`);
     } catch (error) {
       if (error instanceof AxiosError) {
         expect(error.response?.data.status).toBe(404);

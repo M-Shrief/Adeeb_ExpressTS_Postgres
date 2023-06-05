@@ -7,7 +7,7 @@ import { ERROR_MSG, PoetType } from '../../interfaces/poet.interface';
 // import { test, describe } from 'node:test';
 // ========== API Test ============
 const apiUrl = 'http://localhost:3000/api';
-const poetID = '639b5cf712eec0bb274cecd4';
+const poetID = '1b546bad-7800-4570-9fed-aae01cc6d8e1';
 
 describe('Testing /GET req to /poets', function () {
   // afterAll(async () => {});
@@ -28,27 +28,25 @@ describe('Testing /GET req to /poet/:id', function () {
     expect(res.status).toBe<number>(200);
     expect(res.headers['content-type']).toMatch(/json/);
 
-    expect(res.data.details).toHaveProperty('name');
-    expect(res.data.details).toHaveProperty('bio');
-    expect(res.data.details).toHaveProperty('time_period');
+    expect(res.data).toHaveProperty('name');
+    expect(res.data).toHaveProperty('bio');
+    expect(res.data).toHaveProperty('time_period');
 
-    expect(res.data.authoredPoems).toBeDefined();
-    expect(res.data.authoredPoems[0]).toHaveProperty('intro');
+    expect(res.data.poems).toBeDefined();
+    expect(res.data.poems[0]).toHaveProperty('intro');
 
-    expect(res.data.authoredChosenVerses).toBeDefined();
-    expect(res.data.authoredChosenVerses[0]).toHaveProperty('poem');
-    expect(res.data.authoredChosenVerses[0]).toHaveProperty('tags');
-    expect(res.data.authoredChosenVerses[0]).toHaveProperty('verses');
-    expect(res.data.authoredChosenVerses[0]).toHaveProperty('verses[0].first');
-    expect(res.data.authoredChosenVerses[0]).toHaveProperty('verses[0].sec');
-    expect(res.data.authoredChosenVerses[0]).toHaveProperty('reviewed');
+    expect(res.data.chosenVerses).toBeDefined();
+    expect(res.data.chosenVerses[0]).toHaveProperty('tags');
+    expect(res.data.chosenVerses[0]).toHaveProperty('verses');
+    expect(res.data.chosenVerses[0]).toHaveProperty('verses[0].first');
+    expect(res.data.chosenVerses[0]).toHaveProperty('verses[0].sec');
 
-    expect(res.data.authoredProses).toBeDefined();
-    expect(res.data.authoredProses[0]).toHaveProperty('tags');
-    expect(res.data.authoredProses[0]).toHaveProperty('qoute');
+    expect(res.data.proses).toBeDefined();
+    expect(res.data.proses[0]).toHaveProperty('tags');
+    expect(res.data.proses[0]).toHaveProperty('qoute');
   });
 
-  test('Handling non MongoID param', async () => {
+  test('Handling non UUID param', async () => {
     try {
       await axios.get(`${apiUrl}/poet/1`);
     } catch (error) {
@@ -61,7 +59,7 @@ describe('Testing /GET req to /poet/:id', function () {
 
   test('Handling non existing id', async () => {
     try {
-      await axios.get(`${apiUrl}/poet/62b55cf712eec0bb274cecd4`);
+      await axios.get(`${apiUrl}/poet/6cf8150a-9847-4d73-b949-c18ff921dd13`);
     } catch (error) {
       if (error instanceof AxiosError) {
         expect(error.response?.data.status).toBe(404);
