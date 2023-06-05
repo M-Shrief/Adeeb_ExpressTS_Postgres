@@ -8,6 +8,16 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "outDir": "./dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@poet/*": ["./components/poet/*"],
+      "@poem/*": ["components/poem/*"],
+      "@chosenVerse/*": ["components/chosenVerse/*"],
+      "@prose/*": ["components/prose/*"],
+      "@partner/*": ["components/partner/*"],
+      "@order/*": ["components/order/*"]
+    }
   }
 }
