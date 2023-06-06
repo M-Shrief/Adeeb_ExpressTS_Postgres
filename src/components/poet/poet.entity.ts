@@ -7,9 +7,9 @@ import {
 } from 'typeorm';
 import { Time_Period } from '@/interfaces/poet.interface';
 // Entities
-import { Poem } from '../poem/poem.entity';
-import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
-import { Prose } from '../prose/prose.entity';
+import { Poem } from '@poem/poem.entity';
+import { ChosenVerse } from '@chosenVerse/chosenVerse.entity';
+import { Prose } from '@prose/prose.entity';
 
 @Entity()
 export class Poet {
