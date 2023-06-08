@@ -12,6 +12,6 @@ export enum ERROR_MSG {
   // Inner properties
   NAME = 'name should be contain letters, and less than 50 in length',
   PHONE = 'phone not right or not supported',
-  ADDRESSES = 'address can not be empty',
+  ADDRESS = 'address can not be empty',
   PASSWORD = 'Password should contain: lowercase and uppercase letters, numbers, and symbols(*&^%%$#!@)',
 }
