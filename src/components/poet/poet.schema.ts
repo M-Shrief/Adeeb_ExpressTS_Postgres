@@ -5,7 +5,7 @@ export const createSchema = object({
   name: string().min(4).max(50).required(),
   time_period: string().oneOf(Time_Period).required(),
   bio: string().min(4).max(500).required(),
-  reviewed: boolean().optional().default(true),
+  reviewed: boolean().default(true),
 });
 
 export const updateSchema = object({
