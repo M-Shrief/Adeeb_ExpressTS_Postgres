@@ -3,19 +3,26 @@ import { PoemType } from './poem.interface';
 import { ProseType } from './prose.interface';
 
 export interface PoetType {
-  details: {
-    id: string;
-    name: string;
-    time_period: Time_Period;
-    bio: string;
-    reviewed: boolean;
-  };
-  authoredPoems: PoemType[];
-  authoredChosenVerses: ChosenVerseType[];
-  authoredProses: ProseType[];
+  id: string;
+  name: string;
+  time_period: TimePeriodType;
+  bio: string;
+  reviewed: boolean;
+  poems: PoemType[];
+  chosenVerses: ChosenVerseType[];
+  proses: ProseType[];
 }
 
-export type Time_Period =
+export const Time_Period = [
+  'جاهلي',
+  'أموي',
+  'عباسي',
+  'أندلسي',
+  'عثماني ومملوكي',
+  'متأخر وحديث',
+];
+
+export type TimePeriodType =
   | 'جاهلي'
   | 'أموي'
   | 'عباسي'
@@ -30,6 +37,6 @@ export enum ERROR_MSG {
   // Inner Properties
   NAME = 'name should be letters, and max 50 letters length',
   TIME_PERIOD = 'time_period should be letters, and max 50 letters length',
-  BIO = 'bio should be letters, and max 300 letters length',
+  BIO = 'bio should be letters, and max 500 letters length',
   REVIEWED = 'reviewed should be true or false',
 }
