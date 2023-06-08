@@ -2,6 +2,8 @@
 import { AppDataSource } from '@/db';
 // Entities
 import { Poet } from './poet.entity';
+// Schema
+import { createSchema, updateSchema } from './poet.schema';
 export class PoetService {
   public async getAll(): Promise<Poet[] | false> {
     const poets = await AppDataSource.getRepository(Poet).find({
@@ -53,12 +55,15 @@ export class PoetService {
     return poet;
   }
 
-  public async post(peotData: Poet): Promise<Poet | false> {
+  public async post(poetData: Poet): Promise<Poet | false> {
+    const isValid = await createSchema.isValid(poetData);
+    if (!isValid) return false;
+
     const poet = new Poet();
-    poet.name = peotData.name;
-    poet.time_period = peotData.time_period;
-    poet.bio = peotData.bio;
-    poet.reviewed = peotData.reviewed;
+    poet.name = poetData.name;
+    poet.time_period = poetData.time_period;
+    poet.bio = poetData.bio;
+    poet.reviewed = poetData.reviewed;
 
     const newPoet = await AppDataSource.getRepository(Poet).save(poet);
 
@@ -67,6 +72,9 @@ export class PoetService {
   }
 
   public async update(id: string, poetData: Poet): Promise<Poet | false> {
+    const isValid = await updateSchema.isValid(poetData);
+    if (!isValid) return false;
+
     const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
     if (!poet) return false;
     AppDataSource.getRepository(Poet).merge(poet, poetData);

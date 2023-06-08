@@ -5,7 +5,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Time_Period } from '@/interfaces/poet.interface';
+import { TimePeriodType } from './poet.constants';
 // Entities
 import { Poem } from '@poem/poem.entity';
 import { ChosenVerse } from '@chosenVerse/chosenVerse.entity';
@@ -23,7 +23,7 @@ export class Poet {
     type: 'enum',
     enum: ['جاهلي', 'أموي', 'عباسي', 'أندلسي', 'عثماني ومملوكي', 'متأخر وحديث'],
   })
-  time_period!: Time_Period;
+  time_period!: TimePeriodType;
 
   @Column({
     type: 'varchar',
