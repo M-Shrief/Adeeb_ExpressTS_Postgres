@@ -34,29 +34,29 @@ export class PoemRoute implements IRoute {
     );
     this.router.post(
       '/poem',
-      validate([
-        body('intro')
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.INTRO),
+      // validate([
+      //   body('intro')
+      //     .isLength({ min: 4, max: 50 })
+      //     .isString()
+      //     .escape()
+      //     .withMessage(ERROR_MSG.INTRO),
 
-        body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
+      //   body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
 
-        body('verses.*.first')
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+      //   body('verses.*.first')
+      //     .isLength({ min: 4, max: 50 })
+      //     .isString()
+      //     .escape()
+      //     .withMessage(ERROR_MSG.VERSES),
 
-        body('verses.*.sec')
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+      //   body('verses.*.sec')
+      //     .isLength({ min: 4, max: 50 })
+      //     .isString()
+      //     .escape()
+      //     .withMessage(ERROR_MSG.VERSES),
 
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
+      //   body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+      // ]),
       this.controller.post,
     );
     this.router.put(
@@ -64,30 +64,30 @@ export class PoemRoute implements IRoute {
       validate([
         param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('intro')
-          .optional()
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.INTRO),
+        // body('intro')
+        //   .optional()
+        //   .isLength({ min: 4, max: 50 })
+        //   .isString()
+        //   .escape()
+        //   .withMessage(ERROR_MSG.INTRO),
 
-        body('poet').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
+        // body('poet').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('verses.*.first')
-          .optional()
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+        // body('verses.*.first')
+        //   .optional()
+        //   .isLength({ min: 4, max: 50 })
+        //   .isString()
+        //   .escape()
+        //   .withMessage(ERROR_MSG.VERSES),
 
-        body('verses.*.sec')
-          .optional()
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+        // body('verses.*.sec')
+        //   .optional()
+        //   .isLength({ min: 4, max: 50 })
+        //   .isString()
+        //   .escape()
+        //   .withMessage(ERROR_MSG.VERSES),
 
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+        // body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
       ]),
       this.controller.update,
     );
