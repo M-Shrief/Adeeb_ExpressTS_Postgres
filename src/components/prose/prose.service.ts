@@ -3,6 +3,8 @@ import { AppDataSource } from '../../db';
 import { Prose } from './prose.entity';
 // Utils
 import { shuffle } from '../../utils/shuffle';
+// Schema
+import { createSchema, updateSchema } from './prose.schema';
 export class ProseService {
   public async getAllWithPoetName(): Promise<Prose[] | false> {
     const proses = await AppDataSource.getRepository(Prose).find({
@@ -55,6 +57,9 @@ export class ProseService {
   }
 
   public async post(proseData: Prose): Promise<Prose | false> {
+    const isValid = await createSchema.isValid(proseData);
+    if (!isValid) return false;
+
     const prose = new Prose();
     prose.poet = proseData.poet;
     prose.tags = proseData.tags;
@@ -67,6 +72,9 @@ export class ProseService {
   }
 
   public async update(id: string, proseData: Prose): Promise<Prose | false> {
+    const isValid = await updateSchema.isValid(proseData);
+    if (!isValid) return false;
+
     const prose = await AppDataSource.getRepository(Prose).findOneBy({ id });
     if (!prose) return false;
     AppDataSource.getRepository(Prose).merge(prose, proseData);

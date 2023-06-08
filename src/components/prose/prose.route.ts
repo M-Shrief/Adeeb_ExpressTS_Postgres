@@ -36,18 +36,15 @@ export class ProseRoute implements IRoute {
       '/prose',
       validate([
         body('poet').isUUID().withMessage(ERROR_MSG.POET),
-
         body('tags')
           .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.TAGS),
-
         body('qoute')
           .isLength({ min: 4, max: 400 })
           .isString()
           .withMessage(ERROR_MSG.QOUTE),
-
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
       ]),
       this.controller.post,
