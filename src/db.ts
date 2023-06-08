@@ -3,12 +3,12 @@ import { DataSource } from 'typeorm';
 // Config
 import { DB } from './config';
 // Entities
-import { Poet } from '@poet/poet.entity';
-import { Poem } from '@poem/poem.entity';
-import { ChosenVerse } from '@chosenVerse/chosenVerse.entity';
-import { Prose } from '@prose/prose.entity';
-import { Partner } from '@partner/partner.entity';
-import { Order } from '@order/order.entity';
+import { Poet } from './components/poet/poet.entity';
+import { Poem } from './components/poem/poem.entity';
+import { ChosenVerse } from './components/chosenVerse/chosenVerse.entity';
+import { Prose } from './components/prose/prose.entity';
+import { Partner } from './components/partner/partner.entity';
+import { Order } from './components/order/order.entity';
 // Utils
 import { logger } from './utils/logger';
 

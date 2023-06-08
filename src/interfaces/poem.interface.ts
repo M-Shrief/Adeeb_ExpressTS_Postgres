@@ -4,7 +4,7 @@ import { PoetType } from './poet.interface';
 export interface PoemType {
   id: string;
   intro: string;
-  poet: string | PoetType['details'];
+  poet: string | PoetType;
   verses: VerseType[];
   reviewed: boolean;
 }

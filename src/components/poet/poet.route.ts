@@ -3,11 +3,11 @@ import { body, param } from 'express-validator';
 // Controller
 import { PoetController } from './poet.controller';
 // Types
-import { IRoute } from '@/interfaces/route.interface';
+import { IRoute } from '../../interfaces/route.interface';
 import { ERROR_MSG } from './poet.constants';
 // middlewares
-import { validate } from '@/middlewares/validate.middleware';
-import { setCache } from '@/middlewares/cache.middleware';
+import { validate } from '../../middlewares/validate.middleware';
+import { setCache } from '../../middlewares/cache.middleware';
 
 export class PoetRoute implements IRoute {
   public router: Router = Router();

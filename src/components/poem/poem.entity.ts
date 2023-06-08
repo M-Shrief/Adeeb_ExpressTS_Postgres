@@ -7,10 +7,10 @@ import {
   OneToMany,
 } from 'typeorm';
 // entities
-import { Poet } from '@poet/poet.entity';
-import { ChosenVerse } from '@chosenVerse/chosenVerse.entity';
+import { Poet } from '../poet/poet.entity';
+import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
 // Types
-import { VerseType } from '@/interfaces/__types__';
+import { VerseType } from '../../interfaces/__types__';
 
 @Entity()
 export class Poem {

@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { ChosenVerseService } from './chosenVerse.service';
 // Types
-import { ERROR_MSG } from '@/interfaces/chosenVerse.interface';
+import { ERROR_MSG } from '../../interfaces/chosenVerse.interface';
 // Utils
-import { AppError } from '@/utils/errorsCenter/appError';
-import HttpStatusCode from '@/utils/httpStatusCode';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class ChosenVerseController {
   private chosenVerseService = new ChosenVerseService();

@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { PoemService } from './poem.service';
 // Types
-import { ERROR_MSG } from '@/interfaces/poem.interface';
+import { ERROR_MSG } from '../../interfaces/poem.interface';
 // Utils
-import { AppError } from '@/utils/errorsCenter/appError';
-import HttpStatusCode from '@/utils/httpStatusCode';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class PoemController {
   private poemService = new PoemService();

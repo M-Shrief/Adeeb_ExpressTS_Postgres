@@ -1,8 +1,8 @@
-import { AppDataSource } from '@/db';
+import { AppDataSource } from '../../db';
 // Entities
 import { Prose } from './prose.entity';
 // Utils
-import { shuffle } from '@/utils/shuffle';
+import { shuffle } from '../../utils/shuffle';
 export class ProseService {
   public async getAllWithPoetName(): Promise<Prose[] | false> {
     const proses = await AppDataSource.getRepository(Prose).find({

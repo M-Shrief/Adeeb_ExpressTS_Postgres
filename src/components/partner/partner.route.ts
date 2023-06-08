@@ -3,16 +3,16 @@ import { body, param } from 'express-validator';
 // Controller
 import { PartnerController } from './partner.controller';
 // Types
-import { IRoute } from '@/interfaces/route.interface';
-import { ERROR_MSG } from '@/interfaces/partner.interface';
+import { IRoute } from '../../interfaces/route.interface';
+import { ERROR_MSG } from '../../interfaces/partner.interface';
 // middlewares
-import { validate } from '@/middlewares/validate.middleware';
+import { validate } from '../../middlewares/validate.middleware';
 import {
   guard,
   jwtToken,
   authErrorHandler,
-} from '@/middlewares/auth.middleware';
-import { setCache } from '@/middlewares/cache.middleware';
+} from '../../middlewares/auth.middleware';
+import { setCache } from '../../middlewares/cache.middleware';
 export class PartnerRoute implements IRoute {
   public router: Router = Router();
   private controller: PartnerController = new PartnerController();

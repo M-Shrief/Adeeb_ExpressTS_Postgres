@@ -1,5 +1,5 @@
 // Database
-import { AppDataSource } from '@/db';
+import { AppDataSource } from '../../db';
 // Entities
 import { Poet } from './poet.entity';
 // Schema

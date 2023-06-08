@@ -9,15 +9,16 @@
     "strict": true,
     "outDir": "./dist",
     "rootDir": "src",
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"],
-      "@poet/*": ["./components/poet/*"],
-      "@poem/*": ["components/poem/*"],
-      "@chosenVerse/*": ["components/chosenVerse/*"],
-      "@prose/*": ["components/prose/*"],
-      "@partner/*": ["components/partner/*"],
-      "@order/*": ["components/order/*"]
-    }
+    "sourceMap": true
+    // "baseUrl": "./src"
+    // "paths": {
+    //   "@/*": ["*"],
+    //   "@poet/*": ["components/poet/*"],
+    //   "@poem/*": ["components/poem/*"],
+    //   "@chosenVerse/*": ["components/chosenVerse/*"],
+    //   "@prose/*": ["components/prose/*"],
+    //   "@partner/*": ["components/partner/*"],
+    //   "@order/*": ["components/order/*"]
+    // }
   }
 }

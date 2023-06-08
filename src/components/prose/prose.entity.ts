@@ -6,7 +6,7 @@ import {
   Column,
 } from 'typeorm';
 // Entities
-import { Poet } from '@poet/poet.entity';
+import { Poet } from '../poet/poet.entity';
 
 @Entity()
 export class Prose {

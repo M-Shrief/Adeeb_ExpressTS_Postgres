@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { ProseService } from './prose.service';
 // Types
-import { ERROR_MSG } from '@/interfaces/prose.interface';
+import { ERROR_MSG } from '../../interfaces/prose.interface';
 // Utils
-import { AppError } from '@/utils/errorsCenter/appError';
-import HttpStatusCode from '@/utils/httpStatusCode';
+import { AppError } from '../../utils/errorsCenter/appError';
+import HttpStatusCode from '../../utils/httpStatusCode';
 
 export class ProseController {
   private proseService: ProseService = new ProseService();
