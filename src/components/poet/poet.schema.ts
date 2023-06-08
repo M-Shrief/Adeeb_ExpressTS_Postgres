@@ -1,17 +1,15 @@
 import { object, string, boolean } from 'yup';
-import { Time_Period } from './poet.constants';
-
-export const uuidSchema = string().uuid().required();
+import { Time_Period } from '../../interfaces/poet.interface';
 
 export const createSchema = object({
-  name: string().defined(),
-  time_period: string().oneOf(Time_Period),
-  bio: string().min(4).max(500),
-  reviewed: boolean().optional(),
+  name: string().min(4).max(50).required(),
+  time_period: string().oneOf(Time_Period).required(),
+  bio: string().min(4).max(500).required(),
+  reviewed: boolean().optional().default(true),
 });
 
 export const updateSchema = object({
-  name: string().optional().defined().min(2).max(50),
+  name: string().optional().min(2).max(50),
   time_period: string().optional().oneOf(Time_Period),
   bio: string().optional().min(4).max(500),
   reviewed: boolean().optional(),

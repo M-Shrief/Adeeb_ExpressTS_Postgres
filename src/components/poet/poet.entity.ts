@@ -5,7 +5,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { TimePeriodType } from './poet.constants';
+import { TimePeriodType } from '../../interfaces/poet.interface';
 // Entities
 import { Poem } from '../poem/poem.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';

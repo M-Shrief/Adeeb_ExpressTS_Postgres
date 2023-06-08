@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { PoetService } from './poet.service';
 // Types
-import { ERROR_MSG } from './poet.constants';
+import { ERROR_MSG } from '../../interfaces/poet.interface';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
