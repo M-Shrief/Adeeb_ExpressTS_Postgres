@@ -4,6 +4,8 @@ import { AppDataSource } from '../../db';
 import { ChosenVerse } from './chosenVerse.entity';
 // Utils
 import { shuffle } from '../../utils/shuffle';
+// Schema
+import { createSchema, updateSchema } from './chosenVerse.schema';
 export class ChosenVerseService {
   public async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
     const chosenVerses = await AppDataSource.getRepository(ChosenVerse).find({
@@ -68,6 +70,9 @@ export class ChosenVerseService {
   public async post(
     chosenVerseData: ChosenVerse,
   ): Promise<ChosenVerse | false> {
+    const isValid = await createSchema.isValid(chosenVerseData);
+    if (!isValid) return false;
+
     const chosenVerse = new ChosenVerse();
     chosenVerse.poet = chosenVerseData.poet;
     chosenVerse.poem = chosenVerseData.poem;
@@ -85,6 +90,9 @@ export class ChosenVerseService {
     id: string,
     chosenVerseData: ChosenVerse,
   ): Promise<ChosenVerse | false> {
+    const isValid = await updateSchema.isValid(chosenVerseData);
+    if (!isValid) return false;
+
     const chosenVerse = await AppDataSource.getRepository(
       ChosenVerse,
     ).findOneBy({

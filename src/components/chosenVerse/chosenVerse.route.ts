@@ -37,9 +37,7 @@ export class ChosenVerseRoute implements IRoute {
       '/chosenverse',
       validate([
         body('poet').isUUID().withMessage(ERROR_MSG.POET),
-
         body('poem').isUUID().withMessage(ERROR_MSG.POEM),
-
         body('tags')
           .isLength({ min: 4, max: 50 })
           .isString()
