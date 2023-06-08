@@ -12,7 +12,7 @@ export class PartnerService {
       select: {
         name: true,
         phone: true,
-        addresses: true,
+        address: true,
         orders: {
           id: true,
           // address: true,
@@ -36,7 +36,7 @@ export class PartnerService {
 
     partner.name = partnerData.name;
     partner.phone = partnerData.phone;
-    partner.addresses = partnerData.addresses;
+    partner.address = partnerData.address;
     partner.password = password;
 
     const newPartner = await AppDataSource.getRepository(Partner).save(partner);

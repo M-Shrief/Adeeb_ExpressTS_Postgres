@@ -47,7 +47,11 @@ export class PartnerRoute implements IRoute {
           .isMobilePhone('any')
           .withMessage(ERROR_MSG.PHONE),
 
-        body('addresses').isArray({ min: 1 }).withMessage(ERROR_MSG.ADDRESSES),
+        body('address')
+          .isLength({ min: 4, max: 50 })
+          .isString()
+          .escape()
+          .withMessage(ERROR_MSG.ADDRESS),
 
         body('password')
           .isString()
@@ -94,10 +98,12 @@ export class PartnerRoute implements IRoute {
             .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
 
-          body('addresses')
+          body('address')
             .optional()
-            .isArray({ min: 1 })
-            .withMessage(ERROR_MSG.ADDRESSES), // should have more
+            .isLength({ min: 4, max: 50 })
+            .isString()
+            .escape()
+            .withMessage(ERROR_MSG.ADDRESS), // should have more
 
           body('password')
             .optional()

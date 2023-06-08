@@ -19,8 +19,8 @@ export class Partner {
   @Column({ type: 'varchar', length: 50 })
   phone!: string;
 
-  @Column({ type: 'varchar', array: true, nullable: false })
-  addresses!: string[];
+  @Column({ type: 'varchar', length: 50 })
+  address!: string;
 
   @Column({ type: 'varchar', length: 100 })
   password!: string;
