@@ -49,6 +49,9 @@ export class PoetRoute implements IRoute {
       ]),
       this.controller.post,
     );
+
+    this.router.post('/poets', this.controller.postMany);
+
     this.router.put(
       '/poet/:id',
       validate([

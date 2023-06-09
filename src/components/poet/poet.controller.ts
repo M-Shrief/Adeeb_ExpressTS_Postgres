@@ -55,6 +55,21 @@ export class PoetController {
     }
   };
 
+  public postMany = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const poets = await this.poetService.postMany(req.body);
+      if (!poets)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          ERROR_MSG.NOT_VALID,
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(poets);
+    } catch (errors) {
+      next(errors);
+    }
+  };
+
   public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const poet = await this.poetService.update(req.params.id, req.body);
