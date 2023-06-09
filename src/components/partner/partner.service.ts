@@ -60,18 +60,16 @@ export class PartnerService {
   public async update(
     id: string,
     partnerData: Partner,
-  ): Promise<Partner | false> {
+  ): Promise<number | false> {
     const isValid = await updateSchema.isValid(partnerData);
     if (!isValid) return false;
 
-    const partner = await AppDataSource.getRepository(Partner).findOneBy({
+    const newPartner = await AppDataSource.getRepository(Partner).update(
       id,
-    });
-    if (!partner) return false;
-    AppDataSource.getRepository(Partner).merge(partner, partnerData);
-    const newPartner = await AppDataSource.getRepository(Partner).save(partner);
-    if (!newPartner) return false;
-    return newPartner;
+      partnerData,
+    );
+    if (!newPartner.affected) return false;
+    return newPartner.affected;
   }
 
   public async remove(id: string): Promise<number | false> {

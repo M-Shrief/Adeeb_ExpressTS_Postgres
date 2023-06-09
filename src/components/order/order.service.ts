@@ -60,15 +60,15 @@ export class OrderService {
     return newOrder;
   }
 
-  public async update(id: string, orderData: Order): Promise<Order | false> {
+  public async update(id: string, orderData: Order): Promise<number | false> {
     const isValid = await updateSchema.isValid(orderData);
     if (!isValid) return false;
-    const order = await AppDataSource.getRepository(Order).findOneBy({ id });
-    if (!order) return false;
-    AppDataSource.getRepository(Order).merge(order, orderData);
-    const newOrder = await AppDataSource.getRepository(Order).save(order);
-    if (!newOrder) return false;
-    return order;
+    const newOrder = await AppDataSource.getRepository(Order).update(
+      id,
+      orderData,
+    );
+    if (!newOrder.affected) return false;
+    return newOrder.affected;
   }
 
   public async remove(id: string): Promise<number | false> {

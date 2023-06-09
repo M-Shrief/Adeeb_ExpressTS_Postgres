@@ -89,25 +89,15 @@ export class ChosenVerseService {
   public async update(
     id: string,
     chosenVerseData: ChosenVerse,
-  ): Promise<ChosenVerse | false> {
+  ): Promise<number | false> {
     const isValid = await updateSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const chosenVerse = await AppDataSource.getRepository(
+    const newChosenVerse = await AppDataSource.getRepository(
       ChosenVerse,
-    ).findOneBy({
-      id,
-    });
-    if (!chosenVerse) return false;
-    AppDataSource.getRepository(ChosenVerse).merge(
-      chosenVerse,
-      chosenVerseData,
-    );
-    const newChosenVerse = await AppDataSource.getRepository(ChosenVerse).save(
-      chosenVerse,
-    );
-    if (!newChosenVerse) return false;
-    return newChosenVerse;
+    ).update(id, chosenVerseData);
+    if (!newChosenVerse.affected) return false;
+    return newChosenVerse.affected;
   }
 
   public async remove(id: string): Promise<number | false> {

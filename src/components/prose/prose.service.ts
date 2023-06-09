@@ -5,6 +5,7 @@ import { Prose } from './prose.entity';
 import { shuffle } from '../../utils/shuffle';
 // Schema
 import { createSchema, updateSchema } from './prose.schema';
+import { UpdateResult } from 'typeorm';
 export class ProseService {
   public async getAllWithPoetName(): Promise<Prose[] | false> {
     const proses = await AppDataSource.getRepository(Prose).find({
@@ -71,16 +72,15 @@ export class ProseService {
     return newProse;
   }
 
-  public async update(id: string, proseData: Prose): Promise<Prose | false> {
+  public async update(id: string, proseData: Prose): Promise<number | false> {
     const isValid = await updateSchema.isValid(proseData);
     if (!isValid) return false;
-
-    const prose = await AppDataSource.getRepository(Prose).findOneBy({ id });
-    if (!prose) return false;
-    AppDataSource.getRepository(Prose).merge(prose, proseData);
-    const newProse = await AppDataSource.getRepository(Prose).save(prose);
-    if (!newProse) return false;
-    return newProse;
+    const newProse = await AppDataSource.getRepository(Prose).update(
+      id,
+      proseData,
+    );
+    if (!newProse.affected) return false;
+    return newProse.affected;
   }
 
   public async remove(id: string): Promise<number | false> {

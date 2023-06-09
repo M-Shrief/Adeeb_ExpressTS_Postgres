@@ -71,16 +71,16 @@ export class PoetService {
     return newPoet;
   }
 
-  public async update(id: string, poetData: Poet): Promise<Poet | false> {
+  public async update(id: string, poetData: Poet): Promise<number | false> {
     const isValid = await updateSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const poet = await AppDataSource.getRepository(Poet).findOneBy({ id });
-    if (!poet) return false;
-    AppDataSource.getRepository(Poet).merge(poet, poetData);
-    const newPoet = await AppDataSource.getRepository(Poet).save(poet);
-    if (!newPoet) return false;
-    return newPoet;
+    const newPoet = await AppDataSource.getRepository(Poet).update(
+      id,
+      poetData,
+    );
+    if (!newPoet.affected) return false;
+    return newPoet.affected;
   }
 
   public async remove(id: string): Promise<number | false> {

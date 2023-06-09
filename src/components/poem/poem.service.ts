@@ -82,16 +82,16 @@ export class PoemService {
     return newPoem;
   }
 
-  public async update(id: string, poemData: Poem): Promise<Poem | false> {
+  public async update(id: string, poemData: Poem): Promise<number | false> {
     const isValid = await updateSchema.isValid(poemData);
     if (!isValid) return false;
 
-    const poem = await AppDataSource.getRepository(Poem).findOneBy({ id });
-    if (!poem) return false;
-    AppDataSource.getRepository(Poem).merge(poem, poemData);
-    const newPoem = await AppDataSource.getRepository(Poem).save(poem);
-    if (!newPoem) return false;
-    return newPoem;
+    const newPoem = await AppDataSource.getRepository(Poem).update(
+      id,
+      poemData,
+    );
+    if (!newPoem.affected) return false;
+    return newPoem.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
