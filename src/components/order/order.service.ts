@@ -1,7 +1,8 @@
 import { AppDataSource } from '../../db';
 // Entities
 import { Order } from './order.entity';
-
+// Schema
+import { createSchema, updateSchema } from './order.schema';
 export class OrderService {
   public async getGuestOrders(
     name: string,
@@ -42,29 +43,26 @@ export class OrderService {
   }
 
   public async post(orderData: Order): Promise<Order | false> {
+    const isValid = await createSchema.isValid(orderData);
+    if (!isValid) return false;
+
     const order = new Order();
-    if (orderData.partner) {
-      order.partner = orderData.partner;
-      order.name = orderData.name;
-      order.phone = orderData.phone;
-      order.address = orderData.address;
-      order.reviewed = orderData.reviewed;
-      order.completed = orderData.completed;
-      order.products = orderData.products;
-    } else {
-      order.name = orderData.name;
-      order.phone = orderData.phone;
-      order.address = orderData.address;
-      order.reviewed = orderData.reviewed;
-      order.completed = orderData.completed;
-      order.products = orderData.products;
-    }
+    if (orderData.partner) order.partner = orderData.partner;
+    order.name = orderData.name;
+    order.phone = orderData.phone;
+    order.address = orderData.address;
+    order.reviewed = orderData.reviewed;
+    order.completed = orderData.completed;
+    order.products = orderData.products;
+
     const newOrder = await AppDataSource.getRepository(Order).save(order);
     if (!newOrder) return false;
     return newOrder;
   }
 
   public async update(id: string, orderData: Order): Promise<Order | false> {
+    const isValid = await updateSchema.isValid(orderData);
+    if (!isValid) return false;
     const order = await AppDataSource.getRepository(Order).findOneBy({ id });
     if (!order) return false;
     AppDataSource.getRepository(Order).merge(order, orderData);
