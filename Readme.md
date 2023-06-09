@@ -26,8 +26,13 @@
     Beside validating requests, and jwt authentication. Using (\*.route.ts)
     naming convention for every module.
 
+  - _schema_ file for validation data for post and update methods by **Yup**.
+    Using (\*.schema.ts) naming convention for every module.
+
 - _./interfaces_ file for types' declarations, using (\*.interface.ts) naming
   convention for every module, beside \_**\_types\_\_** for general types. Every interface has an Enum: **ERROR_MSG** for this interface error messages.
+
+- _./schemas_ file for shared Yup schemas
 
 - _./middlewares_ file for containing reused middlewares, which are used across
   the app, using (\*.middleware.ts) naming convention for every module.
