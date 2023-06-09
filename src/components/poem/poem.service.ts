@@ -71,15 +71,22 @@ export class PoemService {
     const isValid = await createSchema.isValid(poemData);
     if (!isValid) return false;
 
-    const poem = new Poem();
-    poem.intro = poemData.intro;
-    poem.poet = poemData.poet;
-    poem.verses = poemData.verses;
-    poem.reviewed = poemData.reviewed;
-
-    const newPoem = await AppDataSource.getRepository(Poem).save(poem);
+    const newPoem = await AppDataSource.getRepository(Poem).save(poemData);
     if (!newPoem) return false;
     return newPoem;
+  }
+
+  public async postMany(poemsData: Poem[]): Promise<Poem[] | false> {
+    const validPoems: Poem[] = poemsData.filter(
+      async (poemsData) => await createSchema.isValid(poemsData),
+    );
+    if (!validPoems.length) return false;
+
+    const newPoems = await AppDataSource.getRepository(Poem).save([
+      ...validPoems,
+    ]);
+    if (!newPoems.length) return false;
+    return newPoems;
   }
 
   public async update(id: string, poemData: Poem): Promise<number | false> {

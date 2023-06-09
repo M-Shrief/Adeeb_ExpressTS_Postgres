@@ -70,11 +70,11 @@ export class PoetService {
     );
     if (!validPoets.length) return false;
 
-    const newProses = await AppDataSource.getRepository(Poet).save([
+    const newPoets = await AppDataSource.getRepository(Poet).save([
       ...validPoets,
     ]);
-    if (!newProses.length) return false;
-    return newProses;
+    if (!newPoets.length) return false;
+    return newPoets;
   }
 
   public async update(id: string, poetData: Poet): Promise<number | false> {
