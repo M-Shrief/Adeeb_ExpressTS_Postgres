@@ -69,6 +69,7 @@ export class ProseService {
     const validProses: Prose[] = prosesData.filter(
       async (proseData) => await createSchema.isValid(proseData),
     );
+    if (!validProses.length) return false;
 
     const newProses = await AppDataSource.getRepository(Prose).save([
       ...validProses,
