@@ -80,6 +80,21 @@ export class ProseController {
     }
   };
 
+  public postMany = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const proses = await this.proseService.postMany(req.body);
+      if (!proses)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          ERROR_MSG.NOT_VALID,
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(proses);
+    } catch (errors) {
+      next(errors);
+    }
+  };
+
   public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const prose = await this.proseService.update(req.params.id, req.body);

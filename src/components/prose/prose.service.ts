@@ -5,7 +5,6 @@ import { Prose } from './prose.entity';
 import { shuffle } from '../../utils/shuffle';
 // Schema
 import { createSchema, updateSchema } from './prose.schema';
-import { UpdateResult } from 'typeorm';
 export class ProseService {
   public async getAllWithPoetName(): Promise<Prose[] | false> {
     const proses = await AppDataSource.getRepository(Prose).find({
@@ -61,15 +60,21 @@ export class ProseService {
     const isValid = await createSchema.isValid(proseData);
     if (!isValid) return false;
 
-    const prose = new Prose();
-    prose.poet = proseData.poet;
-    prose.tags = proseData.tags;
-    prose.qoute = proseData.qoute;
-    prose.reviewed = proseData.reviewed;
-
-    const newProse = await AppDataSource.getRepository(Prose).save(prose);
+    const newProse = await AppDataSource.getRepository(Prose).save(proseData);
     if (!newProse) return false;
     return newProse;
+  }
+
+  public async postMany(prosesData: Prose[]): Promise<Prose[] | false> {
+    const validProses: Prose[] = prosesData.filter(
+      async (proseData) => await createSchema.isValid(proseData),
+    );
+
+    const newProses = await AppDataSource.getRepository(Prose).save([
+      ...validProses,
+    ]);
+    if (!newProses.length) return false;
+    return newProses;
   }
 
   public async update(id: string, proseData: Prose): Promise<number | false> {

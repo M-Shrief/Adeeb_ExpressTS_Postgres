@@ -49,6 +49,9 @@ export class ProseRoute implements IRoute {
       ]),
       this.controller.post,
     );
+
+    this.router.post('/proses', this.controller.postMany);
+
     this.router.put(
       '/prose/:id',
       validate([
