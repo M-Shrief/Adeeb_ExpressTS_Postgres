@@ -82,6 +82,21 @@ export class ChosenVerseController {
     }
   };
 
+  public postMany = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const chosenVerses = await this.chosenVerseService.postMany(req.body);
+      if (!chosenVerses)
+        throw new AppError(
+          HttpStatusCode.NOT_ACCEPTABLE,
+          ERROR_MSG.NOT_VALID,
+          true,
+        );
+      res.status(HttpStatusCode.CREATED).send(chosenVerses);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const chosenVerse = await this.chosenVerseService.update(

@@ -73,17 +73,26 @@ export class ChosenVerseService {
     const isValid = await createSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const chosenVerse = new ChosenVerse();
-    chosenVerse.poet = chosenVerseData.poet;
-    chosenVerse.poem = chosenVerseData.poem;
-    chosenVerse.tags = chosenVerseData.tags;
-    chosenVerse.verses = chosenVerseData.verses;
-    chosenVerse.reviewed = chosenVerseData.reviewed;
     const newChosenVerse = await AppDataSource.getRepository(ChosenVerse).save(
-      chosenVerse,
+      chosenVerseData,
     );
     if (!newChosenVerse) return false;
     return newChosenVerse;
+  }
+
+  public async postMany(
+    chosenVersesData: ChosenVerse[],
+  ): Promise<ChosenVerse[] | false> {
+    const validChosenVerses = chosenVersesData.filter(
+      async (chosenVerseData) => await createSchema.isValid(chosenVerseData),
+    );
+    if (!validChosenVerses.length) return false;
+
+    const newChosenVerses = await AppDataSource.getRepository(ChosenVerse).save(
+      chosenVersesData,
+    );
+    if (!newChosenVerses) return false;
+    return newChosenVerses;
   }
 
   public async update(
