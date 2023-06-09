@@ -1,15 +1,17 @@
 import { object, string } from 'yup';
+import { nameSchema, phoneSchema, addressSchema } from '../../schemas';
+const passwordSchema = string().min(4).max(100);
 
 export const createSchema = object({
-  name: string().min(4).max(50).required(),
-  phone: string().min(4).max(50).required(),
-  address: string().min(4).max(50).required(),
-  password: string().min(4).max(100).required(),
+  name: nameSchema.required(),
+  phone: phoneSchema.required(),
+  address: addressSchema.required(),
+  password: passwordSchema.required(),
 });
 
 export const updateSchema = object({
-  name: string().min(4).max(50).optional(),
-  phone: string().min(4).max(50).optional(),
-  address: string().min(4).max(50).optional(),
-  password: string().min(4).max(100).optional(),
+  name: nameSchema.optional(),
+  phone: phoneSchema.optional(),
+  address: addressSchema.optional(),
+  password: passwordSchema.optional(),
 });

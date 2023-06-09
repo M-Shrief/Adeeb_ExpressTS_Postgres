@@ -1,29 +1,16 @@
-import { object, string, boolean, array } from 'yup';
+import { object, boolean } from 'yup';
+import { uuidSchema, versesSchema, introSchema } from '../../schemas';
 
 export const createSchema = object({
-  intro: string().min(4).max(50).required(),
-  poet: string().uuid().required(),
-  verses: array()
-    .of(
-      object().shape({
-        first: string().min(4).max(50).required(),
-        sec: string().min(4).max(50).required(),
-      }),
-    )
-    .required(),
+  intro: introSchema.required(),
+  poet: uuidSchema.required(),
+  verses: versesSchema.required(),
   reviewed: boolean().default(true),
 });
 
 export const updateSchema = object({
-  intro: string().min(4).max(50).optional(),
-  poet: string().uuid().optional(),
-  verses: array()
-    .of(
-      object().shape({
-        first: string().min(4).max(50).required(),
-        sec: string().min(4).max(50).required(),
-      }),
-    )
-    .optional(),
+  intro: introSchema.optional(),
+  poet: uuidSchema.optional(),
+  verses: versesSchema.optional(),
   reviewed: boolean().optional(),
 });

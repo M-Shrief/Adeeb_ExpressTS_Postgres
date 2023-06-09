@@ -13,15 +13,6 @@ export interface PoetType {
   proses: ProseType[];
 }
 
-export const Time_Period = [
-  'جاهلي',
-  'أموي',
-  'عباسي',
-  'أندلسي',
-  'عثماني ومملوكي',
-  'متأخر وحديث',
-];
-
 export type TimePeriodType =
   | 'جاهلي'
   | 'أموي'

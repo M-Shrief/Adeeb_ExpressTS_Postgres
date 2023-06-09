@@ -7,7 +7,7 @@ export interface VerseType {
 }
 
 export interface Print {
-  id: string;
+  id?: string;
   peot?: string | PoetType;
   poem?: string | PoemType;
   reviewed: boolean;
@@ -18,14 +18,12 @@ export interface Print {
   sec?: string;
 }
 export interface Product {
-  id: string;
   print: Print;
   fontType: string;
   fontColor: string;
   backgroundColor: string;
 }
 export interface ProductGroup {
-  id: string;
   prints: Print[];
   fontType: string;
   fontColor: string;
