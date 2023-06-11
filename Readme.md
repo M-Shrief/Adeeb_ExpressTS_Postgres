@@ -55,5 +55,4 @@
 ### Currently working on:
 
 - Dealing with cookies and authentication better
-- Fixing bugs in error handling
-- Guarding routes
+- Imporve routes' guards
