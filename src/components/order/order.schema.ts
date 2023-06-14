@@ -4,7 +4,6 @@ import {
   uuidSchema,
   phoneSchema,
   addressSchema,
-  tagsSchema,
   versesSchema,
   qouteSchema,
 } from '../../schemas';
@@ -12,14 +11,9 @@ import {
 const customizationSchema = string().min(1).max(10);
 const printSchema = object({
   id: uuidSchema.optional(),
-  poet: uuidSchema.optional(),
   poem: uuidSchema.optional(),
-  reviewed: boolean().optional(),
-  tags: tagsSchema.optional(),
-  verse: versesSchema.optional(),
+  verses: versesSchema.optional(),
   qoute: qouteSchema.optional(),
-  first: string().min(4).max(50).optional(),
-  sec: string().min(4).max(50).optional(),
 });
 
 const productsSchema = array().of(

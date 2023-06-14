@@ -1,4 +1,3 @@
-import { PoetType } from './poet.interface';
 import { PoemType } from './poem.interface';
 // General and reused types
 export interface VerseType {
@@ -8,14 +7,9 @@ export interface VerseType {
 
 export interface Print {
   id?: string;
-  peot?: string | PoetType;
-  poem?: string | PoemType;
-  reviewed: boolean;
-  tags?: string;
+  poem?: string;
   verse?: VerseType[];
   qoute?: string;
-  first?: string;
-  sec?: string;
 }
 export interface Product {
   print: Print;

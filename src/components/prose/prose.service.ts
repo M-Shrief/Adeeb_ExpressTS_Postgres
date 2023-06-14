@@ -28,7 +28,8 @@ export class ProseService {
 
   public async getRandomWithPoetName(num: number): Promise<Prose[] | false> {
     const proses = await AppDataSource.getRepository(Prose)
-      .createQueryBuilder('proses')
+      .createQueryBuilder('prose')
+      .select(['prose.id', 'prose.qoute'])
       .orderBy('RANDOM()')
       .limit(num)
       .getMany();

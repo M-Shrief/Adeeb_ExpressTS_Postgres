@@ -35,7 +35,8 @@ export class ChosenVerseService {
     num: number,
   ): Promise<ChosenVerse[] | false> {
     const chosenVerses = await AppDataSource.getRepository(ChosenVerse)
-      .createQueryBuilder('chosen_verses')
+      .createQueryBuilder('chosenVerse')
+      .select(['chosenVerse.id', 'chosenVerse.verses'])
       .orderBy('RANDOM()')
       .limit(num)
       .cache(false)
