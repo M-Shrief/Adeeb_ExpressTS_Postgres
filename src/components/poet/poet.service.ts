@@ -5,8 +5,10 @@ import { Poet } from './poet.entity';
 // Schema
 import { createSchema, updateSchema } from './poet.schema';
 export class PoetService {
+  private poetRepository = AppDataSource.getRepository(Poet);
+
   public async getAll(): Promise<Poet[] | false> {
-    const poets = await AppDataSource.getRepository(Poet).find({
+    const poets = await this.poetRepository.find({
       select: {
         id: true,
         name: true,
@@ -25,7 +27,7 @@ export class PoetService {
   }
 
   public async getOneWithLiterature(id: string): Promise<Poet | false> {
-    const poet = await AppDataSource.getRepository(Poet).findOne({
+    const poet = await this.poetRepository.findOne({
       where: { id },
       select: {
         id: true,
@@ -59,7 +61,7 @@ export class PoetService {
     const isValid = await createSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const newPoet = await AppDataSource.getRepository(Poet).save(poetData);
+    const newPoet = await this.poetRepository.save(poetData);
     if (!newPoet) return false;
     return newPoet;
   }
@@ -70,9 +72,7 @@ export class PoetService {
     );
     if (!validPoets.length) return false;
 
-    const newPoets = await AppDataSource.getRepository(Poet).save([
-      ...validPoets,
-    ]);
+    const newPoets = await this.poetRepository.save([...validPoets]);
     if (!newPoets.length) return false;
     return newPoets;
   }
@@ -81,16 +81,13 @@ export class PoetService {
     const isValid = await updateSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const newPoet = await AppDataSource.getRepository(Poet).update(
-      id,
-      poetData,
-    );
+    const newPoet = await this.poetRepository.update(id, poetData);
     if (!newPoet.affected) return false;
     return newPoet.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
-    const poet = await AppDataSource.getRepository(Poet).delete(id);
+    const poet = await this.poetRepository.delete(id);
     if (!poet.affected) return false;
     return poet.affected;
   }

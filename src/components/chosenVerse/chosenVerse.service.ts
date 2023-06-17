@@ -7,8 +7,9 @@ import { shuffle } from '../../utils/shuffle';
 // Schema
 import { createSchema, updateSchema } from './chosenVerse.schema';
 export class ChosenVerseService {
+  private chosenVerseRepository = AppDataSource.getRepository(ChosenVerse);
   public async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
-    const chosenVerses = await AppDataSource.getRepository(ChosenVerse).find({
+    const chosenVerses = await this.chosenVerseRepository.find({
       select: {
         id: true,
         poet: {
@@ -34,7 +35,7 @@ export class ChosenVerseService {
   public async getRandomWithPoetName(
     num: number,
   ): Promise<ChosenVerse[] | false> {
-    const chosenVerses = await AppDataSource.getRepository(ChosenVerse)
+    const chosenVerses = await this.chosenVerseRepository
       .createQueryBuilder('chosenVerse')
       .select(['chosenVerse.id', 'chosenVerse.verses'])
       .orderBy('RANDOM()')
@@ -46,7 +47,7 @@ export class ChosenVerseService {
   }
 
   public async getOneWithPoetName(id: string): Promise<ChosenVerse | false> {
-    const chosenVerse = await AppDataSource.getRepository(ChosenVerse).findOne({
+    const chosenVerse = await this.chosenVerseRepository.findOne({
       where: { id },
       select: {
         id: true,
@@ -74,7 +75,7 @@ export class ChosenVerseService {
     const isValid = await createSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const newChosenVerse = await AppDataSource.getRepository(ChosenVerse).save(
+    const newChosenVerse = await this.chosenVerseRepository.save(
       chosenVerseData,
     );
     if (!newChosenVerse) return false;
@@ -89,7 +90,7 @@ export class ChosenVerseService {
     );
     if (!validChosenVerses.length) return false;
 
-    const newChosenVerses = await AppDataSource.getRepository(ChosenVerse).save(
+    const newChosenVerses = await this.chosenVerseRepository.save(
       chosenVersesData,
     );
     if (!newChosenVerses) return false;

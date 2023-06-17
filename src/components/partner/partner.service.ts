@@ -6,8 +6,9 @@ import { comparePassword, hashPassword } from '../../utils/auth';
 // Schema
 import { createSchema, updateSchema } from './partner.schema';
 export class PartnerService {
+  private partnerRepository = AppDataSource.getRepository(Partner);
   public async getInfo(id: string): Promise<Partner | false> {
-    const partner = await AppDataSource.getRepository(Partner).findOne({
+    const partner = await this.partnerRepository.findOne({
       where: { id },
       select: {
         name: true,
@@ -39,7 +40,7 @@ export class PartnerService {
     partner.address = partnerData.address;
     partner.password = password;
 
-    const newPartner = await AppDataSource.getRepository(Partner).save(partner);
+    const newPartner = await this.partnerRepository.save(partner);
     if (!newPartner) return false;
     return partner;
   }
@@ -64,16 +65,13 @@ export class PartnerService {
     const isValid = await updateSchema.isValid(partnerData);
     if (!isValid) return false;
 
-    const newPartner = await AppDataSource.getRepository(Partner).update(
-      id,
-      partnerData,
-    );
+    const newPartner = await this.partnerRepository.update(id, partnerData);
     if (!newPartner.affected) return false;
     return newPartner.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
-    const partner = await AppDataSource.getRepository(Partner).delete(id);
+    const partner = await this.partnerRepository.delete(id);
     if (!partner.affected) return false;
     return partner.affected;
   }

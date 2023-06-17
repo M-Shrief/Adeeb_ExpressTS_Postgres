@@ -4,11 +4,12 @@ import { Order } from './order.entity';
 // Schema
 import { createSchema, updateSchema } from './order.schema';
 export class OrderService {
+  private orderRepository = AppDataSource.getRepository(Order);
   public async getGuestOrders(
     name: string,
     phone: string,
   ): Promise<Order[] | false> {
-    const orders = await AppDataSource.getRepository(Order).find({
+    const orders = await this.orderRepository.find({
       where: { name, phone },
       select: {
         id: true,
@@ -25,7 +26,7 @@ export class OrderService {
   }
 
   public async getPartnerOrders(partnerId: string): Promise<Order[] | false> {
-    const orders = await AppDataSource.getRepository(Order).find({
+    const orders = await this.orderRepository.find({
       where: { partnerId },
       select: {
         id: true,
@@ -55,7 +56,7 @@ export class OrderService {
     order.completed = orderData.completed;
     order.products = orderData.products;
 
-    const newOrder = await AppDataSource.getRepository(Order).save(order);
+    const newOrder = await this.orderRepository.save(order);
     if (!newOrder) return false;
     return newOrder;
   }
@@ -63,16 +64,13 @@ export class OrderService {
   public async update(id: string, orderData: Order): Promise<number | false> {
     const isValid = await updateSchema.isValid(orderData);
     if (!isValid) return false;
-    const newOrder = await AppDataSource.getRepository(Order).update(
-      id,
-      orderData,
-    );
+    const newOrder = await this.orderRepository.update(id, orderData);
     if (!newOrder.affected) return false;
     return newOrder.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
-    const order = await AppDataSource.getRepository(Order).delete(id);
+    const order = await this.orderRepository.delete(id);
     if (!order.affected) return false;
     return order.affected;
   }

@@ -4,8 +4,9 @@ import { Poem } from './poem.entity';
 // Schema
 import { createSchema, updateSchema } from './poem.schema';
 export class PoemService {
+  private poemRepository = AppDataSource.getRepository(Poem);
   public async getAllWithPoetName(): Promise<Poem[] | false> {
-    const poems = await AppDataSource.getRepository(Poem).find({
+    const poems = await this.poemRepository.find({
       select: {
         id: true,
         intro: true,
@@ -27,7 +28,7 @@ export class PoemService {
   }
 
   public async getAllIntrosWithPoetName(): Promise<Poem[] | false> {
-    const poems = await AppDataSource.getRepository(Poem).find({
+    const poems = await this.poemRepository.find({
       select: {
         id: true,
         intro: true,
@@ -45,7 +46,7 @@ export class PoemService {
   }
 
   public async getOneWithPoet(id: string): Promise<Poem | false> {
-    const poem = await AppDataSource.getRepository(Poem).findOne({
+    const poem = await this.poemRepository.findOne({
       where: { id },
       select: {
         id: true,
@@ -71,7 +72,7 @@ export class PoemService {
     const isValid = await createSchema.isValid(poemData);
     if (!isValid) return false;
 
-    const newPoem = await AppDataSource.getRepository(Poem).save(poemData);
+    const newPoem = await this.poemRepository.save(poemData);
     if (!newPoem) return false;
     return newPoem;
   }
@@ -82,9 +83,7 @@ export class PoemService {
     );
     if (!validPoems.length) return false;
 
-    const newPoems = await AppDataSource.getRepository(Poem).save([
-      ...validPoems,
-    ]);
+    const newPoems = await this.poemRepository.save([...validPoems]);
     if (!newPoems.length) return false;
     return newPoems;
   }
@@ -93,16 +92,13 @@ export class PoemService {
     const isValid = await updateSchema.isValid(poemData);
     if (!isValid) return false;
 
-    const newPoem = await AppDataSource.getRepository(Poem).update(
-      id,
-      poemData,
-    );
+    const newPoem = await this.poemRepository.update(id, poemData);
     if (!newPoem.affected) return false;
     return newPoem.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
-    const poem = await AppDataSource.getRepository(Poem).delete(id);
+    const poem = await this.poemRepository.delete(id);
     if (!poem.affected) return false;
     return poem.affected;
   }

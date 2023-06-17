@@ -6,8 +6,9 @@ import { shuffle } from '../../utils/shuffle';
 // Schema
 import { createSchema, updateSchema } from './prose.schema';
 export class ProseService {
+  private proseRepository = AppDataSource.getRepository(Prose);
   public async getAllWithPoetName(): Promise<Prose[] | false> {
-    const proses = await AppDataSource.getRepository(Prose).find({
+    const proses = await this.proseRepository.find({
       select: {
         id: true,
         poet: {
@@ -27,7 +28,7 @@ export class ProseService {
   }
 
   public async getRandomWithPoetName(num: number): Promise<Prose[] | false> {
-    const proses = await AppDataSource.getRepository(Prose)
+    const proses = await this.proseRepository
       .createQueryBuilder('prose')
       .select(['prose.id', 'prose.qoute'])
       .orderBy('RANDOM()')
@@ -38,7 +39,7 @@ export class ProseService {
   }
 
   public async getOneWithPoetName(id: string): Promise<Prose | false> {
-    const prose = await AppDataSource.getRepository(Prose).findOne({
+    const prose = await this.proseRepository.findOne({
       where: { id },
       select: {
         id: true,
@@ -61,7 +62,7 @@ export class ProseService {
     const isValid = await createSchema.isValid(proseData);
     if (!isValid) return false;
 
-    const newProse = await AppDataSource.getRepository(Prose).save(proseData);
+    const newProse = await this.proseRepository.save(proseData);
     if (!newProse) return false;
     return newProse;
   }
@@ -72,9 +73,7 @@ export class ProseService {
     );
     if (!validProses.length) return false;
 
-    const newProses = await AppDataSource.getRepository(Prose).save([
-      ...validProses,
-    ]);
+    const newProses = await this.proseRepository.save([...validProses]);
     if (!newProses.length) return false;
     return newProses;
   }
@@ -82,16 +81,13 @@ export class ProseService {
   public async update(id: string, proseData: Prose): Promise<number | false> {
     const isValid = await updateSchema.isValid(proseData);
     if (!isValid) return false;
-    const newProse = await AppDataSource.getRepository(Prose).update(
-      id,
-      proseData,
-    );
+    const newProse = await this.proseRepository.update(id, proseData);
     if (!newProse.affected) return false;
     return newProse.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
-    const prose = await AppDataSource.getRepository(Prose).delete(id);
+    const prose = await this.proseRepository.delete(id);
     if (!prose.affected) return false;
     return prose.affected;
   }
