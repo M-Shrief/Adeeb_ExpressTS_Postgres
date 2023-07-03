@@ -42,7 +42,7 @@ export class PartnerService {
 
     const newPartner = await this.partnerRepository.save(partner);
     if (!newPartner) return false;
-    return partner;
+    return newPartner;
   }
 
   public async login(

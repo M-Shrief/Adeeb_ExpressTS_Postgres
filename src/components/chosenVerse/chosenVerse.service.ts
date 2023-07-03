@@ -4,6 +4,7 @@ import { AppDataSource } from '../../db';
 import { ChosenVerse } from './chosenVerse.entity';
 // Utils
 import { shuffle } from '../../utils/shuffle';
+import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Schema
 import { createSchema, updateSchema } from './chosenVerse.schema';
 export class ChosenVerseService {
@@ -84,17 +85,23 @@ export class ChosenVerseService {
 
   public async postMany(
     chosenVersesData: ChosenVerse[],
-  ): Promise<ChosenVerse[] | false> {
-    const validChosenVerses = chosenVersesData.filter(
-      async (chosenVerseData) => await createSchema.isValid(chosenVerseData),
-    );
-    if (!validChosenVerses.length) return false;
+  ): Promise<{newChosenVerses: ChosenVerse[], nonValidChosenVerses: ChosenVerse[]} | false> {
+    let validChosenVerses: ChosenVerse[] = [];
+  let nonValidChosenVerses: ChosenVerse[] = [];
+    let isValid = async (chosenVerseData: any) => await createSchema.isValid(chosenVerseData)
+    let isNotValid = async (chosenVerseData: any) => await createSchema.isValid(chosenVerseData) === false
+
+    validChosenVerses =  await filterAsync(chosenVersesData, isValid)
+    nonValidChosenVerses =  await filterAsync(chosenVersesData, isNotValid)
+
 
     const newChosenVerses = await this.chosenVerseRepository.save(
-      chosenVersesData,
+      validChosenVerses
     );
     if (!newChosenVerses) return false;
-    return newChosenVerses;
+
+    const result = {newChosenVerses, nonValidChosenVerses}
+    return result;
   }
 
   public async update(
@@ -104,17 +111,13 @@ export class ChosenVerseService {
     const isValid = await updateSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const newChosenVerse = await AppDataSource.getRepository(
-      ChosenVerse,
-    ).update(id, chosenVerseData);
+    const newChosenVerse = await this.chosenVerseRepository.update(id, chosenVerseData);
     if (!newChosenVerse.affected) return false;
     return newChosenVerse.affected;
   }
 
   public async remove(id: string): Promise<number | false> {
-    const chosenVerse = await AppDataSource.getRepository(ChosenVerse).delete(
-      id,
-    );
+    const chosenVerse = await this.chosenVerseRepository.delete(id);
     if (!chosenVerse.affected) return false;
     return chosenVerse.affected;
   }

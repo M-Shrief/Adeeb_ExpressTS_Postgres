@@ -11,3 +11,5 @@ coverage
 ecosystem.config.js
 
 can_use.md
+
+dataMapper.js
