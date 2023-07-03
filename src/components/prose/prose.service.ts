@@ -3,6 +3,7 @@ import { AppDataSource } from '../../db';
 import { Prose } from './prose.entity';
 // Utils
 import { shuffle } from '../../utils/shuffle';
+import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Schema
 import { createSchema, updateSchema } from './prose.schema';
 export class ProseService {
@@ -67,15 +68,25 @@ export class ProseService {
     return newProse;
   }
 
-  public async postMany(prosesData: Prose[]): Promise<Prose[] | false> {
-    const validProses: Prose[] = prosesData.filter(
-      async (proseData) => await createSchema.isValid(proseData),
-    );
-    if (!validProses.length) return false;
+  public async postMany(
+    ProsesData: Prose[],
+  ): Promise<{newProses: Prose[], nonValidProses: Prose[]} | false> {
+    let validProses: Prose[] = [];
+  let nonValidProses: Prose[] = [];
+    let isValid = async (ProseData: any) => await createSchema.isValid(ProseData)
+    let isNotValid = async (ProseData: any) => await createSchema.isValid(ProseData) === false
 
-    const newProses = await this.proseRepository.save([...validProses]);
-    if (!newProses.length) return false;
-    return newProses;
+    validProses =  await filterAsync(ProsesData, isValid)
+    nonValidProses =  await filterAsync(ProsesData, isNotValid)
+
+
+    const newProses = await this.proseRepository.save(
+      validProses
+    );
+    if (!newProses) return false;
+
+    const result = {newProses, nonValidProses}
+    return result;
   }
 
   public async update(id: string, proseData: Prose): Promise<number | false> {
