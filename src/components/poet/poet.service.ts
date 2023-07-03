@@ -71,13 +71,12 @@ export class PoetService {
   public async postMany(
     PoetsData: Poet[],
   ): Promise<{newPoets: Poet[], nonValidPoets: Poet[]} | false> {
-    let validPoets: Poet[] = [];
-  let nonValidPoets: Poet[] = [];
-    let isValid = async (PoetData: any) => await createSchema.isValid(PoetData)
-    let isNotValid = async (PoetData: any) => await createSchema.isValid(PoetData) === false
 
-    validPoets =  await filterAsync(PoetsData, isValid)
-    nonValidPoets =  await filterAsync(PoetsData, isNotValid)
+    let isValid = async (PoetData: Poet) => await createSchema.isValid(PoetData)
+    let isNotValid = async (PoetData: Poet) => await createSchema.isValid(PoetData) === false
+
+    const validPoets: Poet[]  =  await filterAsync(PoetsData, isValid)
+    const nonValidPoets: Poet[] =  await filterAsync(PoetsData, isNotValid)
 
 
     const newPoets = await this.poetRepository.save(
