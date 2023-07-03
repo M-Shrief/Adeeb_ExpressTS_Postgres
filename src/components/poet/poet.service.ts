@@ -4,6 +4,8 @@ import { AppDataSource } from '../../db';
 import { Poet } from './poet.entity';
 // Schema
 import { createSchema, updateSchema } from './poet.schema';
+// Utills
+import { filterAsync } from '../../utils/asyncFilterAndMap';
 export class PoetService {
   private poetRepository = AppDataSource.getRepository(Poet);
 
@@ -66,15 +68,25 @@ export class PoetService {
     return newPoet;
   }
 
-  public async postMany(poetData: Poet[]): Promise<Poet[] | false> {
-    const validPoets: Poet[] = poetData.filter(
-      async (poetData) => await createSchema.isValid(poetData),
-    );
-    if (!validPoets.length) return false;
+  public async postMany(
+    PoetsData: Poet[],
+  ): Promise<{newPoets: Poet[], nonValidPoets: Poet[]} | false> {
+    let validPoets: Poet[] = [];
+  let nonValidPoets: Poet[] = [];
+    let isValid = async (PoetData: any) => await createSchema.isValid(PoetData)
+    let isNotValid = async (PoetData: any) => await createSchema.isValid(PoetData) === false
 
-    const newPoets = await this.poetRepository.save([...validPoets]);
-    if (!newPoets.length) return false;
-    return newPoets;
+    validPoets =  await filterAsync(PoetsData, isValid)
+    nonValidPoets =  await filterAsync(PoetsData, isNotValid)
+
+
+    const newPoets = await this.poetRepository.save(
+      validPoets
+    );
+    if (!newPoets) return false;
+
+    const result = {newPoets, nonValidPoets}
+    return result;
   }
 
   public async update(id: string, poetData: Poet): Promise<number | false> {

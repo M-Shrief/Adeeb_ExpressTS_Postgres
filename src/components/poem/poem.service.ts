@@ -1,9 +1,11 @@
 import { AppDataSource } from '../../db';
-import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Entities
 import { Poem } from './poem.entity';
 // Schema
 import { createSchema, updateSchema } from './poem.schema';
+// Utils
+import { filterAsync } from '../../utils/asyncFilterAndMap';
+
 export class PoemService {
   private poemRepository = AppDataSource.getRepository(Poem);
   public async getAllWithPoetName(): Promise<Poem[] | false> {
