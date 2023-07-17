@@ -29,11 +29,12 @@ export class OrderService {
           products: true,
           reviewed: true,
           completed: true,
+          created_at: true
           
         },
-        // order: {
-        //   createdAt: 'DESC'  
-        // }
+        order: {
+          created_at: 'DESC'  
+        }
       });
   
       await redisClient.set(`orders:${name}:${phone}`, JSON.stringify(orders), {EX: 60*15})
@@ -61,10 +62,11 @@ export class OrderService {
           reviewed: true,
           completed: true,
           partnerId: true,
+          created_at: true
         },
-        // order: {
-        //   createdAt: 'DESC'  
-        // }
+        order: {
+          created_at: 'DESC'  
+        }
       });  
 
       await redisClient.set(`orders:partner:${partnerId}`, JSON.stringify(orders), {EX: 60*15})
