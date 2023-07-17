@@ -1,11 +1,16 @@
 # REST API for "Adeeb أديب", using Express with TypeScript
 
-**Overview, and file structure**:
+**Overview**: It's concerned with Arabic literature. It assumes a business model that enables you to order a specific piece of literature to be printed with especial colors and font. Then it'll be delivered to the customer, with the ability for the customer to follow up the process. And for special customers, it provides them with the ability to make bulk orders fast and easy. And if they’re willing to signup, they can review all of their past orders.
 
-- _app_ is the main file for app logic, initializing middlewares and routes, and
-  connecting to our Postgres Database using TypeORM.
+## File Structure
+- _app.ts_ is the main file for app logic, initializing middlewares and routes, and
+  connecting to our MongoDB.
 
-- _index_ is the server file to run the app.
+- _index.ts_ is the server file to run the app.
+
+- _db.ts_ is the config file for PostgreSQL.
+
+- _redis.ts_ is the config file for redis.
 
 - _./config_ file to import all environment variables, and use a complex
   configuration structure if needed.
@@ -55,4 +60,9 @@
 ### Currently working on:
 
 - Dealing with cookies and authentication better
+
 - Imporve routes' guards
+
+- Database constraints
+
+- Session management
