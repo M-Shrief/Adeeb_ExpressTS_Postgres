@@ -1,11 +1,14 @@
 // Database
 import { AppDataSource } from '../../db';
+// Redis
+import redisClient  from '../../redis';
 // Entities
 import { Poet } from './poet.entity';
 // Schema
 import { createSchema, updateSchema } from './poet.schema';
 // Utills
 import { filterAsync } from '../../utils/asyncFilterAndMap';
+import { logger } from '../../utils/logger';
 export class PoetService {
   private poetRepository = AppDataSource.getRepository(Poet);
 
@@ -29,32 +32,43 @@ export class PoetService {
   }
 
   public async getOneWithLiterature(id: string): Promise<Poet | false> {
-    const poet = await this.poetRepository.findOne({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        time_period: true,
-        bio: true,
-        poems: {
+    let poet: Poet | null;
+
+    const cached = await redisClient.get(`poet:${id}`);
+    if(cached) {
+      poet = JSON.parse(cached);
+    } else {
+      poet = await this.poetRepository.findOne({
+        where: { id },
+        select: {
           id: true,
-          intro: true,
+          name: true,
+          time_period: true,
+          bio: true,
+          poems: {
+            id: true,
+            intro: true,
+          },
+          chosenVerses: {
+            id: true,
+            poem: { id: true },
+            verses: true,
+            tags: true,
+          },
+          proses: {
+            id: true,
+            qoute: true,
+            tags: true,
+          },
         },
-        chosenVerses: {
-          id: true,
-          poem: { id: true },
-          verses: true,
-          tags: true,
-        },
-        proses: {
-          id: true,
-          qoute: true,
-          tags: true,
-        },
-      },
-      relations: { poems: true, chosenVerses: true, proses: true },
-      cache: 1000 * 5,
-    });
+        relations: { poems: true, chosenVerses: true, proses: true },
+        cache: 1000 * 5,
+      });
+      
+      await redisClient.set(`poet:${id}`, JSON.stringify(poet), {EX: 60*15})
+      .catch(err => logger.error(err));
+    }
+    
     if (!poet) return false;
     return poet;
   }
