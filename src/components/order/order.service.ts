@@ -1,4 +1,8 @@
+// Database
 import { AppDataSource } from '../../db';
+// Redis
+import redisClient from '../../redis';
+import { logger } from '../../utils/logger';
 // Entities
 import { Order } from './order.entity';
 // Schema
@@ -9,36 +13,63 @@ export class OrderService {
     name: string,
     phone: string,
   ): Promise<Order[] | false> {
-    const orders = await this.orderRepository.find({
-      where: { name, phone },
-      select: {
-        id: true,
-        name: true,
-        phone: true,
-        address: true,
-        products: true,
-        reviewed: true,
-        completed: true,
-      },
-    });
+    let orders: Order[];
+    
+    const cached =  await redisClient.get(`orders:${name}:${phone}`);
+    if(cached) {
+      orders  = JSON.parse(cached);
+    } else {
+      orders = await this.orderRepository.find({
+        where: { name, phone },
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          address: true,
+          products: true,
+          reviewed: true,
+          completed: true,
+          
+        },
+        // order: {
+        //   createdAt: 'DESC'  
+        // }
+      });
+  
+      await redisClient.set(`orders:${name}:${phone}`, JSON.stringify(orders), {EX: 60*15})
+      .catch(err => logger.error(err));
+    }
     if (orders.length === 0) return false;
     return orders;
   }
 
   public async getPartnerOrders(partnerId: string): Promise<Order[] | false> {
-    const orders = await this.orderRepository.find({
-      where: { partnerId },
-      select: {
-        id: true,
-        name: true,
-        phone: true,
-        address: true,
-        products: true,
-        reviewed: true,
-        completed: true,
-        partnerId: true,
-      },
-    });
+    let orders: Order[];
+    
+    const cached =  await redisClient.get(`orders:partner:${partnerId}`);
+    if(cached) {
+      orders  = JSON.parse(cached);
+    } else {
+      orders = await this.orderRepository.find({
+        where: { partnerId },
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          address: true,
+          products: true,
+          reviewed: true,
+          completed: true,
+          partnerId: true,
+        },
+        // order: {
+        //   createdAt: 'DESC'  
+        // }
+      });  
+
+      await redisClient.set(`orders:partner:${partnerId}`, JSON.stringify(orders), {EX: 60*15})
+      .catch(err => logger.error(err));
+    }
     if (orders.length === 0) return false;
     return orders;
   }
