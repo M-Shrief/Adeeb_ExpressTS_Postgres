@@ -1,10 +1,14 @@
+// Database
 import { AppDataSource } from '../../db';
+// Redis
+import redisClient from '../../redis';
 // Entities
 import { Poem } from './poem.entity';
 // Schema
 import { createSchema, updateSchema } from './poem.schema';
 // Utils
 import { filterAsync } from '../../utils/asyncFilterAndMap';
+import { logger } from '../../utils/logger';
 
 export class PoemService {
   private poemRepository = AppDataSource.getRepository(Poem);
@@ -49,23 +53,34 @@ export class PoemService {
   }
 
   public async getOneWithPoet(id: string): Promise<Poem | false> {
-    const poem = await this.poemRepository.findOne({
-      where: { id },
-      select: {
-        id: true,
-        intro: true,
-        verses: true,
-        reviewed: true,
-        poet: {
+    let poem: Poem | null;
+    
+    const cached = await redisClient.get(`poem:${id}`);
+    if(cached) {
+      poem = JSON.parse(cached);
+    } else {
+      poem = await this.poemRepository.findOne({
+        where: { id },
+        select: {
           id: true,
-          name: true,
-          time_period: true,
-          bio: true,
+          intro: true,
+          verses: true,
+          reviewed: true,
+          poet: {
+            id: true,
+            name: true,
+            time_period: true,
+            bio: true,
+          },
         },
-      },
-      relations: { poet: true },
-      cache: true, // Default cache lifetime is equal to 1000 ms, this means that if users open the user page 150 times within 3 seconds, only three queries will be executed
-    });
+        relations: { poet: true },
+        cache: true, // Default cache lifetime is equal to 1000 ms, this means that if users open the user page 150 times within 3 seconds, only three queries will be executed
+      });
+      
+      await redisClient.set(`poem:${id}`, JSON.stringify(poem), {EX: 60*15})
+      .catch(err => logger.error(err));
+    }
+
 
     if (!poem) return false;
     return poem;
