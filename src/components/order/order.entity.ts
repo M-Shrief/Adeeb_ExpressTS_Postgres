@@ -7,11 +7,12 @@ import {
 } from 'typeorm';
 // Entities
 import { Partner } from '../partner/partner.entity';
+import { BaseEntity } from '../../shared/baseEntity';
 // Types
 import { Product, ProductGroup } from '../../interfaces/__types__';
 
 @Entity()
-export class Order {
+export class Order extends BaseEntity{
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

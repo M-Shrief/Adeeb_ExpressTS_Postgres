@@ -7,9 +7,10 @@ import {
 } from 'typeorm';
 // Entites
 import { Order } from '../order/order.entity';
+import { BaseEntity } from '../../shared/baseEntity';
 
 @Entity()
-export class Partner {
+export class Partner extends BaseEntity{
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

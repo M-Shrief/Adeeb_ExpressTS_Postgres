@@ -9,11 +9,12 @@ import {
 // entities
 import { Poet } from '../poet/poet.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
+import { BaseEntity } from '../../shared/baseEntity';
 // Types
 import { VerseType } from '../../interfaces/__types__';
 
 @Entity()
-export class Poem {
+export class Poem extends BaseEntity{
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

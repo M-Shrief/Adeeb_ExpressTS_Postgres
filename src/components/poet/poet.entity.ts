@@ -10,9 +10,10 @@ import { TimePeriodType } from '../../interfaces/poet.interface';
 import { Poem } from '../poem/poem.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
 import { Prose } from '../prose/prose.entity';
+import { BaseEntity } from '../../shared/baseEntity';
 
 @Entity()
-export class Poet {
+export class Poet extends BaseEntity{
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
