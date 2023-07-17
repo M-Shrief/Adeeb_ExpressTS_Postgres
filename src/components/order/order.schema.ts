@@ -6,7 +6,7 @@ import {
   addressSchema,
   versesSchema,
   qouteSchema,
-} from '../../schemas';
+} from '../../shared/schemas';
 
 const customizationSchema = string().min(1).max(10);
 const printSchema = object({
