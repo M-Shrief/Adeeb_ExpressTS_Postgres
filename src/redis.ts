@@ -13,8 +13,16 @@ redisClient.on('reconnecting', (o) => logger.info(`Cache is reconnecting: ${o.at
 redisClient.on('error', (e) => logger.error(e));
 
 (async() => {
-        await redisClient.connect();
+    await redisClient.connect();
 })()
 
+
+// If the Node process ends, close the Cache connection
+process.on('SIGINT', async () => {
+    await redisClient.disconnect();
+    logger.info(
+        'Redis default connection disconnected through app termination',
+    );
+});
 
 export default redisClient;
