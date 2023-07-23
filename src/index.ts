@@ -1,7 +1,7 @@
 import App from './app';
 // Databases
 import './db';
-import './redis'
+import './redis';
 // Routes
 import { PoetRoute } from './components/poet/poet.route';
 import { PoemRoute } from './components/poem/poem.route';
