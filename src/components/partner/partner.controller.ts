@@ -93,7 +93,6 @@ export class PartnerController {
           name: partner.name,
           phone: partner.phone,
           address: partner.address,
-          password: partner.password,
         },
         accessToken,
       });
