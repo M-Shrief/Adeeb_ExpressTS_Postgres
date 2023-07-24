@@ -57,8 +57,10 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.PHONE),
 
         body('address')
-          .isLength({ min: 4, max: 50 })
-          .withMessage(ERROR_MSG.ADDRESS), // should have more
+        .isLength({ min: 4, max: 50 })
+        .isString()
+        .escape()
+        .withMessage(ERROR_MSG.ADDRESS),
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 
@@ -111,9 +113,11 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.PHONE),
 
         body('address')
-          .optional()
-          .isLength({ min: 4, max: 50 })
-          .withMessage(ERROR_MSG.ADDRESS), // should have more
+        .optional()
+        .isLength({ min: 4, max: 50 })
+        .isString()
+        .escape()
+        .withMessage(ERROR_MSG.ADDRESS),
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 
