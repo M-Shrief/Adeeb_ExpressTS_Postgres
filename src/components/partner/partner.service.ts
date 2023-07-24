@@ -13,7 +13,6 @@ export class PartnerService {
       select: {
         name: true,
         phone: true,
-        address: true,
         orders: {
           id: true,
           // address: true,
@@ -37,7 +36,6 @@ export class PartnerService {
 
     partner.name = partnerData.name;
     partner.phone = partnerData.phone;
-    partner.address = partnerData.address;
     partner.password = password;
 
     const newPartner = await this.partnerRepository.save(partner);

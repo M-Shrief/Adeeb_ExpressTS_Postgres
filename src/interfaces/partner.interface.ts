@@ -2,7 +2,6 @@ export interface PartnerType {
   id: string;
   name: string;
   phone: string;
-  address: string | string[];
   password: string;
 }
 

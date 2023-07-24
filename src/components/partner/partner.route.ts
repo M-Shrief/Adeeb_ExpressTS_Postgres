@@ -47,12 +47,6 @@ export class PartnerRoute implements IRoute {
           .isMobilePhone('any')
           .withMessage(ERROR_MSG.PHONE),
 
-        body('address')
-          .isLength({ min: 4, max: 50 })
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.ADDRESS),
-
         body('password')
           .isString()
           .isStrongPassword()
@@ -97,13 +91,6 @@ export class PartnerRoute implements IRoute {
             .escape()
             .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
-
-          body('address')
-            .optional()
-            .isLength({ min: 4, max: 50 })
-            .isString()
-            .escape()
-            .withMessage(ERROR_MSG.ADDRESS), // should have more
 
           body('password')
             .optional()

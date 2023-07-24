@@ -20,9 +20,6 @@ export class Partner extends BaseEntity{
   @Column({ type: 'varchar', length: 50 })
   phone!: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  address!: string;
-
   @Column({ type: 'varchar', length: 100 })
   password!: string;
 
