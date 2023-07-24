@@ -1,5 +1,4 @@
-import { NODE_ENV } from '../../config';
-import { CookieOptions, NextFunction, Request, Response } from 'express';
+import {  NextFunction, Request, Response } from 'express';
 // Services
 import { PartnerService } from './partner.service';
 // Types
@@ -24,12 +23,6 @@ export class PartnerController {
       },
     );
 
-  private cookieOptions: CookieOptions = {
-    maxAge: 60 * 60 * 8, // 8 hours
-    httpOnly: true,
-    secure: NODE_ENV === 'production' ? true : false,
-    sameSite: 'strict',
-  };
 
   public indexInfo = async (
     req: Request,
@@ -56,7 +49,6 @@ export class PartnerController {
           true,
         );
       const accessToken = this.signToken(partner.name);
-      res.set('Authorization', `Bearer ${accessToken}`);
       res.status(HttpStatusCode.CREATED).json({
         Success: true,
         partner: {
@@ -84,7 +76,6 @@ export class PartnerController {
           true,
         );
       const accessToken = this.signToken(partner.name);
-      res.set('Authorization', `Bearer ${accessToken}`);
       res.status(HttpStatusCode.ACCEPTED).json({
         success: true,
         partner: {
@@ -100,7 +91,6 @@ export class PartnerController {
   };
 
   public logout = async (req: Request, res: Response, next: NextFunction) => {
-    res.set('Authorization', undefined);
     res.status(HttpStatusCode.ACCEPTED).send('logged out');
   };
 
