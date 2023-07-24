@@ -6,6 +6,11 @@ import { OrderController } from './order.controller';
 import { IRoute } from '../../interfaces/route.interface';
 import { ERROR_MSG } from '../../interfaces/order.interface';
 // middlewares
+import {
+  guard,
+  jwtToken,
+  authErrorHandler,
+} from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 export class OrderRoute implements IRoute {
@@ -37,13 +42,21 @@ export class OrderRoute implements IRoute {
     );
     this.router.get(
       '/orders/:partner',
-      validate([param('partner').isUUID().withMessage(ERROR_MSG.PARTNER)]),
+      [
+        jwtToken(true),
+        guard.check(['partner:read', 'partner:write']),
+        authErrorHandler,        
+        validate([param('partner').isMongoId().withMessage(ERROR_MSG.PARTNER)])
+      ],
       this.controller.indexPartnerOrders,
     );
     this.router.post(
       '/order',
-      validate([
-        body('partner').optional().isUUID().withMessage(ERROR_MSG.PARTNER),
+      [
+        jwtToken(false),
+        authErrorHandler,       
+        validate([
+        body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
 
         body('name')
           .isLength({ min: 4, max: 50 })
@@ -57,10 +70,8 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.PHONE),
 
         body('address')
-        .isLength({ min: 4, max: 50 })
-        .isString()
-        .escape()
-        .withMessage(ERROR_MSG.ADDRESS),
+        .isLength({ min: 4, max: 100 })
+        .withMessage(ERROR_MSG.ADDRESS), // should have more constraints
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 
@@ -70,14 +81,17 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.COMPLETED),
 
         body('products.*.fontType')
+          .optional()
           .isLength({ max: 10 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.fontColor')
+          .optional()
           .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.backgroundColor')
+          .optional()
           .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
@@ -89,7 +103,7 @@ export class OrderRoute implements IRoute {
           .optional()
           .isArray()
           .withMessage(ERROR_MSG.PRODUCTS),
-      ]),
+      ]),],
       this.controller.post,
     );
     this.router.put(
