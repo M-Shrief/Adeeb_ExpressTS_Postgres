@@ -2,7 +2,24 @@
 
 **Overview**: It's concerned with Arabic literature. It assumes a business model that enables you to order a specific piece of literature to be printed with especial colors and font. Then it'll be delivered to the customer, with the ability for the customer to follow up the process. And for special customers, it provides them with the ability to make bulk orders fast and easy. And if they’re willing to signup, they can review all of their past orders.
 
+- Tech stack:
+
+  - Full **TypeScript**
+  - **Nodejs** & **Express.js**
+  - Database:
+    - **Postgres** & **TypeORM**
+    - Caching with **Redis**
+
+- characteristics:
+
+  - _JWT_ Authentication & Authorization
+  - Centralized Error Handling
+  - Data Validation with _Yup_ and _express-validator_
+  - Security best practices from _OWASP_
+  - …and more
+
 ## File Structure
+
 - _app.ts_ is the main file for app logic, initializing middlewares and routes, and
   connecting to our MongoDB.
 
@@ -43,16 +60,3 @@
   the app, using (\*.middleware.ts) naming convention for every module.
 
 - _./utils_ file for containing reused functions and centralized error handling, which are used across the app.
-
-### Used Middlewares
-
-- **Helmet**, for security
-- **Cors**
-- **Cookie-Parser**
-- **Compression**
-- **Morgan & winston** for Logging
-- **Express-rate-limit**, to limit api requests.
-- **Express-validator**, to validate requests' body, params,...etc.
-- Basic hand-made middleware for **Caching**.
-- **jsonwebtoken, Express-jwt & Express-jwt-permissions**, for authentication,
-  guarding routes.
