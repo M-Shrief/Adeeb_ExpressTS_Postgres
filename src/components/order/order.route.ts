@@ -4,7 +4,7 @@ import { body, param } from 'express-validator';
 import { OrderController } from './order.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
-import { ERROR_MSG } from '../../interfaces/order.interface';
+import { ERROR_MSG } from './order.entity';
 // middlewares
 import {
   guard,

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import HttpStatusCode from '../../utils/httpStatusCode';
-import { ERROR_MSG } from '../../interfaces/order.interface';
+import { ERROR_MSG } from '../../components/order/order.entity';
 const apiUrl = 'http://localhost:3000/api';
 
 describe('Testing /post request to /orders/guest', () => {

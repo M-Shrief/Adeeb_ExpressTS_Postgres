@@ -1,8 +1,5 @@
 // Database
 import { AppDataSource } from '../../db';
-// Redis
-import redisClient from '../../redis';
-import { logger } from '../../utils/logger';
 // Entities
 import { Order } from './order.entity';
 // Schema
