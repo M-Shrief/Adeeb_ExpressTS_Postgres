@@ -4,7 +4,7 @@ import { body, param, query } from 'express-validator';
 import { ProseController } from './prose.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
-import { ERROR_MSG } from '../../interfaces/prose.interface';
+import { ERROR_MSG } from './prose.entity';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';

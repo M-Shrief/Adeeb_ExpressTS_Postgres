@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 // Services
 import { ProseService } from './prose.service';
 // Types
-import { ERROR_MSG } from '../../interfaces/prose.interface';
+import { ERROR_MSG } from './prose.entity';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
