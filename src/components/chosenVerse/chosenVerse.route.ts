@@ -4,7 +4,7 @@ import { body, query, param } from 'express-validator';
 import { ChosenVerseController } from './chosenVerse.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
-import { ERROR_MSG } from '../../interfaces/chosenVerse.interface';
+import { ERROR_MSG } from './chosenVerse.entity';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';

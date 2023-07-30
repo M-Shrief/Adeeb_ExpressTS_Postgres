@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { ERROR_MSG } from '../../interfaces/chosenVerse.interface';
+import { ERROR_MSG } from '../../components/chosenVerse/chosenVerse.entity';
 
 const apiUrl = 'http://localhost:3000/api';
 

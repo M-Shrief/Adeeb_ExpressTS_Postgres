@@ -34,3 +34,18 @@ export class ChosenVerse extends BaseEntity{
   @Column({ type: 'boolean', default: true })
   reviewed!: boolean;
 }
+
+
+export enum ERROR_MSG {
+  NOT_AVAILABLE = 'No chosenVerse available',
+  NOT_FOUND = "chosenVerse's not found",
+  NOT_VALID = 'Data for chosenVerse is not valid',
+  // query
+  NUM = 'Accepts numbers only',
+  // Inner properties
+  POET = "poet's not found",
+  POEM = "poem's not found",
+  TAGS = 'tags should be letters, and max 50 letters length',
+  VERSES = "Verses must be strings, and can't be empty.",
+  REVIEWED = 'reviewed should be true or false',
+}

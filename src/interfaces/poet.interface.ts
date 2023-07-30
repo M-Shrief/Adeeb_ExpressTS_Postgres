@@ -1,4 +1,4 @@
-import { ChosenVerseType } from './chosenVerse.interface';
+import { ChosenVerse } from '../components/chosenVerse/chosenVerse.entity';
 import { PoemType } from './poem.interface';
 import { ProseType } from './prose.interface';
 
@@ -9,7 +9,7 @@ export interface PoetType {
   bio: string;
   reviewed: boolean;
   poems: PoemType[];
-  chosenVerses: ChosenVerseType[];
+  chosenVerses: ChosenVerse[];
   proses: ProseType[];
 }
 
