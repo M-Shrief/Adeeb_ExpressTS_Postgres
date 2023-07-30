@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import HttpStatusCode from '../../utils/httpStatusCode';
-import { ERROR_MSG } from '../../interfaces/partner.interface';
+import { ERROR_MSG } from '../../components/partner/partner.entity';
 
 const apiUrl = 'http://localhost:3000/api';
 

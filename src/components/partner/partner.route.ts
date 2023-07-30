@@ -4,7 +4,7 @@ import { body, param } from 'express-validator';
 import { PartnerController } from './partner.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
-import { ERROR_MSG } from '../../interfaces/partner.interface';
+import { ERROR_MSG } from './partner.entity';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import {

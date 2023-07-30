@@ -2,7 +2,7 @@ import {  NextFunction, Request, Response } from 'express';
 // Services
 import { PartnerService } from './partner.service';
 // Types
-import { ERROR_MSG } from '../../interfaces/partner.interface';
+import { ERROR_MSG } from './partner.entity';
 // Utils
 import { signToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
