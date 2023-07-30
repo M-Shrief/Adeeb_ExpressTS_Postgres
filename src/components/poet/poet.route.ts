@@ -4,7 +4,7 @@ import { body, param } from 'express-validator';
 import { PoetController } from './poet.controller';
 // Types
 import { IRoute } from '../../interfaces/route.interface';
-import { ERROR_MSG } from '../../interfaces/poet.interface';
+import { ERROR_MSG } from './poet.entity';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';

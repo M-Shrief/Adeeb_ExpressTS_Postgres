@@ -2,7 +2,7 @@
  * Testing Poet's Component`
  */
 import axios, { AxiosError } from 'axios';
-import { ERROR_MSG, PoetType } from '../../interfaces/poet.interface';
+import { ERROR_MSG } from '../../components/poet/poet.entity';
 // import assert from 'node:assert';
 // import { test, describe } from 'node:test';
 // ========== API Test ============
