@@ -8,13 +8,8 @@
     "start": "nodemon dist/index.js",
     "dev": "nodemon src/index.ts",
     "test": "jest ",
-    "test:coverage": "jest --coverage",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
-    "rollback:all": "knex migrate:rollback --all",
-    "refresh:seed": "npm run knex migrate:rollback --all && npm run migrate && npm run knex seed:run"
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "keywords": [],
   "author": "",
