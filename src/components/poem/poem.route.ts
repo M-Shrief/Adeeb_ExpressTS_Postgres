@@ -36,21 +36,20 @@ export class PoemRoute implements IRoute {
       '/poem',
       validate([
         body('intro')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.INTRO),
 
         body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
 
-        body('verses.*.first')
-          .isLength({ min: 4, max: 50 })
+        body('verses').isArray().withMessage(ERROR_MSG.VERSES),          
+
+        body('verses.*.first')          
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
 
         body('verses.*.sec')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
@@ -69,23 +68,22 @@ export class PoemRoute implements IRoute {
 
         body('intro')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.INTRO),
 
-        body('poet').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
+        body('poet').optional().isUUID(4).withMessage(ERROR_MSG.POET),
+
+        body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),          
 
         body('verses.*.first')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
 
         body('verses.*.sec')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
