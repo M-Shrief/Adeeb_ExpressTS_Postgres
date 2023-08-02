@@ -104,7 +104,7 @@ export class ProseController {
           ERROR_MSG.NOT_VALID,
           true,
         );
-      res.status(HttpStatusCode.ACCEPTED).send(prose);
+      res.sendStatus(HttpStatusCode.ACCEPTED).send(prose);
     } catch (errors) {
       next(errors);
     }
