@@ -3,7 +3,8 @@ config();
 
 export const DB = {
   // url: process.env.DB_URL,
-  name: process.env.DB_NAME,
+  name_dev: process.env.DB_NAME,
+  name_test: process.env.DB_NAME_TEST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
 };
