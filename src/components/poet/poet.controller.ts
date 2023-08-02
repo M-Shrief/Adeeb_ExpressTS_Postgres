@@ -79,7 +79,8 @@ export class PoetController {
           ERROR_MSG.NOT_VALID,
           true,
         );
-      res.status(HttpStatusCode.ACCEPTED).send(poet);
+      // Bug: it gives error with res.status but works with res.sendStatus
+      res.sendStatus(HttpStatusCode.ACCEPTED).send(poet);
     } catch (errors) {
       next(errors);
     }

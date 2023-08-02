@@ -9,7 +9,7 @@ export const createSchema = object({
 });
 
 export const updateSchema = object({
-  nname: nameSchema.optional(),
+  name: nameSchema.optional(),
   time_period: timePeriodSchema.optional(),
   bio: bioSchema.optional(),
   reviewed: boolean().optional(),

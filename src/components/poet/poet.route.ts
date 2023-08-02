@@ -31,17 +31,14 @@ export class PoetRoute implements IRoute {
       '/poet',
       validate([
         body('name')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.NAME),
         body('time_period')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.TIME_PERIOD),
         body('bio')
-          .isLength({ min: 4, max: 500 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.BIO),
@@ -59,21 +56,18 @@ export class PoetRoute implements IRoute {
 
         body('name')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.NAME),
 
         body('time_period')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.TIME_PERIOD),
 
         body('bio')
           .optional()
-          .isLength({ min: 4, max: 500 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.BIO),
