@@ -39,17 +39,15 @@ export class ChosenVerseRoute implements IRoute {
         body('poet').isUUID().withMessage(ERROR_MSG.POET),
         body('poem').isUUID().withMessage(ERROR_MSG.POEM),
         body('tags')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.TAGS),
+        body('verses').isArray().withMessage(ERROR_MSG.VERSES),
         body('verses.*.first')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
         body('verses.*.sec')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
@@ -65,27 +63,24 @@ export class ChosenVerseRoute implements IRoute {
       validate([
         param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('poet').optional().isMongoId().withMessage(ERROR_MSG.POET),
+        body('poet').optional().isUUID(4).withMessage(ERROR_MSG.POET),
 
-        body('poem').optional().isMongoId().withMessage(ERROR_MSG.POEM),
+        body('poem').optional().isUUID(4).withMessage(ERROR_MSG.POEM),
 
         body('tags')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.TAGS),
-
+        body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),
         body('verses.*.first')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
 
         body('verses.*.sec')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),

@@ -109,7 +109,7 @@ export class ChosenVerseController {
           ERROR_MSG.NOT_VALID,
           true,
         );
-      res.status(HttpStatusCode.ACCEPTED).send(chosenVerse);
+      res.sendStatus(HttpStatusCode.ACCEPTED).send(chosenVerse);
     } catch (error) {
       next(error);
     }
