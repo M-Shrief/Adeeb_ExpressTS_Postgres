@@ -37,19 +37,19 @@ export class PartnerRoute implements IRoute {
       '/partner/signup',
       validate([
         body('name')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.NAME),
 
         body('phone')
+          .isString()
           .escape()
-          .isMobilePhone('any')
+          // .isMobilePhone('any')
           .withMessage(ERROR_MSG.PHONE),
 
         body('password')
           .isString()
-          .isStrongPassword()
+          // .isStrongPassword()
           .escape()
           .withMessage(ERROR_MSG.PASSWORD),
       ]),
@@ -59,16 +59,14 @@ export class PartnerRoute implements IRoute {
       '/partner/login',
       validate([
         body('phone')
-          .isLength({ min: 4, max: 20 })
           .isString()
           .escape()
-          .withMessage(ERROR_MSG.NOT_VALID),
+          .withMessage(ERROR_MSG.PHONE),
 
         body('password')
-          .isLength({ min: 4, max: 20 })
           .isString()
           .escape()
-          .withMessage(ERROR_MSG.NOT_VALID),
+          .withMessage(ERROR_MSG.PASSWORD),
       ]),
       this.controller.login,
     );
@@ -76,12 +74,14 @@ export class PartnerRoute implements IRoute {
     this.router.put(
       '/partner/:id',
       [
+        jwtToken(true),
+        guard.check(['partner:read', 'partner:write']),
+        authErrorHandler,
         validate([
           param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
           body('name')
             .optional()
-            .isLength({ min: 4, max: 50 })
             .isString()
             .escape()
             .withMessage(ERROR_MSG.NAME),
@@ -89,29 +89,27 @@ export class PartnerRoute implements IRoute {
           body('phone')
             .optional()
             .escape()
-            .isMobilePhone('any')
+            .isString()
+            // .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
 
           body('password')
             .optional()
             .isString()
-            .isStrongPassword()
+            // .isStrongPassword()
             .escape()
             .withMessage(ERROR_MSG.PASSWORD),
         ]),
-        jwtToken(true),
-        guard.check(['partner:read', 'partner:write']),
-        authErrorHandler,
       ],
       this.controller.update,
     );
     this.router.delete(
       '/partner/:id',
       [
-        validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,
+        validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),    
       ],
       this.controller.remove,
     );

@@ -11,6 +11,7 @@ export class PartnerService {
     const partner = await this.partnerRepository.findOne({
       where: { id },
       select: {
+        id: true,
         name: true,
         phone: true,
         orders: {
