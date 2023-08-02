@@ -102,6 +102,7 @@ export class PoemController {
           ERROR_MSG.NOT_VALID,
           true,
         );
+      // Bug: It gives error when using status()
       res.sendStatus(HttpStatusCode.ACCEPTED).send(poem);
     } catch (error) {
       next(error);
@@ -113,6 +114,7 @@ export class PoemController {
       const poem = await this.poemService.remove(req.params.id);
       if (!poem)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
+      // Bug: It gives error when using status()
       res.sendStatus(HttpStatusCode.ACCEPTED).send(poem);
     } catch (error) {
       next(error);
