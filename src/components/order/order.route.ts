@@ -27,13 +27,13 @@ export class OrderRoute implements IRoute {
       [
         validate([
           body('name')
-            .isLength({ min: 4, max: 50 })
             .isString()
             .escape()
             .withMessage(ERROR_MSG.NAME),
           body('phone')
-            .escape()
-            .isMobilePhone('any')
+          .isString()
+          .escape()
+            // .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
         ]),
         setCache,
@@ -46,7 +46,7 @@ export class OrderRoute implements IRoute {
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
         authErrorHandler,        
-        validate([param('partner').isMongoId().withMessage(ERROR_MSG.PARTNER)])
+        validate([param('partner').isUUID().withMessage(ERROR_MSG.PARTNER)])
       ],
       this.controller.indexPartnerOrders,
     );
@@ -56,22 +56,22 @@ export class OrderRoute implements IRoute {
         jwtToken(false),
         authErrorHandler,       
         validate([
-        body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
+        body('partnerId').optional().isUUID().withMessage(ERROR_MSG.PARTNER),
 
         body('name')
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.NAME),
 
         body('phone')
+          .isString()
           .escape()
-          .isMobilePhone('any')
+          // .isMobilePhone('any')
           .withMessage(ERROR_MSG.PHONE),
 
-        body('address')
-        .isLength({ min: 4, max: 100 })
-        .withMessage(ERROR_MSG.ADDRESS), // should have more constraints
+        body('address') 
+          .isString()
+          .withMessage(ERROR_MSG.ADDRESS), // should have more constraints
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 
@@ -80,19 +80,17 @@ export class OrderRoute implements IRoute {
           .isBoolean()
           .withMessage(ERROR_MSG.COMPLETED),
 
+        body('products').isArray().withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.fontType')
           .optional()
-          .isLength({ max: 10 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.fontColor')
           .optional()
-          .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.backgroundColor')
           .optional()
-          .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.print')
@@ -111,24 +109,23 @@ export class OrderRoute implements IRoute {
       validate([
         param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('partner').optional().isMongoId().withMessage(ERROR_MSG.PARTNER),
+        body('partnerId').optional().isUUID().withMessage(ERROR_MSG.PARTNER),
 
         body('name')
           .optional()
-          .isLength({ min: 4, max: 50 })
           .isString()
           .escape()
           .withMessage(ERROR_MSG.NAME),
 
         body('phone')
           .optional()
+          .isString()
           .escape()
-          .isMobilePhone('any')
+          // .isMobilePhone('any')
           .withMessage(ERROR_MSG.PHONE),
 
         body('address')
         .optional()
-        .isLength({ min: 4, max: 50 })
         .isString()
         .escape()
         .withMessage(ERROR_MSG.ADDRESS),
@@ -140,19 +137,17 @@ export class OrderRoute implements IRoute {
           .isBoolean()
           .withMessage(ERROR_MSG.COMPLETED),
 
+        body('products').optional().isArray().withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.fontType')
           .optional()
-          .isLength({ max: 10 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.fontColor')
           .optional()
-          .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.backgroundColor')
           .optional()
-          .isLength({ max: 8 })
           .isString()
           .withMessage(ERROR_MSG.PRODUCTS),
         body('products.*.print.*')

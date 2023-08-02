@@ -27,7 +27,7 @@ const productsSchema = array().of(
 );
 
 export const createSchema = object({
-  partner: uuidSchema.optional(),
+  partnerId: uuidSchema.optional(),
   name: nameSchema.required(),
   phone: phoneSchema.required(),
   address: addressSchema.required(),
@@ -37,7 +37,7 @@ export const createSchema = object({
 });
 
 export const updateSchema = object({
-  partner: uuidSchema.optional(),
+  partnerId: uuidSchema.optional(),
   name: nameSchema.optional(),
   phone: phoneSchema.optional(),
   address: addressSchema.optional(),

@@ -62,7 +62,7 @@ export class OrderService {
     if (!isValid) return false;
 
     const order = new Order();
-    if (orderData.partner) order.partner = orderData.partner;
+    if (orderData.partnerId) order.partnerId = orderData.partnerId;
     order.name = orderData.name;
     order.phone = orderData.phone;
     order.address = orderData.address;
