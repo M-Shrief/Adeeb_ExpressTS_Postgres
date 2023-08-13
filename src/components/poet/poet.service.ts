@@ -51,7 +51,9 @@ export class PoetService {
           },
           chosenVerses: {
             id: true,
-            poem: { id: true },
+            poem: {
+              id: true,
+            },
             verses: true,
             tags: true,
           },
@@ -61,14 +63,14 @@ export class PoetService {
             tags: true,
           },
         },
-        relations: { poems: true, chosenVerses: true, proses: true },
+        relations: ['poems', 'chosenVerses', 'chosenVerses.poem','proses'],
         cache: 1000 * 5,
       });
-      
+
       await redisClient.set(`poet:${id}`, JSON.stringify(poet), {EX: 60*15})
       .catch(err => logger.error(err));
     }
-    
+
     if (!poet) return false;
     return poet;
   }
