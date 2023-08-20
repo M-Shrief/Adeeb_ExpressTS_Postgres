@@ -19,7 +19,6 @@ export const AppDataSource = new DataSource({
   username: DB.user,
   password: DB.password,
   database: DB.name_dev,
-  // database: DB.name_test,
   synchronize: true,
   logging: true,
   entities: [Poet, Poem, ChosenVerse, Prose, Partner, Order],
