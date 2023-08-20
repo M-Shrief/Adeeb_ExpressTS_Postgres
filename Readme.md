@@ -17,6 +17,7 @@
   - Centralized Error Handling
   - Data Validation with Yup and express-validator
   - Security best practices from OWASP
+  - Using PM2 for process management.
   - …and more
 
 ## File Structure
@@ -29,6 +30,8 @@
 - _db.ts_ is the config file for PostgreSQL.
 
 - _redis.ts_ is the config file for redis.
+
+- _ecosystem.config.js_ is the PM2 config file for process management and ENVs.
 
 - _./config_ file to import all environment variables, and use a complex
   configuration structure if needed.
