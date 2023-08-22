@@ -13,3 +13,6 @@ ecosystem.config.js
 can_use.md
 
 dataMapper.js
+
+jwtRSA256-private.pem
+jwtRSA256-public.pem

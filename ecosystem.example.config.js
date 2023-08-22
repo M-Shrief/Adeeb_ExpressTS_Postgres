@@ -1,3 +1,8 @@
+const fs = require('fs');
+
+const jwtPrivateBuffer = fs.readFileSync('./jwtRSA256-private.pem');
+const jwtPrivate = Buffer.from(jwtPrivateBuffer).toString('ascii'); // we use ascii to make sure there is no empty line in the end.
+
 module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/application-declaration/#attributes-available
     apps: [
       {
@@ -25,7 +30,7 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           DB_NAME: '',
           DB_USER: '',
           DB_PASSWORD: '',
-          JWT_PRIVATE: '',
+          JWT_PRIVATE: jwtPrivate,
           SECRET_KEY:'',
           LOG_DIR:'./',
           LOG_FORMAT:'',
@@ -36,7 +41,7 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           DB_NAME: '',
           DB_USER: '',
           DB_PASSWORD: '',
-          JWT_PRIVATE: "",
+          JWT_PRIVATE: jwtPrivate,
           SECRET_KEY:'',
           LOG_DIR:'./',
           LOG_FORMAT:'',

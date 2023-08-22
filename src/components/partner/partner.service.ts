@@ -52,7 +52,7 @@ export class PartnerService {
       Partner,
     ).findOneBy({ phone });
     if (!existingPartner) return false;
-    const isValid = comparePassword(password, existingPartner.password);
+    const isValid = await comparePassword(password, existingPartner.password);
     if (!isValid) return false;
     return existingPartner;
   }
