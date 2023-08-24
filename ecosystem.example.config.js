@@ -1,7 +1,6 @@
 const fs = require('fs');
 
-const jwtPrivateBuffer = fs.readFileSync('./jwtRSA256-private.pem');
-const jwtPrivate = Buffer.from(jwtPrivateBuffer).toString('ascii'); // we use ascii to make sure there is no empty line in the end.
+const jwtPrivate = fs.readFileSync('./jwtRSA256-private.pem').toString();
 
 module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/application-declaration/#attributes-available
     apps: [
