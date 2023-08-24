@@ -27,6 +27,8 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
         env_development: {
           NODE_ENV: 'development',
           PORT: 3000,
+          DB_HOST: 'localhost',
+          DB_PORT: 5432,
           DB_NAME: '',
           DB_USER: '',
           DB_PASSWORD: '',
@@ -38,6 +40,8 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
         env_test: {
           NODE_ENV: 'production',
           PORT: 3000,
+          DB_HOST: 'localhost',
+          DB_PORT: 5432,
           DB_NAME: '',
           DB_USER: '',
           DB_PASSWORD: '',

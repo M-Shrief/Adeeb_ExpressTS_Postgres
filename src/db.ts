@@ -14,11 +14,11 @@ import { logger } from './utils/logger';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
+  host: DB.host,
+  port: Number(DB.port),
   username: DB.user,
   password: DB.password,
-  database: DB.name_dev,
+  database: DB.name,
   synchronize: true,
   logging: true,
   entities: [Poet, Poem, ChosenVerse, Prose, Partner, Order],
@@ -40,7 +40,7 @@ connectDB();
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', async () => {
-  await AppDataSource.destroy();
+  await AppDataSource.destroy().catch(err => logger.error(`${err}`));
   logger.info(
     'Postgres default connection disconnected through app termination',
   );
