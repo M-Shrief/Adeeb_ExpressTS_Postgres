@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import { container } from "tsyringe";
 import App from './app';
 // Databases
 import './db';
@@ -11,7 +13,7 @@ import { PartnerRoute } from './components/partner/partner.route';
 import { OrderRoute } from './components/order/order.route';
 
 const app = new App([
-  new PoetRoute(),
+  container.resolve(PoetRoute),
   new PoemRoute(),
   new ChosenVerseRoute(),
   new ProseRoute(),

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import {  injectable } from "tsyringe";
 import { body, param } from 'express-validator';
 // Controller
 import { PoetController } from './poet.controller';
@@ -9,11 +10,14 @@ import { ERROR_MSG } from './poet.entity';
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 
+@injectable()
 export class PoetRoute implements IRoute {
   public router: Router = Router();
-  private controller: PoetController = new PoetController();
+  // private controller: PoetController = new PoetController();
 
-  constructor() {
+  constructor(
+    private controller: PoetController
+  ) {
     this.initializeRoutes();
   }
 

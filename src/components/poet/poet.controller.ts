@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { autoInjectable, container, inject, injectable } from "tsyringe";
 // Services
 import { PoetService } from './poet.service';
 // Types
@@ -6,8 +7,11 @@ import { ERROR_MSG } from './poet.entity';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
+
+@injectable()
+// @injectable()
 export class PoetController {
-  private poetService = new PoetService();
+  constructor( private poetService: PoetService) {}
 
   public index = async (req: Request, res: Response, next: NextFunction) => {
     try {
