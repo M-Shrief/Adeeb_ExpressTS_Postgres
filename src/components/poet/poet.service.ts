@@ -18,13 +18,8 @@ export class PoetService {
         id: true,
         name: true,
         time_period: true,
-        bio: true,
-        poems: {
-          id: true,
-          intro: true,
-        },
       },
-      relations: { poems: true },
+      relations: { poems: false },
       cache: true,
     });
     if (poets.length === 0) return false;
