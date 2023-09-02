@@ -47,7 +47,7 @@ export default class App {
     this.app.use(cookieParser());
     this.app.use(
       cors<Request>({
-        origin: 'http://localhost:3000',
+        origin: 'http://192.168.0.103:5173/',
         methods: ['GET'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
