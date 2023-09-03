@@ -18,6 +18,11 @@ export const AppDataSource = new DataSource({
   username: DB.user,
   password: DB.password,
   database: DB.name,
+  ssl: DB.ca ? {
+    rejectUnauthorized: false,
+    ca: DB.ca,
+  }
+  : false,
   synchronize: true,
   logging: true,
   entities: [Poet, Poem, ChosenVerse, Prose, Partner, Order],
@@ -28,7 +33,7 @@ export const AppDataSource = new DataSource({
 const connectDB = async () => {
   try {
     await AppDataSource.initialize();
-    logger.info('Connected To Postgres database correctly');
+    logger.info(`Connected To Postgres database correctly, Host: ${DB.host}`);
   } catch (error) {
     logger.error('Failed to connect to database');
     process.exit(1);
