@@ -6,6 +6,8 @@ export const DB = {
   password: process.env.DB_PASSWORD,
 };
 
+export const REDIS = process.env.REDIS
+
 export const {
   NODE_ENV,
   PORT,

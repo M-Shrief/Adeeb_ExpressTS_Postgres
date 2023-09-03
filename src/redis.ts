@@ -1,19 +1,25 @@
 import { createClient } from 'redis';
+// Config
+import {REDIS} from './config'
 // Utils
 import { logger } from './utils/logger';
 
 
 
-const redisClient = createClient();
+const redisClient = REDIS ? createClient({
+    // format--> redis[s]://[[username][:password]@][host][:port][/db-number]:
+    url: REDIS,
+})
+: createClient();
 
 redisClient.on('connect', () => logger.info('Cache is connecting'));
 redisClient.on('ready', () => logger.info('Cache is ready'));
 redisClient.on('end', () => logger.info('Cache disconnected'));
-redisClient.on('reconnecting', (o) => logger.info(`Cache is reconnecting: ${o.attempt} attempts.`));
+redisClient.on('reconnecting', () => logger.info(`Cache is reconnecting.`));
 redisClient.on('error', (e) => logger.error(e));
 
 (async() => {
-    await redisClient.connect();
+    await redisClient.connect().catch(err=> logger.error(err))
 })()
 
 
