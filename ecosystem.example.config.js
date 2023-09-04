@@ -37,6 +37,7 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           SECRET_KEY:'',
           LOG_DIR:'./',
           LOG_FORMAT:'',
+          CORS_ORIGIN: 'http://localhost:5173'
         },
         env_test: {
           NODE_ENV: 'development',
@@ -51,6 +52,7 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           SECRET_KEY:'',
           LOG_DIR:'./',
           LOG_FORMAT:'',
+          CORS_ORIGIN: 'http://localhost:5173'
         },
         env_remote: {
           NODE_ENV: 'development',
@@ -65,6 +67,7 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           SECRET_KEY:'',
           LOG_DIR:'./',
           LOG_FORMAT:'',
+          CORS_ORIGIN: ''
         },
         
       }

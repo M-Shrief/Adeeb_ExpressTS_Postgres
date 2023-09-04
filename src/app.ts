@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 // Config
-import { PORT } from './config';
+import { PORT, CORS_ORIGIN } from './config';
 // Middlewares
 import cors from 'cors';
 import helmet from 'helmet';
@@ -47,7 +47,7 @@ export default class App {
     this.app.use(cookieParser());
     this.app.use(
       cors<Request>({
-        origin: 'http://192.168.0.103:5173/',
+        origin: CORS_ORIGIN,
         methods: ['GET'],
         allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true,
