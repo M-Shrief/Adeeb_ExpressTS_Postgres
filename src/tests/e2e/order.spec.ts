@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {describe, it} from 'mocha'
 // Utils
-import {baseHttp, withAuthHttp} from '../../utils/axios';
+import {baseHttp, withAuthHttp} from '../axios';
 import HttpStatusCode from '../../utils/httpStatusCode';
 // Types
 import { AxiosError } from 'axios';

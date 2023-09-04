@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {describe, it} from 'mocha'
 import { AxiosError } from 'axios';
 // Utils
-import {baseHttp} from '../../utils/axios';
+import {baseHttp} from '../axios';
 import HttpStatusCode from '../../utils/httpStatusCode';
 // Types
 import { Poet, ERROR_MSG } from '../../components/poet/poet.entity';
