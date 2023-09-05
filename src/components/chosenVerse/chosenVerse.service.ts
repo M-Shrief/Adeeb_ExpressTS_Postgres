@@ -3,7 +3,6 @@ import { AppDataSource } from '../../db';
 // Entities
 import { ChosenVerse } from './chosenVerse.entity';
 // Utils
-import { shuffle } from '../../utils/shuffle';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Schema
 import { createSchema, updateSchema } from './chosenVerse.schema';
@@ -27,8 +26,6 @@ export class ChosenVerseService {
       relations: { poet: true, poem: true },
       cache: true,
     });
-    // shuffle the ChosenVerse[]
-    shuffle(chosenVerses);
     if (chosenVerses.length === 0) return false;
     return chosenVerses;
   }

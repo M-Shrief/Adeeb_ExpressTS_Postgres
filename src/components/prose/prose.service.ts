@@ -2,7 +2,6 @@ import { AppDataSource } from '../../db';
 // Entities
 import { Prose } from './prose.entity';
 // Utils
-import { shuffle } from '../../utils/shuffle';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Schema
 import { createSchema, updateSchema } from './prose.schema';
@@ -23,7 +22,6 @@ export class ProseService {
       relations: { poet: true },
       cache: true,
     });
-    shuffle(proses);
     if (proses.length === 0) return false;
     return proses;
   }
