@@ -14,7 +14,7 @@ export class Prose extends BaseEntity{
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne((type) => Poet, (poet) => poet.chosenVerses)
+  @ManyToOne((type) => Poet, (poet) => poet.proses)
   @JoinColumn({ name: 'poet' })
   poet!: Poet;
 
