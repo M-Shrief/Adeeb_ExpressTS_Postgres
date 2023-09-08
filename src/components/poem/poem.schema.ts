@@ -1,5 +1,5 @@
 import { object, boolean } from 'yup';
-import { uuidSchema, versesSchema, introSchema } from '../../shared/schemas';
+import { uuidSchema, versesSchema, introSchema } from '../../utils/schemas';
 
 export const createSchema = object({
   intro: introSchema.required(),

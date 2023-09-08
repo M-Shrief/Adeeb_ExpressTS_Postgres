@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 // Entities
 import { Poet } from '../poet/poet.entity';
-import { BaseEntity } from '../../shared/baseEntity';
+import { BaseEntity } from '../../interfaces/baseEntity';
 
 @Entity()
 export class Prose extends BaseEntity{

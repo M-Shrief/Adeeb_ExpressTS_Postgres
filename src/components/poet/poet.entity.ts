@@ -10,7 +10,7 @@ import {
 import { Poem } from '../poem/poem.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
 import { Prose } from '../prose/prose.entity';
-import { BaseEntity } from '../../shared/baseEntity';
+import { BaseEntity } from '../../interfaces/baseEntity';
 export type TimePeriodType =
   | 'جاهلي'
   | 'أموي'

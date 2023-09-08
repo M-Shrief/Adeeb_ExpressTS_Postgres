@@ -1,5 +1,5 @@
 import { object, boolean } from 'yup';
-import { uuidSchema, qouteSchema, tagsSchema } from '../../shared/schemas';
+import { uuidSchema, qouteSchema, tagsSchema } from '../../utils/schemas';
 
 export const createSchema = object({
   poet: uuidSchema.required(),

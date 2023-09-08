@@ -9,7 +9,7 @@ import {
 // entities
 import { Poet } from '../poet/poet.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
-import { BaseEntity } from '../../shared/baseEntity';
+import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { VerseType } from '../../interfaces/__types__';
 

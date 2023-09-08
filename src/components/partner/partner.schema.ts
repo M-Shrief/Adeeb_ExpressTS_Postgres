@@ -1,5 +1,5 @@
 import { object, string } from 'yup';
-import { nameSchema, phoneSchema, addressSchema } from '../../shared/schemas';
+import { nameSchema, phoneSchema, addressSchema } from '../../utils/schemas';
 const passwordSchema = string().min(4).max(100);
 
 export const createSchema = object({

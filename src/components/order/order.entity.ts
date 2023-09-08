@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 // Entities
 import { Partner } from '../partner/partner.entity';
-import { BaseEntity } from '../../shared/baseEntity';
+import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { Product, ProductGroup } from '../../interfaces/__types__';
 

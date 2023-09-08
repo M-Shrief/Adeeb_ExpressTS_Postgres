@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 // Entites
 import { Order } from '../order/order.entity';
-import { BaseEntity } from '../../shared/baseEntity';
+import { BaseEntity } from '../../interfaces/baseEntity';
 
 @Entity()
 export class Partner extends BaseEntity{

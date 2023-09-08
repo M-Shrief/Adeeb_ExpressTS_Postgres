@@ -8,7 +8,7 @@ import {
 // Entities
 import { Poet } from '../poet/poet.entity';
 import { Poem } from '../poem/poem.entity';
-import { BaseEntity } from '../../shared/baseEntity';
+import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { VerseType } from '../../interfaces/__types__';
 
