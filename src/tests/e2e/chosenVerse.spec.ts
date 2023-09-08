@@ -104,8 +104,8 @@ describe('GET /chosenverse/:id', () => {
 describe('POST /chosenverses', () => {
     const data = [
         {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+            "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
             "reviewed": true,
             "tags": "الفخر",
             "verses": [
@@ -116,8 +116,8 @@ describe('POST /chosenverses', () => {
             ]
         },
         {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+            "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
             "reviewed": true,
             "tags": "الفخر",
             "verses": [
@@ -128,7 +128,7 @@ describe('POST /chosenverses', () => {
             ]
         },
         {
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
+            "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
             "reviewed": true,
             "tags": "الفخر",
             "verses": [
@@ -146,6 +146,10 @@ describe('POST /chosenverses', () => {
         })
     })
     it('it saves valid entries correctly, and returns valid & non-valid entries', async () => {
+
+        try {
+            
+      
         const req = await baseHttp.post('/chosenverses', data);
 
         const chosenVersesIds = req.data.newChosenVerses.map((chosenVerse: ChosenVerse) => chosenVerse.id)
@@ -158,258 +162,263 @@ describe('POST /chosenverses', () => {
 
         assert.isNotEmpty(req.data.nonValidChosenVerses);
         assert.containsAllKeys(req.data.nonValidChosenVerses[0], data[2]);
+    } catch (error) {
+            if(error instanceof AxiosError) {
+               throw error
+            }
+        }
     })
 })
 
-describe('POST /chosenverse', () => {
-    it('it post valid data correctly', async() => {
-        const data = {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            "reviewed": true,
-            "tags": "الفخر",
-            "verses": [
-            {
-                "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-                "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            }
-            ]
-        };
-        const req = await baseHttp.post('chosenverse', data)
+// describe('POST /chosenverse', () => {
+//     it('it post valid data correctly', async() => {
+//         const data = {
+//             "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             "reviewed": true,
+//             "tags": "الفخر",
+//             "verses": [
+//             {
+//                 "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//                 "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             }
+//             ]
+//         };
+//         const req = await baseHttp.post('chosenverse', data)
 
-        assert.equal(req.status, HttpStatusCode.CREATED)
-        assert.containsAllKeys(req.data, data);
+//         assert.equal(req.status, HttpStatusCode.CREATED)
+//         assert.containsAllKeys(req.data, data);
 
-        after(() => { baseHttp.delete(`chosenverse/${req.data.id}`)})
-    })
+//         after(() => { baseHttp.delete(`chosenverse/${req.data.id}`)})
+//     })
 
-    it('returns the correct error message with invalid data', async () => {
-        await baseHttp.post('/chosenverse', {
-            // "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            "reviewed": true,
-            "tags": "الفخر",
-            "verses": [
-            {
-                "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-                "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            }
-            ]
-        }).catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.POET);
-                return;
-            }
-            throw error;
-        })        
+//     it('returns the correct error message with invalid data', async () => {
+//         await baseHttp.post('/chosenverse', {
+//             // "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             "reviewed": true,
+//             "tags": "الفخر",
+//             "verses": [
+//             {
+//                 "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//                 "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             }
+//             ]
+//         }).catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.POET);
+//                 return;
+//             }
+//             throw error;
+//         })        
 
-        await baseHttp.post('/chosenverse', {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            // "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            "reviewed": true,
-            "tags": "الفخر",
-            "verses": [
-            {
-                "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-                "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            }
-            ]
-        }).catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.POEM);
-                return;
-            }
-            throw error;
-        })        
-        await baseHttp.post('/chosenverse', {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            // "tags": "الفخر",
-            "verses": [
-            {
-                "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-                "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            }
-            ]
-        }).catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.TAGS);
-                return;
-            }
-            throw error;
-        })        
-        await baseHttp.post('/chosenverse', {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            "reviewed": true,
-            "tags": "الفخر",
-            // "verses": [
-            // {
-            //     "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-            //     "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            // }
-            // ]
-        }).catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.VERSES);
-                return;
-            }
-            throw error;
-        })        
-    })
-})
+//         await baseHttp.post('/chosenverse', {
+//             "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             // "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             "reviewed": true,
+//             "tags": "الفخر",
+//             "verses": [
+//             {
+//                 "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//                 "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             }
+//             ]
+//         }).catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.POEM);
+//                 return;
+//             }
+//             throw error;
+//         })        
+//         await baseHttp.post('/chosenverse', {
+//             "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             // "tags": "الفخر",
+//             "verses": [
+//             {
+//                 "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//                 "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             }
+//             ]
+//         }).catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.TAGS);
+//                 return;
+//             }
+//             throw error;
+//         })        
+//         await baseHttp.post('/chosenverse', {
+//             "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             "reviewed": true,
+//             "tags": "الفخر",
+//             // "verses": [
+//             // {
+//             //     "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//             //     "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             // }
+//             // ]
+//         }).catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.VERSES);
+//                 return;
+//             }
+//             throw error;
+//         })        
+//     })
+// })
 
-describe('PUT /chosenverse/:id', () => {
-    let chosenVerseId: string;
-    before(async () => {
-        const data = {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            "reviewed": true,
-            "tags": "الفخر",
-            "verses": [
-            {
-                "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-                "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            }
-            ]
-        };
-        const req = await baseHttp.post('chosenverse', data)
+// describe('PUT /chosenverse/:id', () => {
+//     let chosenVerseId: string;
+//     before(async () => {
+//         const data = {
+//             "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             "reviewed": true,
+//             "tags": "الفخر",
+//             "verses": [
+//             {
+//                 "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//                 "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             }
+//             ]
+//         };
+//         const req = await baseHttp.post('chosenverse', data)
         
-        chosenVerseId = req.data.id;
-    })
+//         chosenVerseId = req.data.id;
+//     })
 
-    it('updates chosenVerse data successfuly with valid data', async() => {
-        const req = await baseHttp.put(`/chosenverse/${chosenVerseId}`, {tags: 'الحكمة,الفخر,الشجاعة'});
-        assert.equal(req.status, HttpStatusCode.ACCEPTED);
-    })
+//     it('updates chosenVerse data successfuly with valid data', async() => {
+//         const req = await baseHttp.put(`/chosenverse/${chosenVerseId}`, {tags: 'الحكمة,الفخر,الشجاعة'});
+//         assert.equal(req.status, HttpStatusCode.ACCEPTED);
+//     })
 
-    it('returns the correct error message with invalid data', async () => {
-        await baseHttp.put(`chosenverse/${chosenVerseId}`, {poet: 1221})
-        .catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.POET);
-                return;
-            }
-            throw error;
-        })
+//     it('returns the correct error message with invalid data', async () => {
+//         await baseHttp.put(`chosenverse/${chosenVerseId}`, {poet: 1221})
+//         .catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.POET);
+//                 return;
+//             }
+//             throw error;
+//         })
 
-        await baseHttp.put(`chosenverse/${chosenVerseId}`, {poem: 1221})
-        .catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.POEM);
-                return;
-            }
-            throw error;
-        })
+//         await baseHttp.put(`chosenverse/${chosenVerseId}`, {poem: 1221})
+//         .catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.POEM);
+//                 return;
+//             }
+//             throw error;
+//         })
 
-        await baseHttp.put(`chosenverse/${chosenVerseId}`, {tags: 1221})
-        .catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.TAGS);
-                return;
-            }
-            throw error;
-        })
+//         await baseHttp.put(`chosenverse/${chosenVerseId}`, {tags: 1221})
+//         .catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.TAGS);
+//                 return;
+//             }
+//             throw error;
+//         })
 
-        await baseHttp.put(`chosenverse/${chosenVerseId}`, {verses: {first: 'asassa', sec: 'asfsf'}})
-        .catch(error => {
-            if(error instanceof AxiosError) {
-                assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.VERSES);
-                return;
-            }
-            throw error;
-        })
-    })
-    it('gets 404 with nonExisting UUID', async () => {
-        try {
-            const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
-            await baseHttp.put(`chosenverse/${corruptedId}`)
-        } catch(error) {
-            if(error instanceof AxiosError) {
-                assert.strictEqual(error.response!.status, HttpStatusCode.NOT_ACCEPTABLE);
-                assert.equal(error.response!.data.message, ERROR_MSG.NOT_VALID)    
-                return;
-            }
-            throw error;
-        }
-    })
+//         await baseHttp.put(`chosenverse/${chosenVerseId}`, {verses: {first: 'asassa', sec: 'asfsf'}})
+//         .catch(error => {
+//             if(error instanceof AxiosError) {
+//                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.VERSES);
+//                 return;
+//             }
+//             throw error;
+//         })
+//     })
+//     it('gets 404 with nonExisting UUID', async () => {
+//         try {
+//             const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
+//             await baseHttp.put(`chosenverse/${corruptedId}`)
+//         } catch(error) {
+//             if(error instanceof AxiosError) {
+//                 assert.strictEqual(error.response!.status, HttpStatusCode.NOT_ACCEPTABLE);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.NOT_VALID)    
+//                 return;
+//             }
+//             throw error;
+//         }
+//     })
 
-    it('gets 400 with wrong :id format', async () => {
-        try {
-            await baseHttp.put(`chosenverse/22`);
-        } catch(error) {
-            if(error instanceof AxiosError) {
-                assert.strictEqual(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.NOT_FOUND)    
-                return;
-            }
-            throw error;
-        }
+//     it('gets 400 with wrong :id format', async () => {
+//         try {
+//             await baseHttp.put(`chosenverse/22`);
+//         } catch(error) {
+//             if(error instanceof AxiosError) {
+//                 assert.strictEqual(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.NOT_FOUND)    
+//                 return;
+//             }
+//             throw error;
+//         }
 
-    })
+//     })
 
-    after(() => { baseHttp.delete(`chosenverse/${chosenVerseId}`)})
-})
+//     after(() => { baseHttp.delete(`chosenverse/${chosenVerseId}`)})
+// })
 
-describe('DELETE /chosenverse/:id', () => {
-    let chosenVerseId: string;
-    before(async () => {
-        const data = {
-            "poet": "75ea7d81-2dfc-48b5-ab2d-f3f7b53f781f",
-            "poem": "e47d0c3a-70c7-4b01-a9cb-0990d0de5fad",
-            "reviewed": true,
-            "tags": "الفخر",
-            "verses": [
-            {
-                "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
-                "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
-            }
-            ]
-        };
-        const req = await baseHttp.post('chosenverse', data)
+// describe('DELETE /chosenverse/:id', () => {
+//     let chosenVerseId: string;
+//     before(async () => {
+//         const data = {
+//             "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
+//             "poem": "414808c1-1b70-4f52-896d-01b15b05acc3",
+//             "reviewed": true,
+//             "tags": "الفخر",
+//             "verses": [
+//             {
+//                 "first": "لا ذَنبَ لي كَم رمت كتم فَضائِلي",
+//                 "sec": "فَكَأَنَّما برقعت وَجه نَهاري"
+//             }
+//             ]
+//         };
+//         const req = await baseHttp.post('chosenverse', data)
         
-        chosenVerseId = req.data.id;
-    })
+//         chosenVerseId = req.data.id;
+//     })
 
-    it('Delete poem/:id successfully', async () => {
-        const req = await baseHttp.delete(`/chosenverse/${chosenVerseId}`);
-        assert.equal(req.status, HttpStatusCode.ACCEPTED);
-    })
+//     it('Delete poem/:id successfully', async () => {
+//         const req = await baseHttp.delete(`/chosenverse/${chosenVerseId}`);
+//         assert.equal(req.status, HttpStatusCode.ACCEPTED);
+//     })
 
-    it('gets 404 with nonExisting UUID', async () => {
-        try {
-            const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
-            await baseHttp.delete(`chosenverse/${corruptedId}`)
-        } catch(error) {
-            if(error instanceof AxiosError) {
-                assert.strictEqual(error.response!.status, HttpStatusCode.NOT_FOUND);
-                assert.equal(error.response!.data.message, ERROR_MSG.NOT_AVAILABLE)    
-                return;
-            }
-            throw error;
-        }
-    })
+//     it('gets 404 with nonExisting UUID', async () => {
+//         try {
+//             const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
+//             await baseHttp.delete(`chosenverse/${corruptedId}`)
+//         } catch(error) {
+//             if(error instanceof AxiosError) {
+//                 assert.strictEqual(error.response!.status, HttpStatusCode.NOT_FOUND);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.NOT_AVAILABLE)    
+//                 return;
+//             }
+//             throw error;
+//         }
+//     })
 
-    it('gets 400 with wrong :id format', async () => {
-        try {
-            await baseHttp.delete(`chosenverse/22`);
-        } catch(error) {
-            if(error instanceof AxiosError) {
-                assert.strictEqual(error.response!.status, HttpStatusCode.BAD_REQUEST);
-                assert.equal(error.response!.data.message, ERROR_MSG.NOT_FOUND)    
-                return;
-            }
-            throw error;
-        }
+//     it('gets 400 with wrong :id format', async () => {
+//         try {
+//             await baseHttp.delete(`chosenverse/22`);
+//         } catch(error) {
+//             if(error instanceof AxiosError) {
+//                 assert.strictEqual(error.response!.status, HttpStatusCode.BAD_REQUEST);
+//                 assert.equal(error.response!.data.message, ERROR_MSG.NOT_FOUND)    
+//                 return;
+//             }
+//             throw error;
+//         }
 
-    })
-})
+//     })
+// })

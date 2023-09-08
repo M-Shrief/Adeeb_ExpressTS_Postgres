@@ -76,7 +76,7 @@ describe('POST /poems', () => {
     const data = [        
         {
             "intro": "testing2",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
@@ -91,7 +91,7 @@ describe('POST /poems', () => {
         },
         {
             "intro": "testing3",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
@@ -144,7 +144,7 @@ describe('POST /poem', () => {
     it('it post valid data correctly', async() => {
         const data = {
             "intro": "testing2",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
@@ -168,7 +168,7 @@ describe('POST /poem', () => {
     it('returns the correct error message with invalid data', async () => {
         await baseHttp.post('/poem', {
             // "intro": "حسرةٌ ولَّت, و أخرى أقبلت",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
@@ -191,7 +191,7 @@ describe('POST /poem', () => {
 
         await baseHttp.post('/poem', {
             "intro": "testing3",
-            // "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            // "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
@@ -214,7 +214,7 @@ describe('POST /poem', () => {
 
         await baseHttp.post('/poem', {
             "intro": "testing4",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf"
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6"
         }).catch(error => {
             if(error instanceof AxiosError) {
                 assert.equal(error.response!.status, HttpStatusCode.BAD_REQUEST);
@@ -231,7 +231,7 @@ describe('PUT /poem/:id', () => {
     before(async () => {
         const data = {
             "intro": "testing6",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
@@ -322,7 +322,7 @@ describe('DELETE /poet/:id', () => {
     before(async () => {
         const data = {
             "intro": "testing89",
-            "poet": "b7aeb1cd-7289-4547-9e22-c78188d84abf",
+            "poet": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
             "verses": [
             {
                 "first": "فهوَ أمواجُ ظلامٍ .. لا تَرَى",
