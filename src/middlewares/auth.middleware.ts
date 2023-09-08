@@ -9,7 +9,7 @@ export const jwtToken = (bln?: boolean) =>
     secret: process.env.JWT_PRIVATE as string,
     algorithms: ['RS256'],
     credentialsRequired: bln ?? false, // set:false to identify registered users while still providing access to unregistered users.
-    requestProperty: 'user', // req.auth by default
+    requestProperty: 'user', // made it user for guard, it's req.auth by default
   });
 
 export const guard = guardFactory();
@@ -27,6 +27,13 @@ export const authErrorHandler = (
         'Unautorized for this request',
         true,
       );
+      if (error.name === 'permission_denied') {
+        throw new AppError(
+          HttpStatusCode.FORBIDDEN,
+          'Forbidden request',
+          true,
+        );
+      }
   } catch (err) {
     next(err);
   }
