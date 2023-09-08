@@ -59,7 +59,7 @@ describe('GET /partner/:id', () => {
             })
     })
 
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = partnerId.replace(partnerId[5], 'a');
             await withAuthHttp(token).get(`partner/${corruptedId}`)
@@ -248,7 +248,7 @@ describe('PUT /partner/:id', () => {
         })
     })
 
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = partnerId.replace(partnerId[5], 'a');
             await withAuthHttp(token).put(`partner/${corruptedId}`)
@@ -292,7 +292,7 @@ describe('DELETE /partner/:id', () => {
         assert.equal(req.status, HttpStatusCode.ACCEPTED);
     })
 
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = partnerId.replace(partnerId[5], 'a');
             await withAuthHttp(token).delete(`partner/${corruptedId}`)

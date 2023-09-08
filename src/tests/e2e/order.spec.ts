@@ -712,7 +712,7 @@ describe('DELETE /order/:id', () => {
         assert.equal(req.status, HttpStatusCode.ACCEPTED);
     })
 
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = orderId.replace(orderId[5], 'a');
             await baseHttp.delete(`order/${corruptedId}`)

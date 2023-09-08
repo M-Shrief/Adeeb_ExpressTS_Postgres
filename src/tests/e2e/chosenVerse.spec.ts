@@ -72,7 +72,7 @@ describe('GET /chosenverse/:id', () => {
         assert.isDefined(req.data.reviewed);
     })
     
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
             await baseHttp.get(`chosenverse/${corruptedId}`);
@@ -329,7 +329,7 @@ describe('PUT /chosenverse/:id', () => {
             throw error;
         })
     })
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
             await baseHttp.put(`chosenverse/${corruptedId}`)
@@ -385,7 +385,7 @@ describe('DELETE /chosenverse/:id', () => {
         assert.equal(req.status, HttpStatusCode.ACCEPTED);
     })
 
-    it('gets 404 with nonExisting MongoId', async () => {
+    it('gets 404 with nonExisting UUID', async () => {
         try {
             const corruptedId = chosenVerseId.replace(chosenVerseId[5], 'a');
             await baseHttp.delete(`chosenverse/${corruptedId}`)
