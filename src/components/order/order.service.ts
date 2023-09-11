@@ -61,16 +61,7 @@ export class OrderService {
     const isValid = await createSchema.isValid(orderData);
     if (!isValid) return false;
 
-    const order = new Order();
-    if (orderData.partnerId) order.partnerId = orderData.partnerId;
-    order.name = orderData.name;
-    order.phone = orderData.phone;
-    order.address = orderData.address;
-    order.reviewed = orderData.reviewed;
-    order.completed = orderData.completed;
-    order.products = orderData.products;
-
-    const newOrder = await this.orderRepository.save(order);
+    const newOrder = await this.orderRepository.save(orderData);
     if (!newOrder) return false;
     return newOrder;
   }
