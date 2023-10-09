@@ -17,6 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^7.73.0",
+    "@sentry/profiling-node": "^1.2.1",
     "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
@@ -32,10 +34,10 @@
     "pg": "^8.11.0",
     "redis": "^4.6.7",
     "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.8.0",
     "typeorm": "^0.3.16",
     "winston": "^3.8.2",
-    "yup": "^1.2.0",
-    "tsyringe": "^4.8.0"
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -57,7 +59,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "mocha": "^10.2.0",
-    "nodemon": "^2.0.20",
     "prettier": "^2.3.2",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
