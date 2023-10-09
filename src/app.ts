@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 // Config
-import { PORT, CORS_ORIGIN } from './config';
+import { PORT, CORS_ORIGIN, SENTRY_DNS } from './config';
 // Middlewares
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
@@ -82,7 +82,7 @@ export default class App {
 
   private initializeSentry(app: Application) {
     Sentry.init({
-      dsn: 'https://74f32d4bc8ac9bc3a6577b0315868bd5@o4506020740136960.ingest.sentry.io/4506021370396672',
+      dsn: SENTRY_DNS,
       integrations: [
         // enable HTTP calls tracing
         new Sentry.Integrations.Http({ tracing: true }),

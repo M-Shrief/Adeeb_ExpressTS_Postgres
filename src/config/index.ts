@@ -17,5 +17,6 @@ export const {
   LOG_DIR,
   ORIGIN,
   JWT_PRIVATE,
-  CORS_ORIGIN
+  CORS_ORIGIN,
+  SENTRY_DNS
 } = process.env;
