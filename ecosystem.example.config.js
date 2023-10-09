@@ -54,8 +54,8 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           LOG_FORMAT:'',
           CORS_ORIGIN: 'http://localhost:5173'
         },
-        env_remote: {
-          NODE_ENV: 'development',
+        env_production: {
+          NODE_ENV: 'production',
           PORT: 3000,
           DB_HOST: 'localhost',
           DB_PORT: 5432,
@@ -67,9 +67,9 @@ module.exports = { // very good docs at http://pm2.keymetrics.io/docs/usage/appl
           SECRET_KEY:'',
           LOG_DIR:'./',
           LOG_FORMAT:'',
-          CORS_ORIGIN: ''
+          CORS_ORIGIN: '',
+          SENTRY_DNS: ''
         },
-        
       }
     ],
     // Deployment Configuration example
