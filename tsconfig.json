@@ -9,7 +9,8 @@
     "strict": true,
     "outDir": "./dist",
     "rootDir": "src",
-    "sourceMap": true
+    "sourceMap": true,
+    "incremental": true,
     // "baseUrl": "./src"
     // "paths": {
     //   "@/*": ["*"],
