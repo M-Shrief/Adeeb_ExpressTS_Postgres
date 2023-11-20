@@ -1,7 +1,5 @@
-// Database
-import { AppDataSource } from '../../db';
-// Redis
-import redisClient  from '../../redis';
+// Repository
+import {PoetDB, PoetRedis} from './poet.repository'
 // Entities
 import { Poet } from './poet.entity';
 // Schema
@@ -10,63 +8,23 @@ import { createSchema, updateSchema } from './poet.schema';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 import { logger } from '../../utils/logger';
  
-const poetRepository = AppDataSource.getRepository(Poet);
-
 export const PoetService = {
   async getAll(): Promise<Poet[] | false> {
-    const poets = await poetRepository.find({
-      select: {
-        id: true,
-        name: true,
-        time_period: true,
-      },
-      relations: { poems: false },
-      cache: true,
-    });
+    const poets = await PoetDB.getAll()
     if (poets.length === 0) return false;
     return poets;
   },
 
   async getOneWithLiterature(id: string): Promise<Poet | false> {
     let poet: Poet | null;
-    const cached = await redisClient.get(`poet:${id}`);
+    const cached = await PoetRedis.get(id)
     if(cached) {
       poet = JSON.parse(cached);
     } else {
-      poet = await poetRepository.findOne({
-        where: { id },
-        select: {
-          id: true,
-          name: true,
-          time_period: true,
-          bio: true,
-          poems: {
-            id: true,
-            intro: true,
-          },
-          chosenVerses: {
-            id: true,
-            poem: {
-              id: true,
-            },
-            verses: true,
-            tags: true,
-          },
-          proses: {
-            id: true,
-            qoute: true,
-            tags: true,
-          },
-        },
-        relations: ['poems', 'chosenVerses', 'chosenVerses.poem','proses'],
-        cache: 1000 * 5,
-      });
-
-      await redisClient.set(`poet:${id}`, JSON.stringify(poet), {EX: 60*15})
-      .catch(err => logger.error(err));
+      poet = await PoetDB.getOneWithLiterature(id)
     }
-
     if (!poet) return false;
+    await PoetRedis.set(id, poet)
     return poet;
   },
 
@@ -74,7 +32,7 @@ export const PoetService = {
     const isValid = await createSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const newPoet = await poetRepository.save(poetData);
+    const newPoet = await PoetDB.post(poetData);
     if (!newPoet) return false;
     return newPoet;
   },
@@ -90,7 +48,7 @@ export const PoetService = {
     const nonValidPoets: Poet[] =  await filterAsync(PoetsData, isNotValid)
 
 
-    const newPoets = await poetRepository.save(
+    const newPoets = await PoetDB.postMany(
       validPoets
     );
     if (!newPoets) return false;
@@ -103,13 +61,13 @@ export const PoetService = {
     const isValid = await updateSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const newPoet = await poetRepository.update(id, poetData);
+    const newPoet = await PoetDB.update(id, poetData);
     if (!newPoet.affected) return false;
     return newPoet.affected;
   },
 
   async remove(id: string): Promise<number | false> {
-    const poet = await poetRepository.delete(id);
+    const poet = await PoetDB.remove(id);
     if (!poet.affected) return false;
     return poet.affected;
   }
