@@ -12,6 +12,8 @@ ecosystem.config.js
 
 can_use.md
 
+*.tsbuildinfo
+
 dataMapper.js
 
 # Certificates
