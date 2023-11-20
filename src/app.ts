@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import { errorMiddleware } from './middlewares/errorHandler.middleware';
 import { morganMiddleware } from './middlewares/morgan.middleware';
+import rateLimit from 'express-rate-limit';
 // Utils
 import { logger } from './utils/logger';
 import {
@@ -62,8 +63,7 @@ export default class App {
 
   private async initializeRoutes(routes: IRoute[]) {
     // Importing commonjs dynamically, and using {*:*func} because it's a default export
-    const {rateLimit: rateLimitFunc} = await import('express-rate-limit');
-    const apiLimiter = rateLimitFunc({
+    const apiLimiter = rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
       max: 1000, // Limit each IP to 1000 requests per `window` (here, per 15 minutes)
       standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
