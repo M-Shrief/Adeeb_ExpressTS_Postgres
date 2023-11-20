@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import {  injectable } from "tsyringe";
 import { body, param } from 'express-validator';
 // Controller
 import { PoetController } from './poet.controller';
@@ -10,80 +9,75 @@ import { ERROR_MSG } from './poet.entity';
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 
-@injectable()
-export class PoetRoute implements IRoute {
-  public router: Router = Router();
-  // private controller: PoetController = new PoetController();
+const router: Router = Router()
 
-  constructor(
-    private controller: PoetController
-  ) {
-    this.initializeRoutes();
-  }
+router.get('/poets', setCache, PoetController.index);
 
-  private initializeRoutes() {
-    this.router.get('/poets', setCache, this.controller.index);
-    this.router.get(
-      '/poet/:id',
-      [
-        validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
-        setCache,
-      ],
-      this.controller.indexOneWithLiterature,
-    );
-    this.router.post(
-      '/poet',
-      validate([
-        body('name')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.NAME),
-        body('time_period')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.TIME_PERIOD),
-        body('bio')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.BIO),
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
-      this.controller.post,
-    );
+router.get(
+  '/poet/:id',
+  [
+    validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
+    setCache,
+  ],
+  PoetController.indexOneWithLiterature,
+);
 
-    this.router.post('/poets', this.controller.postMany);
+router.post(
+  '/poet',
+  validate([
+    body('name')
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.NAME),
+    body('time_period')
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.TIME_PERIOD),
+    body('bio')
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.BIO),
+    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+  ]),
+  PoetController.post,
+);
 
-    this.router.put(
-      '/poet/:id',
-      validate([
-        param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
+router.post('/poets', PoetController.postMany);
 
-        body('name')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.NAME),
+router.put(
+  '/poet/:id',
+  validate([
+    param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
-        body('time_period')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.TIME_PERIOD),
+    body('name')
+      .optional()
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.NAME),
 
-        body('bio')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.BIO),
+    body('time_period')
+      .optional()
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.TIME_PERIOD),
 
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
-      this.controller.update,
-    );
-    this.router.delete(
-      '/poet/:id',
-      [validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)])],
-      this.controller.remove,
-    );
-  }
+    body('bio')
+      .optional()
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.BIO),
+
+    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+  ]),
+  PoetController.update,
+);
+
+router.delete(
+  '/poet/:id',
+  [validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)])],
+  PoetController.remove,
+);
+
+export const PoetRoute: IRoute = {
+  router
 }

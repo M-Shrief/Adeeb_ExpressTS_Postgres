@@ -13,7 +13,7 @@ import { PartnerRoute } from './components/partner/partner.route';
 import { OrderRoute } from './components/order/order.route';
 
 const app = new App([
-  container.resolve(PoetRoute),
+  PoetRoute,
   new PoemRoute(),
   new ChosenVerseRoute(),
   new ProseRoute(),

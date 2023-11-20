@@ -9,11 +9,12 @@ import { createSchema, updateSchema } from './poet.schema';
 // Utills
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 import { logger } from '../../utils/logger';
-export class PoetService {
-  private poetRepository = AppDataSource.getRepository(Poet);
+ 
+const poetRepository = AppDataSource.getRepository(Poet);
 
-  public async getAll(): Promise<Poet[] | false> {
-    const poets = await this.poetRepository.find({
+export const PoetService = {
+  async getAll(): Promise<Poet[] | false> {
+    const poets = await poetRepository.find({
       select: {
         id: true,
         name: true,
@@ -24,16 +25,15 @@ export class PoetService {
     });
     if (poets.length === 0) return false;
     return poets;
-  }
+  },
 
-  public async getOneWithLiterature(id: string): Promise<Poet | false> {
+  async getOneWithLiterature(id: string): Promise<Poet | false> {
     let poet: Poet | null;
-
     const cached = await redisClient.get(`poet:${id}`);
     if(cached) {
       poet = JSON.parse(cached);
     } else {
-      poet = await this.poetRepository.findOne({
+      poet = await poetRepository.findOne({
         where: { id },
         select: {
           id: true,
@@ -68,18 +68,18 @@ export class PoetService {
 
     if (!poet) return false;
     return poet;
-  }
+  },
 
-  public async post(poetData: Poet): Promise<Poet | false> {
+  async post(poetData: Poet): Promise<Poet | false> {
     const isValid = await createSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const newPoet = await this.poetRepository.save(poetData);
+    const newPoet = await poetRepository.save(poetData);
     if (!newPoet) return false;
     return newPoet;
-  }
+  },
 
-  public async postMany(
+  async postMany(
     PoetsData: Poet[],
   ): Promise<{newPoets: Poet[], nonValidPoets: Poet[]} | false> {
 
@@ -90,26 +90,26 @@ export class PoetService {
     const nonValidPoets: Poet[] =  await filterAsync(PoetsData, isNotValid)
 
 
-    const newPoets = await this.poetRepository.save(
+    const newPoets = await poetRepository.save(
       validPoets
     );
     if (!newPoets) return false;
 
     const result = {newPoets, nonValidPoets}
     return result;
-  }
+  },
 
-  public async update(id: string, poetData: Poet): Promise<number | false> {
+  async update(id: string, poetData: Poet): Promise<number | false> {
     const isValid = await updateSchema.isValid(poetData);
     if (!isValid) return false;
 
-    const newPoet = await this.poetRepository.update(id, poetData);
+    const newPoet = await poetRepository.update(id, poetData);
     if (!newPoet.affected) return false;
     return newPoet.affected;
-  }
+  },
 
-  public async remove(id: string): Promise<number | false> {
-    const poet = await this.poetRepository.delete(id);
+  async remove(id: string): Promise<number | false> {
+    const poet = await poetRepository.delete(id);
     if (!poet.affected) return false;
     return poet.affected;
   }

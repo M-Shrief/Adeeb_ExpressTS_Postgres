@@ -8,14 +8,10 @@ import { ERROR_MSG } from './poet.entity';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
-@injectable()
-// @injectable()
-export class PoetController {
-  constructor( private poetService: PoetService) {}
-
-  public index = async (req: Request, res: Response, next: NextFunction) => {
+export const PoetController =  {
+  index: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poets = await this.poetService.getAll();
+      const poets = await PoetService.getAll();
       if (!poets) {
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -27,26 +23,22 @@ export class PoetController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public indexOneWithLiterature = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  indexOneWithLiterature: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await this.poetService.getOneWithLiterature(req.params.id);
+      const poet = await PoetService.getOneWithLiterature(req.params.id);
       if (!poet)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       return res.status(HttpStatusCode.OK).send(poet);
     } catch (err) {
       next(err);
     }
-  };
+  },
 
-  public post = async (req: Request, res: Response, next: NextFunction) => {
+  post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await this.poetService.post(req.body);
+      const poet = await PoetService.post(req.body);
       if (!poet)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -57,11 +49,11 @@ export class PoetController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public postMany = async (req: Request, res: Response, next: NextFunction) => {
+  postMany: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poets = await this.poetService.postMany(req.body);
+      const poets = await PoetService.postMany(req.body);
       if (!poets)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -72,11 +64,11 @@ export class PoetController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public update = async (req: Request, res: Response, next: NextFunction) => {
+  update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await this.poetService.update(req.params.id, req.body);
+      const poet = await PoetService.update(req.params.id, req.body);
       if (!poet)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -88,16 +80,16 @@ export class PoetController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public remove = async (req: Request, res: Response, next: NextFunction) => {
+  remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await this.poetService.remove(req.params.id);
+      const poet = await PoetService.remove(req.params.id);
       if (!poet)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);
     }
-  };
+  }
 }
