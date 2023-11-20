@@ -3,7 +3,7 @@ import { autoInjectable, container, inject, injectable } from "tsyringe";
 // Services
 import { PoetService } from './poet.service';
 // Types
-import { ERROR_MSG } from './poet.entity';
+import { ERROR_MSG, Poet } from './poet.entity';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
@@ -27,10 +27,12 @@ export const PoetController =  {
 
   indexOneWithLiterature: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await PoetService.getOneWithLiterature(req.params.id);
-      if (!poet)
-        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
-      return res.status(HttpStatusCode.OK).send(poet);
+      const service = await PoetService.getOneWithLiterature(req.params.id)
+      const {status, poet, errMsg} =  responseInfo.indexOneWithLiterature(service);
+      if (errMsg) {
+          throw new AppError(status, errMsg, true);
+      }
+      res.status(status).send(poet);
     } catch (err) {
       next(err);
     }
@@ -54,12 +56,6 @@ export const PoetController =  {
   postMany: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const poets = await PoetService.postMany(req.body);
-      if (!poets)
-        throw new AppError(
-          HttpStatusCode.NOT_ACCEPTABLE,
-          ERROR_MSG.NOT_VALID,
-          true,
-        );
       res.status(HttpStatusCode.CREATED).send(poets);
     } catch (errors) {
       next(errors);
@@ -91,5 +87,14 @@ export const PoetController =  {
     } catch (errors) {
       next(errors);
     }
+  }
+}
+
+const responseInfo = {
+  indexOneWithLiterature: (poet: Poet | false): {status: number, poet?: Poet, errMsg?: string} => {
+    if (!poet) {
+      return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND }
+    }
+    return {status: HttpStatusCode.OK, poet}
   }
 }
