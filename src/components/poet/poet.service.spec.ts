@@ -51,27 +51,24 @@ describe.concurrent("Testing PoetSerivce", async() => {
         ]
       } as Poet;
     it("Gets data successfully from Database", async() => {
-      vi.spyOn(AppDataSource, "getRepository").getMockImplementation()
-      vi.spyOn(PoetRedis, 'get').mockImplementation(async() => null)
-      vi.spyOn(PoetDB, "getOneWithLiterature").mockImplementation(async () => poetWithLiterature)
+      vi.spyOn(PoetRedis, 'get').mockResolvedValue(null)
+      vi.spyOn(PoetDB, "getOneWithLiterature").mockResolvedValue(poetWithLiterature)
   
       const result = await PoetService.getOneWithLiterature( "e7749f21-9cf9-4981-b7a8-2ce262f159f6")
       expect(result).toStrictEqual(poetWithLiterature)
     })
   
     it("Gets data successfully from Redis", async() => {
-      vi.spyOn(AppDataSource, "getRepository").getMockImplementation()
-      vi.spyOn(PoetRedis, 'get').mockImplementation(async() => JSON.stringify(poetWithLiterature))
-      vi.spyOn(PoetDB, "getOneWithLiterature").mockImplementation(async () => null)
+      vi.spyOn(PoetRedis, 'get').mockResolvedValue(JSON.stringify(poetWithLiterature))
+      vi.spyOn(PoetDB, "getOneWithLiterature").mockResolvedValue(null)
   
       const result = await PoetService.getOneWithLiterature( "e7749f21-9cf9-4981-b7a8-2ce262f159f6")
       expect(result).toStrictEqual(poetWithLiterature)
     })
   
     it("Returns false if no data is not found", async() => {
-      vi.spyOn(AppDataSource, "getRepository").getMockImplementation()
-      vi.spyOn(PoetRedis, 'get').mockImplementation(async() => null)
-      vi.spyOn(PoetDB, "getOneWithLiterature").mockImplementation(async () => null)
+      vi.spyOn(PoetRedis, 'get').mockResolvedValue(null)
+      vi.spyOn(PoetDB, "getOneWithLiterature").mockResolvedValue(null)
   
       const result = await PoetService.getOneWithLiterature( "e7749f21-9cf9-4981-b7a8-2ce262f159f6")
       expect(result).toEqual(false)
