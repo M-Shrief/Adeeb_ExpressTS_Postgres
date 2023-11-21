@@ -6,6 +6,7 @@ import { Poet } from './poet.entity';
 // Redis
 import redisClient  from '../../redis';
 import { logger } from '../../utils/logger';
+import { Logger } from 'winston';
 
 const datasource = AppDataSource.getRepository(Poet);
 
@@ -69,9 +70,9 @@ export const PoetRedis = {
     async get(id: string): Promise<string | null> {
         return await redisClient.get(`poet:${id}`);
     },
-    async set(id: string, poet: Poet) {
-        await redisClient
+    async set(id: string, poet: Poet): Promise<string | Logger | null>  {
+        return await redisClient
         .set(`poet:${id}`, JSON.stringify(poet), {EX: 60*15})
-        .catch(err => logger.error(err));
+        .catch(err => logger.error(`CacheError: couldn't cache poet:${id}`));
     }
 }

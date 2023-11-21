@@ -81,6 +81,7 @@ describe.concurrent("Testing PoetSerivce", async() => {
       } as Poet;
     it("Gets data successfully from Database", async() => {
       vi.spyOn(PoetRedis, 'get').mockResolvedValue(null)
+      vi.spyOn(PoetRedis, 'set').mockResolvedValue("")
       vi.spyOn(PoetDB, "getOneWithLiterature").mockResolvedValue(poetWithLiterature)
   
       const result = await PoetService.getOneWithLiterature( "e7749f21-9cf9-4981-b7a8-2ce262f159f6")
@@ -89,6 +90,7 @@ describe.concurrent("Testing PoetSerivce", async() => {
   
     it("Gets data successfully from Redis", async() => {
       vi.spyOn(PoetRedis, 'get').mockResolvedValue(JSON.stringify(poetWithLiterature))
+      vi.spyOn(PoetRedis, 'set').mockResolvedValue("")
       vi.spyOn(PoetDB, "getOneWithLiterature").mockResolvedValue(null)
   
       const result = await PoetService.getOneWithLiterature( "e7749f21-9cf9-4981-b7a8-2ce262f159f6")

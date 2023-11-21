@@ -8,6 +8,7 @@ import { Poem } from './poem.entity';
 import { logger } from '../../utils/logger';
 // Types
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { Logger } from 'winston';
 
 
 const db = AppDataSource.getRepository(Poem);
@@ -84,9 +85,9 @@ export const PoemRedis = {
     async get(id: string): Promise<string | null> {
         return await redisClient.get(`poem:${id}`);
     },
-    async set(id: string, poem: Poem) {
-        await redisClient
+    async set(id: string, poem: Poem): Promise<string | Logger | null> {
+        return await redisClient
         .set(`poem:${id}`, JSON.stringify(poem), {EX: 60*15})
-        .catch(err => logger.error(err));
+        .catch(err => logger.error(`CacheError: couldn't cache poem:${id}`));
     }
 }
