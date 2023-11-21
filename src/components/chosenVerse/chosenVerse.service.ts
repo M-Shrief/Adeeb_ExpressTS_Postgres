@@ -82,13 +82,13 @@ export class ChosenVerseService {
 
   public async postMany(
     chosenVersesData: ChosenVerse[],
-  ): Promise<{newChosenVerses: ChosenVerse[], nonValidChosenVerses: ChosenVerse[]} | false> {
+  ): Promise<{newChosenVerses: ChosenVerse[], inValidChosenVerses: ChosenVerse[]} | false> {
     
     let isValid = async (chosenVerseData: ChosenVerse) => await createSchema.isValid(chosenVerseData)
     let isNotValid = async (chosenVerseData: ChosenVerse) => await createSchema.isValid(chosenVerseData) === false
 
     const validChosenVerses: ChosenVerse[]  =  await filterAsync(chosenVersesData, isValid)
-    const nonValidChosenVerses: ChosenVerse[]  =  await filterAsync(chosenVersesData, isNotValid)
+    const inValidChosenVerses: ChosenVerse[]  =  await filterAsync(chosenVersesData, isNotValid)
 
 
     const newChosenVerses = await this.chosenVerseRepository.save(
@@ -96,7 +96,7 @@ export class ChosenVerseService {
     );
     if (!newChosenVerses) return false;
 
-    const result = {newChosenVerses, nonValidChosenVerses}
+    const result = {newChosenVerses, inValidChosenVerses}
     return result;
   }
 

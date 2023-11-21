@@ -147,7 +147,7 @@ describe.concurrent("Testing PoetSerivce", async() => {
       expect(result).toBeTruthy()
       if(result != false) {
         expect(result.newPoets).toStrictEqual([poet1, poet2, poet3])
-        expect(result.notValidPoets).toStrictEqual([poet4, poet5, poet6])
+        expect(result.inValidPoets).toStrictEqual([poet4, poet5, poet6])
       }
     })
   })
@@ -180,14 +180,14 @@ describe.concurrent("Testing PoetSerivce", async() => {
     test("return false after non-existing id",async () => {
       vi.spyOn(PoetDB, "update").mockResolvedValue({affected: 0} as UpdateResult);      
 
-      const result1 = await PoetService.update("1",{name: "sa"} as Poet)
+      const result1 = await PoetService.update("1",{name} as Poet)
       expect(result1).toEqual(false)
     })
   })
 
   describe("Testing remove()", async() => {
     test("Successfully deletes poet", async() => {
-      vi.spyOn(PoetDB, "remove").mockResolvedValue({affected: 1} as UpdateResult);      
+      vi.spyOn(PoetDB, "remove").mockResolvedValue({affected: 1} as DeleteResult);      
 
       const result1 = await PoetService.remove("1")
       expect(result1).toEqual(1)

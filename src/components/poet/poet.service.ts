@@ -38,13 +38,13 @@ export const PoetService = {
 
   async postMany(
     PoetsData: Poet[],
-  ): Promise<{newPoets: Poet[], notValidPoets: Poet[]} | false> {
+  ): Promise<{newPoets: Poet[], inValidPoets: Poet[]} | false> {
 
     let isValid = async (PoetData: Poet) => await createSchema.isValid(PoetData)
     let isNotValid = async (PoetData: Poet) => await createSchema.isValid(PoetData) === false
 
     const validPoets: Poet[]  =  await filterAsync(PoetsData, isValid)
-    const notValidPoets: Poet[] =  await filterAsync(PoetsData, isNotValid)
+    const inValidPoets: Poet[] =  await filterAsync(PoetsData, isNotValid)
 
 
     const newPoets = await PoetDB.postMany(
@@ -52,7 +52,7 @@ export const PoetService = {
     );
     if (newPoets.length == 0) return false;
 
-    const result = {newPoets, notValidPoets}
+    const result = {newPoets, inValidPoets}
     return result;
   },
 
