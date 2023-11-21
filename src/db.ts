@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 // Config
-import { DB } from './config';
+import { NODE_ENV,DB } from './config';
 // Entities
 import { Poet } from './components/poet/poet.entity';
 import { Poem } from './components/poem/poem.entity';
@@ -30,17 +30,15 @@ export const AppDataSource = new DataSource({
   subscribers: [],
 });
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     await AppDataSource.initialize();
     logger.info(`Connected To Postgres database correctly, Host: ${DB.host}`);
   } catch (error) {
-    logger.error('Failed to connect to database');
-    process.exit(1);
+      logger.error('Failed to connect to database');
+      process.exit(1);
   }
 };
-
-connectDB();
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', async () => {

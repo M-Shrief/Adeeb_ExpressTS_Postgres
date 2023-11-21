@@ -18,9 +18,9 @@ redisClient.on('end', () => logger.info('Cache disconnected'));
 redisClient.on('reconnecting', () => logger.info(`Cache is reconnecting.`));
 redisClient.on('error', (e) => logger.error(e));
 
-(async() => {
+export const connectRedis = async() => {
     await redisClient.connect().catch(err=> logger.error(err))
-})()
+}
 
 
 // If the Node process ends, close the Cache connection
