@@ -90,7 +90,7 @@ export const PoetController =  {
   }
 }
 
-const responseInfo = {
+export const responseInfo = {
   indexOneWithLiterature: (poet: Poet | false): {status: number, poet?: Poet, errMsg?: string} => {
     if (!poet) {
       return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND }
