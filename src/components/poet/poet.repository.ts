@@ -8,11 +8,11 @@ import redisClient  from '../../redis';
 import { logger } from '../../utils/logger';
 import { Logger } from 'winston';
 
-const datasource = AppDataSource.getRepository(Poet);
+const db = AppDataSource.getRepository(Poet);
 
 export const PoetDB = {
     async getAll(): Promise<Poet[]> {
-        return  await datasource.find({
+        return  await db.find({
           select: {
             id: true,
             name: true,
@@ -23,7 +23,7 @@ export const PoetDB = {
         });
     },
     async getOneWithLiterature(id: string): Promise<Poet | null> {
-        return datasource.findOne({
+        return db.findOne({
             where: { id },
             select: {
                 id: true,
@@ -53,16 +53,16 @@ export const PoetDB = {
         });
     },
     async post(poetData: Poet): Promise<Poet> {
-        return await datasource.save(poetData);
+        return await db.save(poetData);
     },
     async postMany(poetsData: Poet[]): Promise<Poet[]> {
-        return await datasource.save(poetsData);
+        return await db.save(poetsData);
     },
     async update(id: string, poetData: Poet): Promise<UpdateResult> {
-        return await datasource.update(id, poetData);
+        return await db.update(id, poetData);
     },
     async remove(id: string): Promise<DeleteResult> {
-        return await datasource.delete(id);
+        return await db.delete(id);
     }
 }
 
