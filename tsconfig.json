@@ -11,5 +11,8 @@
     "rootDir": "src",
     "sourceMap": true,
     "incremental": true,
-  }
+    "skipLibCheck": true,
+    "types": ["vitest/globals"]
+  },
+  "include": ["src"],
 }
