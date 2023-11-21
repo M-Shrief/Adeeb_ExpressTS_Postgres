@@ -51,7 +51,7 @@ export const PoetService = {
     const newPoets = await PoetDB.postMany(
       validPoets
     );
-    if (!newPoets) return false;
+    if (newPoets.length == 0) return false;
 
     const result = {newPoets, notValidPoets}
     return result;

@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { autoInjectable, container, inject, injectable } from "tsyringe";
 // Services
 import { PoetService } from './poet.service';
 // Types
@@ -11,15 +10,12 @@ import HttpStatusCode from '../../utils/httpStatusCode';
 export const PoetController =  {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poets = await PoetService.getAll();
-      if (!poets) {
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          ERROR_MSG.NOT_AVAILABLE,
-          true,
-        );
+      const service = await PoetService.getAll();
+      const {status, poets, errMsg} = responseInfo.indexAll(service)
+      if (errMsg) {
+        throw new AppError(status, errMsg, true);
       }
-      res.status(HttpStatusCode.OK).send(poets);
+      res.status(status).send(poets);
     } catch (errors) {
       next(errors);
     }
@@ -30,7 +26,7 @@ export const PoetController =  {
       const service = await PoetService.getOneWithLiterature(req.params.id)
       const {status, poet, errMsg} =  responseInfo.indexOneWithLiterature(service);
       if (errMsg) {
-          throw new AppError(status, errMsg, true);
+        throw new AppError(status, errMsg, true);
       }
       res.status(status).send(poet);
     } catch (err) {
@@ -40,14 +36,12 @@ export const PoetController =  {
 
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await PoetService.post(req.body);
-      if (!poet)
-        throw new AppError(
-          HttpStatusCode.NOT_ACCEPTABLE,
-          ERROR_MSG.NOT_VALID,
-          true,
-        );
-      res.status(HttpStatusCode.CREATED).send(poet);
+      const service = await PoetService.post(req.body);
+      const {status, poet, errMsg} = responseInfo.post(service)
+      if (errMsg)
+        throw new AppError(status, errMsg, true);
+
+      res.status(status).send(poet);
     } catch (errors) {
       next(errors);
     }
@@ -55,8 +49,12 @@ export const PoetController =  {
 
   postMany: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poets = await PoetService.postMany(req.body);
-      res.status(HttpStatusCode.CREATED).send(poets);
+      const service = await PoetService.postMany(req.body);
+      const {status, poets, errMsg} = responseInfo.postMany(service)
+      if (errMsg) {
+        throw new AppError(status, errMsg, true);
+      }
+      res.status(status).send(poets);
     } catch (errors) {
       next(errors);
     }
@@ -64,15 +62,14 @@ export const PoetController =  {
 
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await PoetService.update(req.params.id, req.body);
-      if (!poet)
-        throw new AppError(
-          HttpStatusCode.NOT_ACCEPTABLE,
-          ERROR_MSG.NOT_VALID,
-          true,
-        );
+      const service = await PoetService.update(req.params.id, req.body);
+      const {status, errMsg} = responseInfo.update(service)
+      if (errMsg) {
+        throw new AppError(status, errMsg, true);
+      }
       // Bug: it gives error with res.status but works with res.sendStatus
-      res.sendStatus(HttpStatusCode.ACCEPTED).send(poet);
+      // It gives a bug because poet is a number so it thinks we put it as a status code.
+      res.sendStatus(status);
     } catch (errors) {
       next(errors);
     }
@@ -80,10 +77,11 @@ export const PoetController =  {
 
   remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poet = await PoetService.remove(req.params.id);
-      if (!poet)
-        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
-      res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
+      const service = await PoetService.remove(req.params.id);
+      const {status, errMsg} = responseInfo.remove(service)
+      if (errMsg)
+        throw new AppError(status, errMsg, true);
+      res.sendStatus(HttpStatusCode.ACCEPTED)
     } catch (errors) {
       next(errors);
     }
@@ -91,10 +89,40 @@ export const PoetController =  {
 }
 
 export const responseInfo = {
+  indexAll: (poets: Poet[] | false): {status: number, poets?: Poet[], errMsg?: string}  => {
+    if (!poets) {
+      return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_AVAILABLE }
+    }
+    return {status: HttpStatusCode.OK, poets}
+  },
   indexOneWithLiterature: (poet: Poet | false): {status: number, poet?: Poet, errMsg?: string} => {
     if (!poet) {
       return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND }
     }
     return {status: HttpStatusCode.OK, poet}
-  }
+  },
+  post: (poet: Poet | false): {status: number, poet?: Poet, errMsg?: string} => {
+    if (!poet) {
+      return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID }
+    }
+    return {status: HttpStatusCode.CREATED, poet}
+  },
+  postMany: (poets: {newPoets: Poet[], notValidPoets: Poet[]} | false): {status: number, poets?: {newPoets: Poet[], notValidPoets: Poet[]}, errMsg?: string} => {
+    if (!poets) {
+      return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID}
+    }
+    return {status: HttpStatusCode.CREATED, poets}
+  },
+  update: (poet: number | false): {status: number, errMsg?: string} => {
+    if (!poet) {
+      return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID }
+    }
+    return {status: HttpStatusCode.ACCEPTED}
+  },
+  remove: (poet: number | false): {status: number, errMsg?: string} => {
+    if (!poet) {
+      return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND }
+    }
+    return {status: HttpStatusCode.ACCEPTED}
+  },
 }
