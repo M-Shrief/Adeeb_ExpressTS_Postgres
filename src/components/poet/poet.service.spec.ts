@@ -1,10 +1,11 @@
 import { describe, expect, it, vi, test, beforeAll } from 'vitest'
-// Component
-import {PoetDB, PoetRedis} from './poet.repository'
+// Service
 import {PoetService} from './poet.service'
+// Repository
+import {PoetDB, PoetRedis} from './poet.repository'
+// Types
 import { Poet, TimePeriodType } from './poet.entity'
-import { AppDataSource } from '../../db'
-import { UpdateResult } from 'typeorm'
+import { DeleteResult, UpdateResult } from 'typeorm'
 
 
 describe.concurrent("Testing PoetSerivce", async() => {
@@ -27,7 +28,7 @@ describe.concurrent("Testing PoetSerivce", async() => {
       const result = await PoetService.getAll()
       expect(result).toStrictEqual(poets)
     })
-    test("Returns false if no data is not available", async() => {
+    test("Returns false if no data is available", async() => {
       vi.spyOn(PoetDB, "getAll").mockResolvedValue([])
 
       const result = await PoetService.getAll()
@@ -192,7 +193,7 @@ describe.concurrent("Testing PoetSerivce", async() => {
       expect(result1).toEqual(1)
     })
     test("return false for non-existing id", async() => {
-      vi.spyOn(PoetDB, "remove").mockResolvedValue({affected: 0} as UpdateResult);      
+      vi.spyOn(PoetDB, "remove").mockResolvedValue({affected: 0} as DeleteResult);      
 
       const result1 = await PoetService.remove("1")
       expect(result1).toEqual(false)
