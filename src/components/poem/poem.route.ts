@@ -9,96 +9,91 @@ import { ERROR_MSG } from './poem.entity';
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 
-export class PoemRoute implements IRoute {
-  public router: Router = Router();
-  private controller: PoemController = new PoemController();
+const router: Router = Router();
 
-  constructor() {
-    this.initializeRoutes();
-  }
+router.get('/poems', setCache, PoemController.indexWithPoetName);
+router.get(
+  '/poems_intros',
+  setCache,
+  PoemController.indexIntrosWithPoetName,
+);
+router.get(
+  '/poem/:id',
+  [
+    validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
+    setCache,
+  ],
+  PoemController.indexOneWithPoet,
+);
+router.post(
+  '/poem',
+  validate([
+    body('intro')
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.INTRO),
 
-  private initializeRoutes() {
-    this.router.get('/poems', setCache, this.controller.indexWithPoetName);
-    this.router.get(
-      '/poems_intros',
-      setCache,
-      this.controller.indexIntrosWithPoetName,
-    );
-    this.router.get(
-      '/poem/:id',
-      [
-        validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
-        setCache,
-      ],
-      this.controller.indexOneWithPoet,
-    );
-    this.router.post(
-      '/poem',
-      validate([
-        body('intro')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.INTRO),
+    body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
 
-        body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
+    body('verses').isArray().withMessage(ERROR_MSG.VERSES),          
 
-        body('verses').isArray().withMessage(ERROR_MSG.VERSES),          
+    body('verses.*.first')          
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.VERSES),
 
-        body('verses.*.first')          
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+    body('verses.*.sec')
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.VERSES),
 
-        body('verses.*.sec')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+  ]),
+  PoemController.post,
+);
 
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
-      this.controller.post,
-    );
+router.post('/poems', PoemController.postMany);
 
-    this.router.post('/poems', this.controller.postMany);
+router.put(
+  '/poem/:id',
+  validate([
+    param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
-    this.router.put(
-      '/poem/:id',
-      validate([
-        param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
+    body('intro')
+      .optional()
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.INTRO),
 
-        body('intro')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.INTRO),
+    body('poet').optional().isUUID(4).withMessage(ERROR_MSG.POET),
 
-        body('poet').optional().isUUID(4).withMessage(ERROR_MSG.POET),
+    body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),          
 
-        body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),          
+    body('verses.*.first')
+      .optional()
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.VERSES),
 
-        body('verses.*.first')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+    body('verses.*.sec')
+      .optional()
+      .isString()
+      .escape()
+      .withMessage(ERROR_MSG.VERSES),
 
-        body('verses.*.sec')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+  ]),
+  PoemController.update,
+);
 
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
-      this.controller.update,
-    );
+router.delete(
+  '/poem/:id',
+  validate([
+    param('id').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
+  ]),
+  PoemController.remove,
+);
 
-    this.router.delete(
-      '/poem/:id',
-      validate([
-        param('id').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
-      ]),
-      this.controller.remove,
-    );
-  }
+export const PoemRoute: IRoute = {
+  router
 }

@@ -7,16 +7,14 @@ import { ERROR_MSG } from './poem.entity';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
-export class PoemController {
-  private poemService = new PoemService();
-
-  public indexWithPoetName = async (
+export const PoemController = {
+  indexWithPoetName: async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const poems = await this.poemService.getAllWithPoetName();
+      const poems = await PoemService.getAllWithPoetName();
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -27,15 +25,15 @@ export class PoemController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public indexIntrosWithPoetName = async (
+  indexIntrosWithPoetName: async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const poems = await this.poemService.getAllIntrosWithPoetName();
+      const poems = await PoemService.getAllIntrosWithPoetName();
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -46,26 +44,26 @@ export class PoemController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public indexOneWithPoet = async (
+  indexOneWithPoet: async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const poem = await this.poemService.getOneWithPoet(req.params.id);
+      const poem = await PoemService.getOneWithPoet(req.params.id);
       if (!poem)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(poem);
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public post = async (req: Request, res: Response, next: NextFunction) => {
+  post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poem = await this.poemService.post(req.body);
+      const poem = await PoemService.post(req.body);
       if (!poem)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -76,11 +74,11 @@ export class PoemController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public postMany = async (req: Request, res: Response, next: NextFunction) => {
+  postMany: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poems = await this.poemService.postMany(req.body);
+      const poems = await PoemService.postMany(req.body);
       if (!poems)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -91,11 +89,11 @@ export class PoemController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public update = async (req: Request, res: Response, next: NextFunction) => {
+  update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poem = await this.poemService.update(req.params.id, req.body);
+      const poem = await PoemService.update(req.params.id, req.body);
       if (!poem)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -107,11 +105,11 @@ export class PoemController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public remove = async (req: Request, res: Response, next: NextFunction) => {
+  remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const poem = await this.poemService.remove(req.params.id);
+      const poem = await PoemService.remove(req.params.id);
       if (!poem)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       // Bug: It gives error when using status()
@@ -119,5 +117,5 @@ export class PoemController {
     } catch (error) {
       next(error);
     }
-  };
+  }
 }

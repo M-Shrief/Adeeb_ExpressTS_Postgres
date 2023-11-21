@@ -6,7 +6,6 @@ import { Poet } from './poet.entity';
 import { createSchema, updateSchema } from './poet.schema';
 // Utills
 import { filterAsync } from '../../utils/asyncFilterAndMap';
-import { logger } from '../../utils/logger';
  
 export const PoetService = {
   async getAll(): Promise<Poet[] | false> {
