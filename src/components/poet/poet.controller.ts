@@ -11,7 +11,7 @@ export const PoetController =  {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const service = await PoetService.getAll();
-      const {status, poets, errMsg} = responseInfo.indexAll(service)
+      const {status, poets, errMsg} = responseInfo.index(service)
       if (errMsg) {
         throw new AppError(status, errMsg, true);
       }
@@ -89,7 +89,7 @@ export const PoetController =  {
 }
 
 export const responseInfo = {
-  indexAll: (poets: Poet[] | false): {status: number, poets?: Poet[], errMsg?: string}  => {
+  index: (poets: Poet[] | false): {status: number, poets?: Poet[], errMsg?: string}  => {
     if (!poets) {
       return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_AVAILABLE }
     }
