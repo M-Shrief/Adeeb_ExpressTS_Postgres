@@ -1,8 +1,6 @@
-// Database
-import { AppDataSource } from '../../db';
-// Redis
-import redisClient from '../../redis';
-// Entities
+// Repository
+import {PoemDB, PoemRedis} from './poem.repository'
+// Entity
 import { Poem } from './poem.entity';
 // Schema
 import { createSchema, updateSchema } from './poem.schema';
@@ -10,45 +8,15 @@ import { createSchema, updateSchema } from './poem.schema';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 import { logger } from '../../utils/logger';
 
-const poemRepository = AppDataSource.getRepository(Poem);
-
 export const PoemService =  {
    async getAllWithPoetName(): Promise<Poem[] | false> {
-    const poems = await poemRepository.find({
-      select: {
-        id: true,
-        intro: true,
-        verses: true,
-        reviewed: true,
-        poet: {
-          id: true,
-          name: true,
-          time_period: true,
-        },
-      },
-      relations: { poet: true },
-      cache: true, // Default cache lifetime is equal to 1000 ms, this means that if users open the user page 150 times within 3 seconds, only three queries will be executed
-      // skip: 10 // for offset
-      // take: 10 // limit
-    });
+    const poems = await PoemDB.getAllWithPoetName()
     if (poems.length === 0) return false;
     return poems;
   },
 
   async getAllIntrosWithPoetName(): Promise<Poem[] | false> {
-    const poems = await poemRepository.find({
-      select: {
-        id: true,
-        intro: true,
-        reviewed: true,
-        poet: {
-          id: true,
-          name: true,
-        },
-      },
-      relations: { poet: true },
-      cache: true, // Default cache lifetime is equal to 1000 ms, this means that if users open the user page 150 times within 3 seconds, only three queries will be executed
-    });
+    const poems = await PoemDB.getAllIntrosWithPoetName()
     if (poems.length === 0) return false;
     return poems;
   },
@@ -56,34 +24,16 @@ export const PoemService =  {
   async getOneWithPoet(id: string): Promise<Poem | false> {
     let poem: Poem | null;
     
-    const cached = await redisClient.get(`poem:${id}`);
+    const cached = await PoemRedis.get(id);
     if(cached) {
       poem = JSON.parse(cached);
     } else {
-      poem = await poemRepository.findOne({
-        where: { id },
-        select: {
-          id: true,
-          intro: true,
-          verses: true,
-          reviewed: true,
-          poet: {
-            id: true,
-            name: true,
-            time_period: true,
-            bio: true,
-          },
-        },
-        relations: { poet: true },
-        cache: true, // Default cache lifetime is equal to 1000 ms, this means that if users open the user page 150 times within 3 seconds, only three queries will be executed
-      });
-      
-      await redisClient.set(`poem:${id}`, JSON.stringify(poem), {EX: 60*15})
-      .catch(err => logger.error(err));
+      poem = await PoemDB.getOneWithPoet(id);
     }
 
 
     if (!poem) return false;
+    await PoemRedis.set(id, poem)
     return poem;
   },
 
@@ -91,7 +41,7 @@ export const PoemService =  {
     const isValid = await createSchema.isValid(poemData);
     if (!isValid) return false;
 
-    const newPoem = await poemRepository.save(poemData);
+    const newPoem = await PoemDB.post(poemData);
     if (!newPoem) return false;
     return newPoem;
   },
@@ -107,9 +57,7 @@ export const PoemService =  {
     const nonValidPoems: Poem[]  =  await filterAsync(PoemsData, isNotValid)
 
 
-    const newPoems = await poemRepository.save(
-      validPoems
-    );
+    const newPoems = await PoemDB.postMany(validPoems);
     if (!newPoems) return false;
 
     const result = {newPoems, nonValidPoems}
@@ -120,13 +68,13 @@ export const PoemService =  {
     const isValid = await updateSchema.isValid(poemData);
     if (!isValid) return false;
 
-    const newPoem = await poemRepository.update(id, poemData);
+    const newPoem = await PoemDB.update(id, poemData);
     if (!newPoem.affected) return false;
     return newPoem.affected;
   },
 
   async remove(id: string): Promise<number | false> {
-    const poem = await poemRepository.delete(id);
+    const poem = await PoemDB.remove(id);
     if (!poem.affected) return false;
     return poem.affected;
   }
