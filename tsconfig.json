@@ -10,9 +10,11 @@
     "outDir": "./dist",
     "rootDir": "src",
     "sourceMap": true,
+    // delete dist, tsconfig.tsbuildinfo to force re-building all files./s
     "incremental": true,
     "skipLibCheck": true,
     "types": ["vitest/globals"]
   },
   "include": ["src"],
+  "exclude": ["src/components/*/*.*.spec.ts", "./*.ts"]
 }
