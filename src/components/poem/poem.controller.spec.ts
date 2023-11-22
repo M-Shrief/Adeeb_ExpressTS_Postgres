@@ -154,7 +154,7 @@ describe.concurrent("Testing PoemController's responseInfo", async () => {
       reviewed: true,
       poet: 'e7749f21-9cf9-4981-b7a8-2ce262f159f6',
     } as unknown as Poem;
-    test('Success, saved abd return poem with status: ok', async () => {
+    test('Success, saved and return poem with status: ok', async () => {
       const { status, poem, errMsg } = responseInfo.post(service);
       expect(status).toEqual(HttpStatusCode.CREATED);
       expect(poem).toStrictEqual(service);
@@ -232,12 +232,12 @@ describe.concurrent("Testing PoemController's responseInfo", async () => {
   });
 
   describe('Testing remove()', async () => {
-    test('Updates poem successfully', async () => {
+    test('Remove poem successfully', async () => {
       const { status, errMsg } = responseInfo.remove(1);
       expect(status).toEqual(HttpStatusCode.ACCEPTED);
       expect(errMsg).toBeUndefined();
     });
-    test('Error, Update is not Acceptable', async () => {
+    test('Error, Remove is not Acceptable', async () => {
       const { status, errMsg } = responseInfo.remove(false);
       expect(status).toEqual(HttpStatusCode.NOT_FOUND);
       expect(errMsg).toEqual(ERROR_MSG.NOT_FOUND);

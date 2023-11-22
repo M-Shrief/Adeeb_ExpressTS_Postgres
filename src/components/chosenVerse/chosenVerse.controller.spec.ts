@@ -269,12 +269,12 @@ describe.concurrent("Testing ChosenVerseController's responseInfo", async () => 
       });
     
     describe('Testing remove()', async () => {
-        test('Updates chosenVerse successfully', async () => {
+        test('Removes chosenVerse successfully', async () => {
           const { status, errMsg } = responseInfo.remove(1);
           expect(status).toEqual(HttpStatusCode.ACCEPTED);
           expect(errMsg).toBeUndefined();
         });
-        test('Error, Update is not Acceptable', async () => {
+        test('Error, Removes is not Acceptable', async () => {
           const { status, errMsg } = responseInfo.remove(false);
           expect(status).toEqual(HttpStatusCode.NOT_FOUND);
           expect(errMsg).toEqual(ERROR_MSG.NOT_FOUND);

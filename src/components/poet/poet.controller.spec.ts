@@ -155,12 +155,12 @@ describe.concurrent("Testinf PoetController's responseInfo", async () => {
   });
 
   describe('Testing remove()', async () => {
-    test('Updates poet successfully', async () => {
+    test('Removes poet successfully', async () => {
       const { status, errMsg } = responseInfo.remove(1);
       expect(status).toEqual(HttpStatusCode.ACCEPTED);
       expect(errMsg).toBeUndefined();
     });
-    test('Error, Update is not Acceptable', async () => {
+    test('Error, Remove is not Acceptable', async () => {
       const { status, errMsg } = responseInfo.remove(false);
       expect(status).toEqual(HttpStatusCode.NOT_FOUND);
       expect(errMsg).toEqual(ERROR_MSG.NOT_FOUND);
