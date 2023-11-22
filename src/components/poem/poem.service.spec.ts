@@ -305,7 +305,7 @@ describe.concurrent('Testing PoemService', async () => {
         affected: 1,
       } as DeleteResult);
 
-      const result1 = await PoemService.remove('1');
+      const result1 = await PoemService.remove('e7749f21-9cf9-4981-b7a8-2ce262f159f6');
       expect(result1).toEqual(1);
     });
     test('return false for non-existing id', async () => {
