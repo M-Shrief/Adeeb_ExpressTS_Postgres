@@ -6,10 +6,12 @@ import { ChosenVerse } from './chosenVerse.entity';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Schema
 import { createSchema, updateSchema } from './chosenVerse.schema';
-export class ChosenVerseService {
-  private chosenVerseRepository = AppDataSource.getRepository(ChosenVerse);
-  public async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
-    const chosenVerses = await this.chosenVerseRepository.find({
+
+const chosenVerseRepository = AppDataSource.getRepository(ChosenVerse);
+
+export const ChosenVerseService = {
+  async getAllWithPoetName(): Promise<ChosenVerse[] | false> {
+    const chosenVerses = await chosenVerseRepository.find({
       select: {
         id: true,
         poet: {
@@ -28,12 +30,12 @@ export class ChosenVerseService {
     });
     if (chosenVerses.length === 0) return false;
     return chosenVerses;
-  }
+  },
 
-  public async getRandomWithPoetName(
+  async getRandomWithPoetName(
     num: number,
   ): Promise<ChosenVerse[] | false> {
-    const chosenVerses = await this.chosenVerseRepository
+    const chosenVerses = await chosenVerseRepository
       .createQueryBuilder('chosenVerse')
       .select(['chosenVerse.id', 'chosenVerse.verses'])
       .orderBy('RANDOM()')
@@ -42,10 +44,10 @@ export class ChosenVerseService {
       .getMany();
     if (chosenVerses.length === 0) return false;
     return chosenVerses;
-  }
+  },
 
-  public async getOneWithPoetName(id: string): Promise<ChosenVerse | false> {
-    const chosenVerse = await this.chosenVerseRepository.findOne({
+  async getOneWithPoetName(id: string): Promise<ChosenVerse | false> {
+    const chosenVerse = await chosenVerseRepository.findOne({
       where: { id },
       select: {
         id: true,
@@ -65,22 +67,22 @@ export class ChosenVerseService {
     });
     if (!chosenVerse) return false;
     return chosenVerse;
-  }
+  },
 
-  public async post(
+  async post(
     chosenVerseData: ChosenVerse,
   ): Promise<ChosenVerse | false> {
     const isValid = await createSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const newChosenVerse = await this.chosenVerseRepository.save(
+    const newChosenVerse = await chosenVerseRepository.save(
       chosenVerseData,
     );
     if (!newChosenVerse) return false;
     return newChosenVerse;
-  }
+  },
 
-  public async postMany(
+  async postMany(
     chosenVersesData: ChosenVerse[],
   ): Promise<
     | { newChosenVerses: ChosenVerse[]; inValidChosenVerses: ChosenVerse[] }
@@ -100,33 +102,33 @@ export class ChosenVerseService {
       isNotValid,
     );
 
-    const newChosenVerses = await this.chosenVerseRepository.save(
+    const newChosenVerses = await chosenVerseRepository.save(
       validChosenVerses,
     );
     if (!newChosenVerses) return false;
 
     const result = { newChosenVerses, inValidChosenVerses };
     return result;
-  }
+  },
 
-  public async update(
+  async update(
     id: string,
     chosenVerseData: ChosenVerse,
   ): Promise<number | false> {
     const isValid = await updateSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const newChosenVerse = await this.chosenVerseRepository.update(
+    const newChosenVerse = await chosenVerseRepository.update(
       id,
       chosenVerseData,
     );
     if (!newChosenVerse.affected) return false;
     return newChosenVerse.affected;
-  }
+  },
 
-  public async remove(id: string): Promise<number | false> {
-    const chosenVerse = await this.chosenVerseRepository.delete(id);
+  async remove(id: string): Promise<number | false> {
+    const chosenVerse = await chosenVerseRepository.delete(id);
     if (!chosenVerse.affected) return false;
     return chosenVerse.affected;
-  }
+  },
 }
