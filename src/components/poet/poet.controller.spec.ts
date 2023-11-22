@@ -117,7 +117,7 @@ describe.concurrent("Testinf PoetController's responseInfo", async() => {
           "time_period": "جاهلي",
         }
       ] as Poet[],
-      notValidPoets: [
+      inValidPoets: [
         {
           "id": "e7749f21-9cf9-4981-b7a8-2ce262f159f6",
           "name": "عنترة بن شداد",

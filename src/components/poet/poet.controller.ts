@@ -107,7 +107,7 @@ export const responseInfo = {
     }
     return {status: HttpStatusCode.CREATED, poet}
   },
-  postMany: (poets: {newPoets: Poet[], notValidPoets: Poet[]} | false): {status: number, poets?: {newPoets: Poet[], notValidPoets: Poet[]}, errMsg?: string} => {
+  postMany: (poets: {newPoets: Poet[], inValidPoets: Poet[]} | false): {status: number, poets?: {newPoets: Poet[], inValidPoets: Poet[]}, errMsg?: string} => {
     if (!poets) {
       return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID}
     }
