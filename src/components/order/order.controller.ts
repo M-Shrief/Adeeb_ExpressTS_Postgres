@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { OrderService } from './order.service';
 // Types
 import { JwtPayload } from 'jsonwebtoken';
-import { ERROR_MSG } from './order.entity';
+import { ERROR_MSG, Order } from './order.entity';
 // Utils
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
@@ -12,13 +12,13 @@ import { decodeToken } from '../../utils/auth';
 export const OrderController = {
   indexGuestOrders: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const orders = await OrderService.getGuestOrders(
+      const service = await OrderService.getGuestOrders(
         req.body.name as string,
         req.body.phone as string,
       );
-      if (!orders)
-        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
-      res.status(HttpStatusCode.OK).send(orders);
+      const { status, orders, errMsg } = responseInfo.indexOrders(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.status(status).send(orders);
     } catch (error) {
       next(error);
     }
@@ -33,14 +33,10 @@ export const OrderController = {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
-      const orders = await OrderService.getPartnerOrders(decoded.id);
-      if (!orders)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          ERROR_MSG.NOT_AVAILABLE,
-          true,
-        );
-      res.status(HttpStatusCode.OK).send(orders);
+      const service = await OrderService.getPartnerOrders(decoded.id);
+      const { status, orders, errMsg } = responseInfo.indexOrders(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.status(status).send(orders);
     } catch (error) {
       next(error);
     }
@@ -48,14 +44,10 @@ export const OrderController = {
 
   postGuest: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await OrderService.post(req.body);
-      if (!order)
-        throw new AppError(
-          HttpStatusCode.NOT_ACCEPTABLE,
-          ERROR_MSG.NOT_VALID,
-          true,
-        );
-      res.status(HttpStatusCode.CREATED).send(order);
+      const service = await OrderService.post(req.body);
+      const { status, order, errMsg } = responseInfo.postOrder(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.status(status).send(order);
     } catch (error) {
       next(error);
     }
@@ -66,17 +58,13 @@ export const OrderController = {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
-      const order = await OrderService.post({
+      const service = await OrderService.post({
         ...req.body,
         partnerId: decoded.id,
       });
-      if (!order)
-        throw new AppError(
-          HttpStatusCode.NOT_ACCEPTABLE,
-          ERROR_MSG.NOT_VALID,
-          true,
-        );
-      res.status(HttpStatusCode.CREATED).send(order);
+      const { status, order, errMsg } = responseInfo.postOrder(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.status(status).send(order);
     } catch (error) {
       next(error);
     }
@@ -84,14 +72,10 @@ export const OrderController = {
 
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await OrderService.update(req.params.id, req.body);
-      if (!order)
-        throw new AppError(
-          HttpStatusCode.NOT_ACCEPTABLE,
-          ERROR_MSG.NOT_VALID,
-          true,
-        );
-      res.sendStatus(HttpStatusCode.ACCEPTED).send(order);
+      const service = await OrderService.update(req.params.id, req.body);
+      const { status, errMsg } = responseInfo.update(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.sendStatus(status);
     } catch (error) {
       next(error);
     }
@@ -99,12 +83,52 @@ export const OrderController = {
 
   remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await OrderService.remove(req.params.id);
-      if (!order)
-        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
-      res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
+      const service = await OrderService.remove(req.params.id);
+      const { status, errMsg } = responseInfo.remove(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.sendStatus(status);
     } catch (errors) {
       next(errors);
     }
   },
 };
+
+export const responseInfo = {
+  indexOrders: (
+    orders: Order[] | false,
+  ): { status: number; orders?: Order[]; errMsg?: string } => {
+    if (!orders) {
+      return {
+        status: HttpStatusCode.NOT_FOUND,
+        errMsg: ERROR_MSG.NOT_FOUND,
+      };
+    }
+    return { status: HttpStatusCode.OK, orders };
+  },
+  postOrder: (
+    order: Order | false,
+  ): { status: number; order?: Order; errMsg?: string } => {
+    if (!order) {
+      return {
+        status: HttpStatusCode.NOT_ACCEPTABLE,
+        errMsg: ERROR_MSG.NOT_VALID,
+      };
+    }
+    return { status: HttpStatusCode.CREATED, order };
+  },
+  update: (order: number | false): { status: number; errMsg?: string } => {
+    if (!order) {
+      return {
+        status: HttpStatusCode.NOT_ACCEPTABLE,
+        errMsg: ERROR_MSG.NOT_VALID,
+      };
+    }
+    return { status: HttpStatusCode.ACCEPTED };
+  },
+  remove: (order: number | false): { status: number; errMsg?: string } => {
+    if (!order) {
+      return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
+    }
+    return { status: HttpStatusCode.ACCEPTED };
+  },
+}
