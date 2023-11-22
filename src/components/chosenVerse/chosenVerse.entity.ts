@@ -13,7 +13,7 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 import { VerseType } from '../../interfaces/__types__';
 
 @Entity()
-export class ChosenVerse extends BaseEntity{
+export class ChosenVerse extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -34,7 +34,6 @@ export class ChosenVerse extends BaseEntity{
   @Column({ type: 'boolean', default: true })
   reviewed!: boolean;
 }
-
 
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No chosenVerse available',

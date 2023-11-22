@@ -1,4 +1,4 @@
-import {  NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 // Services
 import { PartnerService } from './partner.service';
 // Types
@@ -25,14 +25,15 @@ export class PartnerController {
       },
     );
 
-
   public indexInfo = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const decoded = decodeToken(req.headers.authorization!.slice(7)) as JwtPayload;
+      const decoded = decodeToken(
+        req.headers.authorization!.slice(7),
+      ) as JwtPayload;
       const partner = await this.partnerService.getInfo(decoded.id);
       if (!partner)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
@@ -61,7 +62,7 @@ export class PartnerController {
           name: partner.name,
           phone: partner.phone,
         },
-        accessToken
+        accessToken,
       });
     } catch (error) {
       next(error);
@@ -88,7 +89,7 @@ export class PartnerController {
           name: partner.name,
           phone: partner.phone,
         },
-        accessToken
+        accessToken,
       });
     } catch (error) {
       next(error);
@@ -101,7 +102,9 @@ export class PartnerController {
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const decoded = decodeToken(req.headers.authorization!.slice(7)) as JwtPayload;
+      const decoded = decodeToken(
+        req.headers.authorization!.slice(7),
+      ) as JwtPayload;
       const partner = await this.partnerService.update(decoded.id, req.body);
       if (!partner)
         throw new AppError(
@@ -117,7 +120,9 @@ export class PartnerController {
 
   public remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const decoded = decodeToken(req.headers.authorization!.slice(7)) as JwtPayload;
+      const decoded = decodeToken(
+        req.headers.authorization!.slice(7),
+      ) as JwtPayload;
       const partner = await this.partnerService.remove(decoded.id);
       if (!partner)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);

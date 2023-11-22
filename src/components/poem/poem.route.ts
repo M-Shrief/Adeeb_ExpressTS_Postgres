@@ -12,11 +12,7 @@ import { setCache } from '../../middlewares/cache.middleware';
 const router: Router = Router();
 
 router.get('/poems', setCache, PoemController.indexWithPoetName);
-router.get(
-  '/poems_intros',
-  setCache,
-  PoemController.indexIntrosWithPoetName,
-);
+router.get('/poems_intros', setCache, PoemController.indexIntrosWithPoetName);
 router.get(
   '/poem/:id',
   [
@@ -28,24 +24,15 @@ router.get(
 router.post(
   '/poem',
   validate([
-    body('intro')
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.INTRO),
+    body('intro').isString().escape().withMessage(ERROR_MSG.INTRO),
 
     body('poet').isUUID(4).withMessage(ERROR_MSG.POET),
 
-    body('verses').isArray().withMessage(ERROR_MSG.VERSES),          
+    body('verses').isArray().withMessage(ERROR_MSG.VERSES),
 
-    body('verses.*.first')          
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.VERSES),
+    body('verses.*.first').isString().escape().withMessage(ERROR_MSG.VERSES),
 
-    body('verses.*.sec')
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.VERSES),
+    body('verses.*.sec').isString().escape().withMessage(ERROR_MSG.VERSES),
 
     body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
   ]),
@@ -59,15 +46,11 @@ router.put(
   validate([
     param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
-    body('intro')
-      .optional()
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.INTRO),
+    body('intro').optional().isString().escape().withMessage(ERROR_MSG.INTRO),
 
     body('poet').optional().isUUID(4).withMessage(ERROR_MSG.POET),
 
-    body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),          
+    body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),
 
     body('verses.*.first')
       .optional()
@@ -88,12 +71,10 @@ router.put(
 
 router.delete(
   '/poem/:id',
-  validate([
-    param('id').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
-  ]),
+  validate([param('id').optional().isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)]),
   PoemController.remove,
 );
 
 export const PoemRoute: IRoute = {
-  router
-}
+  router,
+};

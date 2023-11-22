@@ -10,7 +10,7 @@ import { Order } from '../order/order.entity';
 import { BaseEntity } from '../../interfaces/baseEntity';
 
 @Entity()
-export class Partner extends BaseEntity{
+export class Partner extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

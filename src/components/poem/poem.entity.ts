@@ -14,7 +14,7 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 import { VerseType } from '../../interfaces/__types__';
 
 @Entity()
-export class Poem extends BaseEntity{
+export class Poem extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

@@ -26,13 +26,10 @@ export class OrderRoute implements IRoute {
       '/orders/guest',
       [
         validate([
-          body('name')
+          body('name').isString().escape().withMessage(ERROR_MSG.NAME),
+          body('phone')
             .isString()
             .escape()
-            .withMessage(ERROR_MSG.NAME),
-          body('phone')
-          .isString()
-          .escape()
             // .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
         ]),
@@ -45,19 +42,16 @@ export class OrderRoute implements IRoute {
       [
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
-        authErrorHandler,        
+        authErrorHandler,
       ],
       this.controller.indexPartnerOrders,
     );
 
     this.router.post(
       '/order/guest',
-      [     
+      [
         validate([
-          body('name')
-            .isString()
-            .escape()
-            .withMessage(ERROR_MSG.NAME),
+          body('name').isString().escape().withMessage(ERROR_MSG.NAME),
 
           body('phone')
             .isString()
@@ -65,11 +59,12 @@ export class OrderRoute implements IRoute {
             // .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
 
-          body('address') 
-            .isString()
-            .withMessage(ERROR_MSG.ADDRESS), // should have more constraints
+          body('address').isString().withMessage(ERROR_MSG.ADDRESS), // should have more constraints
 
-          body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+          body('reviewed')
+            .optional()
+            .isBoolean()
+            .withMessage(ERROR_MSG.REVIEWED),
 
           body('completed')
             .optional()
@@ -103,12 +98,9 @@ export class OrderRoute implements IRoute {
       [
         jwtToken(true),
         guard.check(['partner:read', 'partner:write']),
-        authErrorHandler,       
+        authErrorHandler,
         validate([
-          body('name')
-            .isString()
-            .escape()
-            .withMessage(ERROR_MSG.NAME),
+          body('name').isString().escape().withMessage(ERROR_MSG.NAME),
 
           body('phone')
             .isString()
@@ -116,11 +108,12 @@ export class OrderRoute implements IRoute {
             // .isMobilePhone('any')
             .withMessage(ERROR_MSG.PHONE),
 
-          body('address') 
-            .isString()
-            .withMessage(ERROR_MSG.ADDRESS), // should have more constraints
+          body('address').isString().withMessage(ERROR_MSG.ADDRESS), // should have more constraints
 
-          body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+          body('reviewed')
+            .optional()
+            .isBoolean()
+            .withMessage(ERROR_MSG.REVIEWED),
 
           body('completed')
             .optional()
@@ -156,11 +149,7 @@ export class OrderRoute implements IRoute {
 
         body('partnerId').optional().isUUID().withMessage(ERROR_MSG.PARTNER),
 
-        body('name')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.NAME),
+        body('name').optional().isString().escape().withMessage(ERROR_MSG.NAME),
 
         body('phone')
           .optional()
@@ -170,10 +159,10 @@ export class OrderRoute implements IRoute {
           .withMessage(ERROR_MSG.PHONE),
 
         body('address')
-        .optional()
-        .isString()
-        .escape()
-        .withMessage(ERROR_MSG.ADDRESS),
+          .optional()
+          .isString()
+          .escape()
+          .withMessage(ERROR_MSG.ADDRESS),
 
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
 

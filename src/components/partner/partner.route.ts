@@ -35,10 +35,7 @@ export class PartnerRoute implements IRoute {
     this.router.post(
       '/partner/signup',
       validate([
-        body('name')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.NAME),
+        body('name').isString().escape().withMessage(ERROR_MSG.NAME),
 
         body('phone')
           .isString()
@@ -57,15 +54,9 @@ export class PartnerRoute implements IRoute {
     this.router.post(
       '/partner/login',
       validate([
-        body('phone')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.PHONE),
+        body('phone').isString().escape().withMessage(ERROR_MSG.PHONE),
 
-        body('password')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.PASSWORD),
+        body('password').isString().escape().withMessage(ERROR_MSG.PASSWORD),
       ]),
       this.controller.login,
     );

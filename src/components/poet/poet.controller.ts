@@ -7,11 +7,11 @@ import { ERROR_MSG, Poet } from './poet.entity';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
-export const PoetController =  {
+export const PoetController = {
   index: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const service = await PoetService.getAll();
-      const {status, poets, errMsg} = responseInfo.index(service)
+      const { status, poets, errMsg } = responseInfo.index(service);
       if (errMsg) {
         throw new AppError(status, errMsg, true);
       }
@@ -21,10 +21,15 @@ export const PoetController =  {
     }
   },
 
-  indexOneWithLiterature: async (req: Request, res: Response, next: NextFunction) => {
+  indexOneWithLiterature: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      const service = await PoetService.getOneWithLiterature(req.params.id)
-      const {status, poet, errMsg} =  responseInfo.indexOneWithLiterature(service);
+      const service = await PoetService.getOneWithLiterature(req.params.id);
+      const { status, poet, errMsg } =
+        responseInfo.indexOneWithLiterature(service);
       if (errMsg) {
         throw new AppError(status, errMsg, true);
       }
@@ -37,9 +42,8 @@ export const PoetController =  {
   post: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const service = await PoetService.post(req.body);
-      const {status, poet, errMsg} = responseInfo.post(service)
-      if (errMsg)
-        throw new AppError(status, errMsg, true);
+      const { status, poet, errMsg } = responseInfo.post(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
 
       res.status(status).send(poet);
     } catch (errors) {
@@ -50,7 +54,7 @@ export const PoetController =  {
   postMany: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const service = await PoetService.postMany(req.body);
-      const {status, poets, errMsg} = responseInfo.postMany(service)
+      const { status, poets, errMsg } = responseInfo.postMany(service);
       if (errMsg) {
         throw new AppError(status, errMsg, true);
       }
@@ -63,7 +67,7 @@ export const PoetController =  {
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const service = await PoetService.update(req.params.id, req.body);
-      const {status, errMsg} = responseInfo.update(service)
+      const { status, errMsg } = responseInfo.update(service);
       if (errMsg) {
         throw new AppError(status, errMsg, true);
       }
@@ -78,51 +82,74 @@ export const PoetController =  {
   remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const service = await PoetService.remove(req.params.id);
-      const {status, errMsg} = responseInfo.remove(service)
-      if (errMsg)
-        throw new AppError(status, errMsg, true);
-      res.sendStatus(HttpStatusCode.ACCEPTED)
+      const { status, errMsg } = responseInfo.remove(service);
+      if (errMsg) throw new AppError(status, errMsg, true);
+      res.sendStatus(HttpStatusCode.ACCEPTED);
     } catch (errors) {
       next(errors);
     }
-  }
-}
+  },
+};
 
 export const responseInfo = {
-  index: (poets: Poet[] | false): {status: number, poets?: Poet[], errMsg?: string}  => {
+  index: (
+    poets: Poet[] | false,
+  ): { status: number; poets?: Poet[]; errMsg?: string } => {
     if (!poets) {
-      return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_AVAILABLE }
+      return {
+        status: HttpStatusCode.NOT_FOUND,
+        errMsg: ERROR_MSG.NOT_AVAILABLE,
+      };
     }
-    return {status: HttpStatusCode.OK, poets}
+    return { status: HttpStatusCode.OK, poets };
   },
-  indexOneWithLiterature: (poet: Poet | false): {status: number, poet?: Poet, errMsg?: string} => {
+  indexOneWithLiterature: (
+    poet: Poet | false,
+  ): { status: number; poet?: Poet; errMsg?: string } => {
     if (!poet) {
-      return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND }
+      return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
     }
-    return {status: HttpStatusCode.OK, poet}
+    return { status: HttpStatusCode.OK, poet };
   },
-  post: (poet: Poet | false): {status: number, poet?: Poet, errMsg?: string} => {
+  post: (
+    poet: Poet | false,
+  ): { status: number; poet?: Poet; errMsg?: string } => {
     if (!poet) {
-      return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID }
+      return {
+        status: HttpStatusCode.NOT_ACCEPTABLE,
+        errMsg: ERROR_MSG.NOT_VALID,
+      };
     }
-    return {status: HttpStatusCode.CREATED, poet}
+    return { status: HttpStatusCode.CREATED, poet };
   },
-  postMany: (poets: {newPoets: Poet[], inValidPoets: Poet[]} | false): {status: number, poets?: {newPoets: Poet[], inValidPoets: Poet[]}, errMsg?: string} => {
+  postMany: (
+    poets: { newPoets: Poet[]; inValidPoets: Poet[] } | false,
+  ): {
+    status: number;
+    poets?: { newPoets: Poet[]; inValidPoets: Poet[] };
+    errMsg?: string;
+  } => {
     if (!poets) {
-      return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID}
+      return {
+        status: HttpStatusCode.NOT_ACCEPTABLE,
+        errMsg: ERROR_MSG.NOT_VALID,
+      };
     }
-    return {status: HttpStatusCode.CREATED, poets}
+    return { status: HttpStatusCode.CREATED, poets };
   },
-  update: (poet: number | false): {status: number, errMsg?: string} => {
+  update: (poet: number | false): { status: number; errMsg?: string } => {
     if (!poet) {
-      return {status: HttpStatusCode.NOT_ACCEPTABLE, errMsg: ERROR_MSG.NOT_VALID }
+      return {
+        status: HttpStatusCode.NOT_ACCEPTABLE,
+        errMsg: ERROR_MSG.NOT_VALID,
+      };
     }
-    return {status: HttpStatusCode.ACCEPTED}
+    return { status: HttpStatusCode.ACCEPTED };
   },
-  remove: (poet: number | false): {status: number, errMsg?: string} => {
+  remove: (poet: number | false): { status: number; errMsg?: string } => {
     if (!poet) {
-      return {status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND }
+      return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
     }
-    return {status: HttpStatusCode.ACCEPTED}
+    return { status: HttpStatusCode.ACCEPTED };
   },
-}
+};

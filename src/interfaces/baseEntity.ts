@@ -1,13 +1,7 @@
-import {
-    Entity,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-  } from 'typeorm';
+import { Entity, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class BaseEntity {
-    
   @Column()
   @CreateDateColumn()
   created_at!: Date;

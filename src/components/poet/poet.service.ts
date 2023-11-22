@@ -1,29 +1,29 @@
 // Repository
-import {PoetDB, PoetRedis} from './poet.repository'
+import { PoetDB, PoetRedis } from './poet.repository';
 // Entities
 import { Poet } from './poet.entity';
 // Schema
 import { createSchema, updateSchema } from './poet.schema';
 // Utills
 import { filterAsync } from '../../utils/asyncFilterAndMap';
- 
+
 export const PoetService = {
   async getAll(): Promise<Poet[] | false> {
-    const poets = await PoetDB.getAll()
+    const poets = await PoetDB.getAll();
     if (poets.length === 0) return false;
     return poets;
   },
 
   async getOneWithLiterature(id: string): Promise<Poet | false> {
     let poet: Poet | null;
-    const cached = await PoetRedis.get(id)
-    if(cached) {
+    const cached = await PoetRedis.get(id);
+    if (cached) {
       poet = JSON.parse(cached);
     } else {
-      poet = await PoetDB.getOneWithLiterature(id)
+      poet = await PoetDB.getOneWithLiterature(id);
     }
     if (!poet) return false;
-    await PoetRedis.set(id, poet)
+    await PoetRedis.set(id, poet);
     return poet;
   },
 
@@ -38,21 +38,19 @@ export const PoetService = {
 
   async postMany(
     PoetsData: Poet[],
-  ): Promise<{newPoets: Poet[], inValidPoets: Poet[]} | false> {
+  ): Promise<{ newPoets: Poet[]; inValidPoets: Poet[] } | false> {
+    let isValid = async (PoetData: Poet) =>
+      await createSchema.isValid(PoetData);
+    let isNotValid = async (PoetData: Poet) =>
+      (await createSchema.isValid(PoetData)) === false;
 
-    let isValid = async (PoetData: Poet) => await createSchema.isValid(PoetData)
-    let isNotValid = async (PoetData: Poet) => await createSchema.isValid(PoetData) === false
+    const validPoets: Poet[] = await filterAsync(PoetsData, isValid);
+    const inValidPoets: Poet[] = await filterAsync(PoetsData, isNotValid);
 
-    const validPoets: Poet[]  =  await filterAsync(PoetsData, isValid)
-    const inValidPoets: Poet[] =  await filterAsync(PoetsData, isNotValid)
-
-
-    const newPoets = await PoetDB.postMany(
-      validPoets
-    );
+    const newPoets = await PoetDB.postMany(validPoets);
     if (newPoets.length == 0) return false;
 
-    const result = {newPoets, inValidPoets}
+    const result = { newPoets, inValidPoets };
     return result;
   },
 
@@ -69,5 +67,5 @@ export const PoetService = {
     const poet = await PoetDB.remove(id);
     if (!poet.affected) return false;
     return poet.affected;
-  }
-}
+  },
+};

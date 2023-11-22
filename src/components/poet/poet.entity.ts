@@ -19,9 +19,8 @@ export type TimePeriodType =
   | 'عثماني ومملوكي'
   | 'متأخر وحديث';
 
-
 @Entity()
-export class Poet extends BaseEntity{
+export class Poet extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

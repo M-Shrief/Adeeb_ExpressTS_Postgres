@@ -2,8 +2,8 @@ import express, { Application, Request, Response } from 'express';
 // Config
 import { PORT, CORS_ORIGIN, SENTRY_DNS } from './config';
 // Middlewares
-import * as Sentry from "@sentry/node";
-import { ProfilingIntegration } from "@sentry/profiling-node";
+import * as Sentry from '@sentry/node';
+import { ProfilingIntegration } from '@sentry/profiling-node';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -96,7 +96,7 @@ export default class App {
       // Set sampling rate for profiling - this is relative to tracesSampleRate
       profilesSampleRate: 0.4, // Capture 100% of the transactions, reduce in production!
     });
-    logger.info("Connected to Sentry")
+    logger.info('Connected to Sentry');
   }
 
   private initializeErrorHandling() {

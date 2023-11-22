@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 
 // console.log(__dirname)
 
-const dir: string = join(__dirname, LOG_DIR || "");
+const dir: string = join(__dirname, LOG_DIR || '');
 
 if (!existsSync(dir)) {
   mkdirSync(dir);

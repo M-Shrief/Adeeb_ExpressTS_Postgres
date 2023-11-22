@@ -12,7 +12,7 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 import { Product, ProductGroup } from '../../interfaces/__types__';
 
 @Entity()
-export class Order extends BaseEntity{
+export class Order extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

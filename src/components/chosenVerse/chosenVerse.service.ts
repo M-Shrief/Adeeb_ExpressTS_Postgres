@@ -82,21 +82,30 @@ export class ChosenVerseService {
 
   public async postMany(
     chosenVersesData: ChosenVerse[],
-  ): Promise<{newChosenVerses: ChosenVerse[], inValidChosenVerses: ChosenVerse[]} | false> {
-    
-    let isValid = async (chosenVerseData: ChosenVerse) => await createSchema.isValid(chosenVerseData)
-    let isNotValid = async (chosenVerseData: ChosenVerse) => await createSchema.isValid(chosenVerseData) === false
+  ): Promise<
+    | { newChosenVerses: ChosenVerse[]; inValidChosenVerses: ChosenVerse[] }
+    | false
+  > {
+    let isValid = async (chosenVerseData: ChosenVerse) =>
+      await createSchema.isValid(chosenVerseData);
+    let isNotValid = async (chosenVerseData: ChosenVerse) =>
+      (await createSchema.isValid(chosenVerseData)) === false;
 
-    const validChosenVerses: ChosenVerse[]  =  await filterAsync(chosenVersesData, isValid)
-    const inValidChosenVerses: ChosenVerse[]  =  await filterAsync(chosenVersesData, isNotValid)
-
+    const validChosenVerses: ChosenVerse[] = await filterAsync(
+      chosenVersesData,
+      isValid,
+    );
+    const inValidChosenVerses: ChosenVerse[] = await filterAsync(
+      chosenVersesData,
+      isNotValid,
+    );
 
     const newChosenVerses = await this.chosenVerseRepository.save(
-      validChosenVerses
+      validChosenVerses,
     );
     if (!newChosenVerses) return false;
 
-    const result = {newChosenVerses, inValidChosenVerses}
+    const result = { newChosenVerses, inValidChosenVerses };
     return result;
   }
 
@@ -107,7 +116,10 @@ export class ChosenVerseService {
     const isValid = await updateSchema.isValid(chosenVerseData);
     if (!isValid) return false;
 
-    const newChosenVerse = await this.chosenVerseRepository.update(id, chosenVerseData);
+    const newChosenVerse = await this.chosenVerseRepository.update(
+      id,
+      chosenVerseData,
+    );
     if (!newChosenVerse.affected) return false;
     return newChosenVerse.affected;
   }

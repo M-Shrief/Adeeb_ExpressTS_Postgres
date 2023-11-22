@@ -38,19 +38,13 @@ export class ChosenVerseRoute implements IRoute {
       validate([
         body('poet').isUUID().withMessage(ERROR_MSG.POET),
         body('poem').isUUID().withMessage(ERROR_MSG.POEM),
-        body('tags')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.TAGS),
+        body('tags').isString().escape().withMessage(ERROR_MSG.TAGS),
         body('verses').isArray().withMessage(ERROR_MSG.VERSES),
         body('verses.*.first')
           .isString()
           .escape()
           .withMessage(ERROR_MSG.VERSES),
-        body('verses.*.sec')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.VERSES),
+        body('verses.*.sec').isString().escape().withMessage(ERROR_MSG.VERSES),
         body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
       ]),
       this.controller.post,
@@ -67,11 +61,7 @@ export class ChosenVerseRoute implements IRoute {
 
         body('poem').optional().isUUID(4).withMessage(ERROR_MSG.POEM),
 
-        body('tags')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.TAGS),
+        body('tags').optional().isString().escape().withMessage(ERROR_MSG.TAGS),
         body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),
         body('verses.*.first')
           .optional()

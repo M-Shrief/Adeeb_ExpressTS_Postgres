@@ -4,10 +4,10 @@ export const DB = {
   name: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  ca: process.env.CA_CERTIFICATE
+  ca: process.env.CA_CERTIFICATE,
 };
 
-export const REDIS = process.env.REDIS
+export const REDIS = process.env.REDIS;
 
 export const {
   NODE_ENV,
@@ -18,5 +18,5 @@ export const {
   ORIGIN,
   JWT_PRIVATE,
   CORS_ORIGIN,
-  SENTRY_DNS
+  SENTRY_DNS,
 } = process.env;

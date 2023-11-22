@@ -9,7 +9,7 @@ import { ERROR_MSG } from './poet.entity';
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 
-const router: Router = Router()
+const router: Router = Router();
 
 router.get('/poets', setCache, PoetController.index);
 
@@ -25,18 +25,9 @@ router.get(
 router.post(
   '/poet',
   validate([
-    body('name')
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.NAME),
-    body('time_period')
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.TIME_PERIOD),
-    body('bio')
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.BIO),
+    body('name').isString().escape().withMessage(ERROR_MSG.NAME),
+    body('time_period').isString().escape().withMessage(ERROR_MSG.TIME_PERIOD),
+    body('bio').isString().escape().withMessage(ERROR_MSG.BIO),
     body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
   ]),
   PoetController.post,
@@ -49,11 +40,7 @@ router.put(
   validate([
     param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
 
-    body('name')
-      .optional()
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.NAME),
+    body('name').optional().isString().escape().withMessage(ERROR_MSG.NAME),
 
     body('time_period')
       .optional()
@@ -61,11 +48,7 @@ router.put(
       .escape()
       .withMessage(ERROR_MSG.TIME_PERIOD),
 
-    body('bio')
-      .optional()
-      .isString()
-      .escape()
-      .withMessage(ERROR_MSG.BIO),
+    body('bio').optional().isString().escape().withMessage(ERROR_MSG.BIO),
 
     body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
   ]),
@@ -79,5 +62,5 @@ router.delete(
 );
 
 export const PoetRoute: IRoute = {
-  router
-}
+  router,
+};

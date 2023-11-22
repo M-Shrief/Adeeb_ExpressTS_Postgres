@@ -1,5 +1,5 @@
 // Repository
-import {PoemDB, PoemRedis} from './poem.repository'
+import { PoemDB, PoemRedis } from './poem.repository';
 // Entity
 import { Poem } from './poem.entity';
 // Schema
@@ -8,32 +8,31 @@ import { createSchema, updateSchema } from './poem.schema';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 import { logger } from '../../utils/logger';
 
-export const PoemService =  {
-   async getAllWithPoetName(): Promise<Poem[] | false> {
-    const poems = await PoemDB.getAllWithPoetName()
+export const PoemService = {
+  async getAllWithPoetName(): Promise<Poem[] | false> {
+    const poems = await PoemDB.getAllWithPoetName();
     if (poems.length === 0) return false;
     return poems;
   },
 
   async getAllIntrosWithPoetName(): Promise<Poem[] | false> {
-    const poems = await PoemDB.getAllIntrosWithPoetName()
+    const poems = await PoemDB.getAllIntrosWithPoetName();
     if (poems.length === 0) return false;
     return poems;
   },
 
   async getOneWithPoet(id: string): Promise<Poem | false> {
     let poem: Poem | null;
-    
+
     const cached = await PoemRedis.get(id);
-    if(cached) {
+    if (cached) {
       poem = JSON.parse(cached);
     } else {
       poem = await PoemDB.getOneWithPoet(id);
     }
 
-
     if (!poem) return false;
-    await PoemRedis.set(id, poem)
+    await PoemRedis.set(id, poem);
     return poem;
   },
 
@@ -48,19 +47,19 @@ export const PoemService =  {
 
   async postMany(
     PoemsData: Poem[],
-  ): Promise<{newPoems: Poem[], inValidPoems: Poem[]} | false> {
-    
-    let isValid = async (PoemData: Poem) => await createSchema.isValid(PoemData)
-    let isNotValid = async (PoemData: Poem) => await createSchema.isValid(PoemData) === false
+  ): Promise<{ newPoems: Poem[]; inValidPoems: Poem[] } | false> {
+    let isValid = async (PoemData: Poem) =>
+      await createSchema.isValid(PoemData);
+    let isNotValid = async (PoemData: Poem) =>
+      (await createSchema.isValid(PoemData)) === false;
 
-    const validPoems: Poem[] =  await filterAsync(PoemsData, isValid)
-    const inValidPoems: Poem[]  =  await filterAsync(PoemsData, isNotValid)
-
+    const validPoems: Poem[] = await filterAsync(PoemsData, isValid);
+    const inValidPoems: Poem[] = await filterAsync(PoemsData, isNotValid);
 
     const newPoems = await PoemDB.postMany(validPoems);
     if (!newPoems) return false;
 
-    const result = {newPoems, inValidPoems}
+    const result = { newPoems, inValidPoems };
     return result;
   },
 
@@ -77,5 +76,5 @@ export const PoemService =  {
     const poem = await PoemDB.remove(id);
     if (!poem.affected) return false;
     return poem.affected;
-  }
-}
+  },
+};

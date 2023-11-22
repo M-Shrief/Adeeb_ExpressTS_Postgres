@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 // Config
-import { NODE_ENV,DB } from './config';
+import { NODE_ENV, DB } from './config';
 // Entities
 import { Poet } from './components/poet/poet.entity';
 import { Poem } from './components/poem/poem.entity';
@@ -18,11 +18,12 @@ export const AppDataSource = new DataSource({
   username: DB.user,
   password: DB.password,
   database: DB.name,
-  ssl: DB.ca ? {
-    rejectUnauthorized: false,
-    ca: DB.ca,
-  }
-  : false,
+  ssl: DB.ca
+    ? {
+        rejectUnauthorized: false,
+        ca: DB.ca,
+      }
+    : false,
   synchronize: true,
   logging: true,
   entities: [Poet, Poem, ChosenVerse, Prose, Partner, Order],
@@ -35,14 +36,14 @@ export const connectDB = async () => {
     await AppDataSource.initialize();
     logger.info(`Connected To Postgres database correctly, Host: ${DB.host}`);
   } catch (error) {
-      logger.error('Failed to connect to database');
-      process.exit(1);
+    logger.error('Failed to connect to database');
+    process.exit(1);
   }
 };
 
 // If the Node process ends, close the Mongoose connection
 process.on('SIGINT', async () => {
-  await AppDataSource.destroy().catch(err => logger.error(`${err}`));
+  await AppDataSource.destroy().catch((err) => logger.error(`${err}`));
   logger.info(
     'Postgres default connection disconnected through app termination',
   );

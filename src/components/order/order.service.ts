@@ -10,7 +10,6 @@ export class OrderService {
     name: string,
     phone: string,
   ): Promise<Order[] | false> {
-    
     const orders = await this.orderRepository.find({
       where: { name, phone },
       select: {
@@ -21,20 +20,18 @@ export class OrderService {
         products: true,
         reviewed: true,
         completed: true,
-        created_at: true
-        
+        created_at: true,
       },
       order: {
-        created_at: 'DESC'  
-      }
+        created_at: 'DESC',
+      },
     });
-  
-      if (orders.length === 0) return false;
+
+    if (orders.length === 0) return false;
     return orders;
   }
 
   public async getPartnerOrders(partnerId: string): Promise<Order[] | false> {
-    
     const orders = await this.orderRepository.find({
       where: { partnerId },
       select: {
@@ -46,12 +43,12 @@ export class OrderService {
         reviewed: true,
         completed: true,
         partnerId: true,
-        created_at: true
+        created_at: true,
       },
       order: {
-        created_at: 'DESC'  
-      }
-    });  
+        created_at: 'DESC',
+      },
+    });
 
     if (orders.length === 0) return false;
     return orders;

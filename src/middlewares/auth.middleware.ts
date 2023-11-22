@@ -27,13 +27,9 @@ export const authErrorHandler = (
         'Unautorized for this request',
         true,
       );
-      if (error.name === 'permission_denied') {
-        throw new AppError(
-          HttpStatusCode.FORBIDDEN,
-          'Forbidden request',
-          true,
-        );
-      }
+    if (error.name === 'permission_denied') {
+      throw new AppError(HttpStatusCode.FORBIDDEN, 'Forbidden request', true);
+    }
   } catch (err) {
     next(err);
   }

@@ -23,11 +23,7 @@ export class OrderController {
         req.body.phone as string,
       );
       if (!orders)
-        throw new AppError(
-          HttpStatusCode.NOT_FOUND,
-          ERROR_MSG.NOT_FOUND,
-          true,
-        );
+        throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(orders);
     } catch (error) {
       next(error);
@@ -40,7 +36,9 @@ export class OrderController {
     next: NextFunction,
   ) => {
     try {
-      const decoded = decodeToken(req.headers.authorization!.slice(7)) as JwtPayload;
+      const decoded = decodeToken(
+        req.headers.authorization!.slice(7),
+      ) as JwtPayload;
       const orders = await this.orderService.getPartnerOrders(decoded.id);
       if (!orders)
         throw new AppError(
@@ -54,7 +52,11 @@ export class OrderController {
     }
   };
 
-  public postGuest = async (req: Request, res: Response, next: NextFunction) => {
+  public postGuest = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const order = await this.orderService.post(req.body);
       if (!order)
@@ -69,10 +71,19 @@ export class OrderController {
     }
   };
 
-  public postPartner = async (req: Request, res: Response, next: NextFunction) => {
+  public postPartner = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
-      const decoded = decodeToken(req.headers.authorization!.slice(7)) as JwtPayload;
-      const order = await this.orderService.post({...req.body, partnerId: decoded.id});
+      const decoded = decodeToken(
+        req.headers.authorization!.slice(7),
+      ) as JwtPayload;
+      const order = await this.orderService.post({
+        ...req.body,
+        partnerId: decoded.id,
+      });
       if (!order)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -84,7 +95,6 @@ export class OrderController {
       next(error);
     }
   };
-
 
   public update = async (req: Request, res: Response, next: NextFunction) => {
     try {
