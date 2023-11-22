@@ -6,7 +6,7 @@ import { ERROR_MSG, Poem } from './poem.entity';
 // Utils
 import HttpStatusCode from '../../utils/httpStatusCode';
 
-describe.concurrent("Testinf PoetController's responseInfo", async () => {
+describe.concurrent("Testing PoemController's responseInfo", async () => {
   describe('Testing indexWithPoetName()', async () => {
     const service = [
       {
