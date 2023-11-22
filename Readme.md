@@ -12,7 +12,7 @@
 
 - characteristics:
 
-  - E2E tests with Mocha & Chai
+  - Regression tests with Vitest.
   - JWT Authentication & Authorization
   - Centralized Error Handling
   - Data Validation with Yup and express-validator
@@ -62,5 +62,3 @@
   the app, using (\*.middleware.ts) naming convention for every module.
 
 - _./utils_ file for containing reused functions and centralized error handling, which are used across the app.
-
-- _./tests/e2e_ for E2E tests
