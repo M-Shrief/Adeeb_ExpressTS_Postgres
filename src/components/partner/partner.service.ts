@@ -1,4 +1,5 @@
-import { AppDataSource } from '../../db';
+// Repository
+import {PartnerDB} from './partner.repository'
 // Entites
 import { Partner } from './partner.entity';
 // Utils
@@ -6,26 +7,9 @@ import { comparePassword, hashPassword } from '../../utils/auth';
 // Schema
 import { createSchema, updateSchema } from './partner.schema';
 
-const partnerRepository = AppDataSource.getRepository(Partner);
-
 export const PartnerService = {
   async getInfo(id: string): Promise<Partner | false> {
-    const partner = await partnerRepository.findOne({
-      where: { id },
-      select: {
-        id: true,
-        name: true,
-        phone: true,
-        orders: {
-          id: true,
-          // address: true,
-          // reviewed: true,
-          // completed: true,
-        },
-      },
-      relations: { orders: true },
-      cache: 1000 * 60,
-    });
+    const partner = await PartnerDB.getInfo(id);
     if (!partner) return false;
     return partner;
   },
@@ -41,7 +25,7 @@ export const PartnerService = {
     partner.phone = partnerData.phone;
     partner.password = password;
 
-    const newPartner = await partnerRepository.save(partner);
+    const newPartner = await PartnerDB.signup(partner);
     if (!newPartner) return false;
     return newPartner;
   },
@@ -50,9 +34,7 @@ export const PartnerService = {
     phone: string,
     password: string,
   ): Promise<Partner | false> {
-    const existingPartner = await AppDataSource.getRepository(
-      Partner,
-    ).findOneBy({ phone });
+    const existingPartner = await PartnerDB.login(phone);
     if (!existingPartner) return false;
     const isValid = await comparePassword(password, existingPartner.password);
     if (!isValid) return false;
@@ -66,13 +48,13 @@ export const PartnerService = {
     const isValid = await updateSchema.isValid(partnerData);
     if (!isValid) return false;
 
-    const newPartner = await partnerRepository.update(id, partnerData);
+    const newPartner = await PartnerDB.update(id, partnerData);
     if (!newPartner.affected) return false;
     return newPartner.affected;
   },
 
   async remove(id: string): Promise<number | false> {
-    const partner = await partnerRepository.delete(id);
+    const partner = await PartnerDB.remove(id);
     if (!partner.affected) return false;
     return partner.affected;
   }
