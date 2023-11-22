@@ -6,6 +6,7 @@ import { PartnerDB } from './partner.repository';
 // Types
 import { Partner } from './partner.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+// Utils
 import { hashPassword } from '../../utils/auth';
 
 describe.concurrent('Testing PartnerService', async () => {
