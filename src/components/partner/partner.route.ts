@@ -54,7 +54,7 @@ router.post(
   ]),
   PartnerController.login,
 );
-router.post('/partner/logout', PartnerController.logout);
+// router.post('/partner/logout', PartnerController.logout);
 router.put(
   '/partner/me',
   [

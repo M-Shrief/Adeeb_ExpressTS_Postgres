@@ -93,9 +93,9 @@ export const PartnerController = {
     }
   },
 
-  logout: async (req: Request, res: Response, next: NextFunction) => {
-    res.status(HttpStatusCode.ACCEPTED).send('logged out');
-  },
+  // logout: async (req: Request, res: Response, next: NextFunction) => {
+  //   res.status(HttpStatusCode.ACCEPTED).send('logged out');
+  // },
 
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
