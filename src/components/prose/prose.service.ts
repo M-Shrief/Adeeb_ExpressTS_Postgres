@@ -1,4 +1,5 @@
-import { AppDataSource } from '../../db';
+// Repository
+import {ProseDB} from './prose.repository'
 // Entities
 import { Prose } from './prose.entity';
 // Utils
@@ -6,55 +7,21 @@ import { filterAsync } from '../../utils/asyncFilterAndMap';
 // Schema
 import { createSchema, updateSchema } from './prose.schema';
 
-const proseRepository = AppDataSource.getRepository(Prose);
-
 export const ProseService = {
   async getAllWithPoetName(): Promise<Prose[] | false> {
-    const proses = await proseRepository.find({
-      select: {
-        id: true,
-        poet: {
-          id: true,
-          name: true,
-        },
-        tags: true,
-        qoute: true,
-        reviewed: true,
-      },
-      relations: { poet: true },
-      cache: true,
-    });
+    const proses = await ProseDB.getAllWithPoetName()
     if (proses.length === 0) return false;
     return proses;
   },
 
   async getRandomWithPoetName(num: number): Promise<Prose[] | false> {
-    const proses = await proseRepository
-      .createQueryBuilder('prose')
-      .select(['prose.id', 'prose.qoute'])
-      .orderBy('RANDOM()')
-      .limit(num)
-      .getMany();
+    const proses = await ProseDB.getRandomWithPoetName(num);
     if (proses.length === 0) return false;
     return proses;
   },
 
   async getOneWithPoetName(id: string): Promise<Prose | false> {
-    const prose = await proseRepository.findOne({
-      where: { id },
-      select: {
-        id: true,
-        poet: {
-          id: true,
-          name: true,
-        },
-        tags: true,
-        qoute: true,
-        reviewed: true,
-      },
-      relations: { poet: true },
-      cache: true,
-    });
+    const prose = await ProseDB.getOneWithPoetName(id);
     if (!prose) return false;
     return prose;
   },
@@ -63,7 +30,7 @@ export const ProseService = {
     const isValid = await createSchema.isValid(proseData);
     if (!isValid) return false;
 
-    const newProse = await proseRepository.save(proseData);
+    const newProse = await ProseDB.post(proseData);
     if (!newProse) return false;
     return newProse;
   },
@@ -79,7 +46,7 @@ export const ProseService = {
     const validProses: Prose[] = await filterAsync(ProsesData, isValid);
     const inValidProses: Prose[] = await filterAsync(ProsesData, isNotValid);
 
-    const newProses = await proseRepository.save(validProses);
+    const newProses = await ProseDB.postMany(validProses);
     if (!newProses) return false;
 
     const result = { newProses, inValidProses };
@@ -89,13 +56,13 @@ export const ProseService = {
   async update(id: string, proseData: Prose): Promise<number | false> {
     const isValid = await updateSchema.isValid(proseData);
     if (!isValid) return false;
-    const newProse = await proseRepository.update(id, proseData);
+    const newProse = await ProseDB.update(id, proseData);
     if (!newProse.affected) return false;
     return newProse.affected;
   },
 
   async remove(id: string): Promise<number | false> {
-    const prose = await proseRepository.delete(id);
+    const prose = await ProseDB.remove(id);
     if (!prose.affected) return false;
     return prose.affected;
   },
