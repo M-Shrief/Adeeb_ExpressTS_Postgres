@@ -9,16 +9,10 @@ import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 import { decodeToken } from '../../utils/auth';
 
-export class OrderController {
-  private orderService = new OrderService();
-
-  public indexGuestOrders = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+export const OrderController = {
+  indexGuestOrders: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const orders = await this.orderService.getGuestOrders(
+      const orders = await OrderService.getGuestOrders(
         req.body.name as string,
         req.body.phone as string,
       );
@@ -28,9 +22,9 @@ export class OrderController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public indexPartnerOrders = async (
+  indexPartnerOrders: async (
     req: Request,
     res: Response,
     next: NextFunction,
@@ -39,7 +33,7 @@ export class OrderController {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
-      const orders = await this.orderService.getPartnerOrders(decoded.id);
+      const orders = await OrderService.getPartnerOrders(decoded.id);
       if (!orders)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -50,15 +44,11 @@ export class OrderController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public postGuest = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  postGuest: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await this.orderService.post(req.body);
+      const order = await OrderService.post(req.body);
       if (!order)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -69,18 +59,14 @@ export class OrderController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public postPartner = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  postPartner: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
-      const order = await this.orderService.post({
+      const order = await OrderService.post({
         ...req.body,
         partnerId: decoded.id,
       });
@@ -94,11 +80,11 @@ export class OrderController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public update = async (req: Request, res: Response, next: NextFunction) => {
+  update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await this.orderService.update(req.params.id, req.body);
+      const order = await OrderService.update(req.params.id, req.body);
       if (!order)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -109,16 +95,16 @@ export class OrderController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public remove = async (req: Request, res: Response, next: NextFunction) => {
+  remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await this.orderService.remove(req.params.id);
+      const order = await OrderService.remove(req.params.id);
       if (!order)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);
     }
-  };
-}
+  },
+};

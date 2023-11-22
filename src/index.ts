@@ -21,7 +21,7 @@ const app = new App([
   ChosenVerseRoute,
   ProseRoute,
   PartnerRoute,
-  new OrderRoute(),
+  OrderRoute,
 ]);
 
 export default app.listen();

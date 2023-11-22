@@ -4,13 +4,12 @@ import { AppDataSource } from '../../db';
 import { Order } from './order.entity';
 // Schema
 import { createSchema, updateSchema } from './order.schema';
-export class OrderService {
-  private orderRepository = AppDataSource.getRepository(Order);
-  public async getGuestOrders(
-    name: string,
-    phone: string,
-  ): Promise<Order[] | false> {
-    const orders = await this.orderRepository.find({
+
+const orderRepository = AppDataSource.getRepository(Order);
+
+export const OrderService = {
+  async getGuestOrders(name: string, phone: string): Promise<Order[] | false> {
+    const orders = await orderRepository.find({
       where: { name, phone },
       select: {
         id: true,
@@ -29,10 +28,10 @@ export class OrderService {
 
     if (orders.length === 0) return false;
     return orders;
-  }
+  },
 
-  public async getPartnerOrders(partnerId: string): Promise<Order[] | false> {
-    const orders = await this.orderRepository.find({
+  async getPartnerOrders(partnerId: string): Promise<Order[] | false> {
+    const orders = await orderRepository.find({
       where: { partnerId },
       select: {
         id: true,
@@ -52,28 +51,28 @@ export class OrderService {
 
     if (orders.length === 0) return false;
     return orders;
-  }
+  },
 
-  public async post(orderData: Order): Promise<Order | false> {
+  async post(orderData: Order): Promise<Order | false> {
     const isValid = await createSchema.isValid(orderData);
     if (!isValid) return false;
 
-    const newOrder = await this.orderRepository.save(orderData);
+    const newOrder = await orderRepository.save(orderData);
     if (!newOrder) return false;
     return newOrder;
-  }
+  },
 
-  public async update(id: string, orderData: Order): Promise<number | false> {
+  async update(id: string, orderData: Order): Promise<number | false> {
     const isValid = await updateSchema.isValid(orderData);
     if (!isValid) return false;
-    const newOrder = await this.orderRepository.update(id, orderData);
+    const newOrder = await orderRepository.update(id, orderData);
     if (!newOrder.affected) return false;
     return newOrder.affected;
-  }
+  },
 
-  public async remove(id: string): Promise<number | false> {
-    const order = await this.orderRepository.delete(id);
+  async remove(id: string): Promise<number | false> {
+    const order = await orderRepository.delete(id);
     if (!order.affected) return false;
     return order.affected;
-  }
-}
+  },
+};
