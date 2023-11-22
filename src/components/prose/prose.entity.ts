@@ -10,7 +10,7 @@ import { Poet } from '../poet/poet.entity';
 import { BaseEntity } from '../../interfaces/baseEntity';
 
 @Entity()
-export class Prose extends BaseEntity{
+export class Prose extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 

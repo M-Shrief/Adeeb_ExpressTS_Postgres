@@ -7,16 +7,14 @@ import { ERROR_MSG } from './prose.entity';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
-export class ProseController {
-  private proseService: ProseService = new ProseService();
-
-  public indexWithPoetName = async (
+export const ProseController = {
+  indexWithPoetName: async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const proses = await this.proseService.getAllWithPoetName();
+      const proses = await ProseService.getAllWithPoetName();
       if (!proses)
         throw new AppError(
           HttpStatusCode.NOT_FOUND,
@@ -27,15 +25,15 @@ export class ProseController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public indexRandomWithPoetName = async (
+  indexRandomWithPoetName: async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const proses = await this.proseService.getRandomWithPoetName(
+      const proses = await ProseService.getRandomWithPoetName(
         Number(req.query.num),
       );
       if (!proses)
@@ -48,26 +46,26 @@ export class ProseController {
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public indexOneWithPoetName = async (
+  indexOneWithPoetName: async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      const prose = await this.proseService.getOneWithPoetName(req.params.id);
+      const prose = await ProseService.getOneWithPoetName(req.params.id);
       if (!prose)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.OK).send(prose);
     } catch (error) {
       next(error);
     }
-  };
+  },
 
-  public post = async (req: Request, res: Response, next: NextFunction) => {
+  post: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const prose = await this.proseService.post(req.body);
+      const prose = await ProseService.post(req.body);
       if (!prose)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -78,11 +76,11 @@ export class ProseController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public postMany = async (req: Request, res: Response, next: NextFunction) => {
+  postMany: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const proses = await this.proseService.postMany(req.body);
+      const proses = await ProseService.postMany(req.body);
       if (!proses)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -93,11 +91,11 @@ export class ProseController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public update = async (req: Request, res: Response, next: NextFunction) => {
+  update: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const prose = await this.proseService.update(req.params.id, req.body);
+      const prose = await ProseService.update(req.params.id, req.body);
       if (!prose)
         throw new AppError(
           HttpStatusCode.NOT_ACCEPTABLE,
@@ -108,16 +106,16 @@ export class ProseController {
     } catch (errors) {
       next(errors);
     }
-  };
+  },
 
-  public remove = async (req: Request, res: Response, next: NextFunction) => {
+  remove: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const prose = await this.proseService.remove(req.params.id);
+      const prose = await ProseService.remove(req.params.id);
       if (!prose)
         throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
       res.status(HttpStatusCode.ACCEPTED).send('Deleted Successfully');
     } catch (errors) {
       next(errors);
     }
-  };
-}
+  },
+};

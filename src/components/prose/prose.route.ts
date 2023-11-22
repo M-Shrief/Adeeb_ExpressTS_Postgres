@@ -9,73 +9,56 @@ import { ERROR_MSG } from './prose.entity';
 import { validate } from '../../middlewares/validate.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
 
-export class ProseRoute implements IRoute {
-  public router: Router = Router();
-  private controller: ProseController = new ProseController();
+const router: Router = Router();
 
-  constructor() {
-    this.initalizeRoutes();
-  }
+router.get('/proses', setCache, ProseController.indexWithPoetName);
+router.get(
+  '/proses/random',
+  validate([
+    // it doesn't give error when num != number
+    query('num').optional().isInt().withMessage(ERROR_MSG.NUM),
+  ]),
+  ProseController.indexRandomWithPoetName,
+);
+router.get(
+  '/prose/:id',
+  validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
+  ProseController.indexOneWithPoetName,
+);
+router.post(
+  '/prose',
+  validate([
+    body('poet').isUUID().withMessage(ERROR_MSG.POET),
+    body('tags').isString().escape().withMessage(ERROR_MSG.TAGS),
+    body('qoute').isString().withMessage(ERROR_MSG.QOUTE),
+    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+  ]),
+  ProseController.post,
+);
 
-  private initalizeRoutes() {
-    this.router.get('/proses', setCache, this.controller.indexWithPoetName);
-    this.router.get(
-      '/proses/random',
-      validate([
-        // it doesn't give error when num != number
-        query('num').optional().isInt().withMessage(ERROR_MSG.NUM),
-      ]),
-      this.controller.indexRandomWithPoetName,
-    );
-    this.router.get(
-      '/prose/:id',
-      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
-      this.controller.indexOneWithPoetName,
-    );
-    this.router.post(
-      '/prose',
-      validate([
-        body('poet').isUUID().withMessage(ERROR_MSG.POET),
-        body('tags')
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.TAGS),
-        body('qoute')
-          .isString()
-          .withMessage(ERROR_MSG.QOUTE),
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
-      this.controller.post,
-    );
+router.post('/proses', ProseController.postMany);
 
-    this.router.post('/proses', this.controller.postMany);
+router.put(
+  '/prose/:id',
+  validate([
+    param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
 
-    this.router.put(
-      '/prose/:id',
-      validate([
-        param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
+    body('poet').optional().isUUID().withMessage(ERROR_MSG.POET),
 
-        body('poet').optional().isUUID().withMessage(ERROR_MSG.POET),
+    body('tags').optional().isString().escape().withMessage(ERROR_MSG.TAGS),
 
-        body('tags')
-          .optional()
-          .isString()
-          .escape()
-          .withMessage(ERROR_MSG.TAGS),
+    body('qoute').optional().isString().withMessage(ERROR_MSG.QOUTE),
 
-        body('qoute')
-          .optional()
-          .isString()
-          .withMessage(ERROR_MSG.QOUTE),
+    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+  ]),
+  ProseController.update,
+);
+router.delete(
+  '/prose/:id',
+  validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
+  ProseController.remove,
+);
 
-        body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
-      ]),
-      this.controller.update,
-    );
-    this.router.delete(
-      '/prose/:id',
-      validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
-      this.controller.remove,
-    );
-  }
+export const ProseRoute: IRoute = {
+  router
 }
