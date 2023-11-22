@@ -13,92 +13,84 @@ import {
   authErrorHandler,
 } from '../../middlewares/auth.middleware';
 import { setCache } from '../../middlewares/cache.middleware';
-export class PartnerRoute implements IRoute {
-  public router: Router = Router();
-  private controller: PartnerController = new PartnerController();
 
-  constructor() {
-    this.initializeRoutes();
-  }
+const router: Router = Router();
 
-  private initializeRoutes() {
-    this.router.get(
-      '/partner/me',
-      [
-        jwtToken(true),
-        guard.check(['partner:read', 'partner:write']),
-        authErrorHandler,
-        setCache,
-      ],
-      this.controller.indexInfo,
-    );
-    this.router.post(
-      '/partner/signup',
-      validate([
-        body('name').isString().escape().withMessage(ERROR_MSG.NAME),
+router.get(
+  '/partner/me',
+  [
+    jwtToken(true),
+    guard.check(['partner:read', 'partner:write']),
+    authErrorHandler,
+    setCache,
+  ],
+  PartnerController.indexInfo,
+);
+router.post(
+  '/partner/signup',
+  validate([
+    body('name').isString().escape().withMessage(ERROR_MSG.NAME),
 
-        body('phone')
-          .isString()
-          .escape()
-          // .isMobilePhone('any')
-          .withMessage(ERROR_MSG.PHONE),
+    body('phone')
+      .isString()
+      .escape()
+      // .isMobilePhone('any')
+      .withMessage(ERROR_MSG.PHONE),
 
-        body('password')
-          .isString()
-          // .isStrongPassword()
-          .escape()
-          .withMessage(ERROR_MSG.PASSWORD),
-      ]),
-      this.controller.signup,
-    );
-    this.router.post(
-      '/partner/login',
-      validate([
-        body('phone').isString().escape().withMessage(ERROR_MSG.PHONE),
+    body('password')
+      .isString()
+      // .isStrongPassword()
+      .escape()
+      .withMessage(ERROR_MSG.PASSWORD),
+  ]),
+  PartnerController.signup,
+);
+router.post(
+  '/partner/login',
+  validate([
+    body('phone').isString().escape().withMessage(ERROR_MSG.PHONE),
 
-        body('password').isString().escape().withMessage(ERROR_MSG.PASSWORD),
-      ]),
-      this.controller.login,
-    );
-    this.router.post('/partner/logout', this.controller.logout);
-    this.router.put(
-      '/partner/me',
-      [
-        jwtToken(true),
-        guard.check(['partner:read', 'partner:write']),
-        authErrorHandler,
-        validate([
-          body('name')
-            .optional()
-            .isString()
-            .escape()
-            .withMessage(ERROR_MSG.NAME),
+    body('password').isString().escape().withMessage(ERROR_MSG.PASSWORD),
+  ]),
+  PartnerController.login,
+);
+router.post('/partner/logout', PartnerController.logout);
+router.put(
+  '/partner/me',
+  [
+    jwtToken(true),
+    guard.check(['partner:read', 'partner:write']),
+    authErrorHandler,
+    validate([
+      body('name').optional().isString().escape().withMessage(ERROR_MSG.NAME),
 
-          body('phone')
-            .optional()
-            .escape()
-            .isString()
-            // .isMobilePhone('any')
-            .withMessage(ERROR_MSG.PHONE),
+      body('phone')
+        .optional()
+        .escape()
+        .isString()
+        // .isMobilePhone('any')
+        .withMessage(ERROR_MSG.PHONE),
 
-          body('password')
-            .optional()
-            .isString()
-            // .isStrongPassword()
-            .escape()
-            .withMessage(ERROR_MSG.PASSWORD),
-        ]),
-      ],
-      this.controller.update,
-    );
-    this.router.delete(
-      '/partner/me',
-      [
-        jwtToken(true),
-        guard.check(['partner:read', 'partner:write']),
-        authErrorHandler,
-      ],
-      this.controller.remove,
-    );
-  }
+      body('password')
+        .optional()
+        .isString()
+        // .isStrongPassword()
+        .escape()
+        .withMessage(ERROR_MSG.PASSWORD),
+    ]),
+  ],
+  PartnerController.update,
+);
+router.delete(
+  '/partner/me',
+  [
+    jwtToken(true),
+    guard.check(['partner:read', 'partner:write']),
+    authErrorHandler,
+  ],
+  PartnerController.remove,
+);
+
+export const PartnerRoute: IRoute = {
+  router
 }
