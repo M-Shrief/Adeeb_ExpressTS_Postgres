@@ -83,7 +83,7 @@ describe.concurrent('Testing PoemService', async () => {
     });
   });
 
-  describe('Testing getAllWithPoetName()', async () => {
+  describe('Testing getAllIntrosWithPoetName()', async () => {
     const poems = [
       {
         id: 'f6f75cc6-d48a-44a5-a9e0-e54bb4e1590e',

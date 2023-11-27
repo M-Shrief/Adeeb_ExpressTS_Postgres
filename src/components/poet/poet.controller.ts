@@ -71,8 +71,6 @@ export const PoetController = {
       if (errMsg) {
         throw new AppError(status, errMsg, true);
       }
-      // Bug: it gives error with res.status but works with res.sendStatus
-      // It gives a bug because poet is a number so it thinks we put it as a status code.
       res.sendStatus(status);
     } catch (errors) {
       next(errors);
