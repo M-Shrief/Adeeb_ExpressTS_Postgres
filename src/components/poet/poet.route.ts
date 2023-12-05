@@ -25,10 +25,10 @@ router.get(
 router.post(
   '/poet',
   validate([
-    body('name').isString().escape().withMessage(ERROR_MSG.NAME),
-    body('time_period').isString().escape().withMessage(ERROR_MSG.TIME_PERIOD),
-    body('bio').isString().escape().withMessage(ERROR_MSG.BIO),
-    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+    body('name', ERROR_MSG.NAME).isString().escape(),
+    body('time_period', ERROR_MSG.TIME_PERIOD).isString().escape(),
+    body('bio', ERROR_MSG.BIO).isString().escape(),
+    body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
   ]),
   PoetController.post,
 );
@@ -38,26 +38,25 @@ router.post('/poets', PoetController.postMany);
 router.put(
   '/poet/:id',
   validate([
-    param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND),
+    param('id', ERROR_MSG.NOT_FOUND).isUUID(4),
 
-    body('name').optional().isString().escape().withMessage(ERROR_MSG.NAME),
+    body('name', ERROR_MSG.NAME).optional().isString().escape(),
 
-    body('time_period')
+    body('time_period',ERROR_MSG.TIME_PERIOD)
       .optional()
       .isString()
-      .escape()
-      .withMessage(ERROR_MSG.TIME_PERIOD),
+      .escape(),
 
-    body('bio').optional().isString().escape().withMessage(ERROR_MSG.BIO),
+    body('bio', ERROR_MSG.BIO).optional().isString().escape(),
 
-    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+    body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
   ]),
   PoetController.update,
 );
 
 router.delete(
   '/poet/:id',
-  [validate([param('id').isUUID(4).withMessage(ERROR_MSG.NOT_FOUND)])],
+  [validate([param('id', ERROR_MSG.NOT_FOUND).isUUID(4)])],
   PoetController.remove,
 );
 

@@ -14,24 +14,24 @@ const router: Router = Router();
 router.get('/chosenverses', setCache, ChosenVerseController.indexWithPoetName);
 router.get(
   '/chosenverses/random',
-  validate([query('num').optional().isInt().withMessage(ERROR_MSG.NUM)]),
+  validate([query('num', ERROR_MSG.NUM).optional().isInt()]),
   ChosenVerseController.indexRandomWithPoetName,
 );
 router.get(
   '/chosenverse/:id',
-  validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
+  validate([param('id', ERROR_MSG.NOT_FOUND).isUUID(4)]),
   ChosenVerseController.indexOneWithPoetName,
 );
 router.post(
   '/chosenverse',
   validate([
-    body('poet').isUUID().withMessage(ERROR_MSG.POET),
-    body('poem').isUUID().withMessage(ERROR_MSG.POEM),
-    body('tags').isString().escape().withMessage(ERROR_MSG.TAGS),
-    body('verses').isArray().withMessage(ERROR_MSG.VERSES),
-    body('verses.*.first').isString().escape().withMessage(ERROR_MSG.VERSES),
-    body('verses.*.sec').isString().escape().withMessage(ERROR_MSG.VERSES),
-    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+    body('poet', ERROR_MSG.POET).isUUID(4),
+    body('poem', ERROR_MSG.POEM).isUUID(4),
+    body('tags', ERROR_MSG.TAGS).isString().escape(),
+    body('verses', ERROR_MSG.VERSES).isArray(),
+    body('verses.*.first', ERROR_MSG.VERSES).isString().escape(),
+    body('verses.*.sec', ERROR_MSG.VERSES).isString().escape(),
+    body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
   ]),
   ChosenVerseController.post,
 );
@@ -41,33 +41,31 @@ router.post('/chosenverses', ChosenVerseController.postMany);
 router.put(
   '/chosenverse/:id',
   validate([
-    param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND),
+    param('id', ERROR_MSG.NOT_FOUND).isUUID(4),
 
-    body('poet').optional().isUUID(4).withMessage(ERROR_MSG.POET),
+    body('poet', ERROR_MSG.POET).optional().isUUID(4),
 
-    body('poem').optional().isUUID(4).withMessage(ERROR_MSG.POEM),
+    body('poem', ERROR_MSG.POEM).optional().isUUID(4),
 
-    body('tags').optional().isString().escape().withMessage(ERROR_MSG.TAGS),
-    body('verses').optional().isArray().withMessage(ERROR_MSG.VERSES),
-    body('verses.*.first')
+    body('tags', ERROR_MSG.TAGS).optional().isString().escape(),
+    body('verses', ERROR_MSG.VERSES).optional().isArray(),
+    body('verses.*.first', ERROR_MSG.VERSES)
       .optional()
       .isString()
-      .escape()
-      .withMessage(ERROR_MSG.VERSES),
+      .escape(),
 
-    body('verses.*.sec')
+    body('verses.*.sec', ERROR_MSG.VERSES)
       .optional()
       .isString()
-      .escape()
-      .withMessage(ERROR_MSG.VERSES),
+      .escape(),
 
-    body('reviewed').optional().isBoolean().withMessage(ERROR_MSG.REVIEWED),
+    body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
   ]),
   ChosenVerseController.update,
 );
 router.delete(
   '/chosenverse/:id',
-  validate([param('id').isUUID().withMessage(ERROR_MSG.NOT_FOUND)]),
+  validate([param('id', ERROR_MSG.NOT_FOUND).isUUID(4)]),
   ChosenVerseController.remove,
 );
 

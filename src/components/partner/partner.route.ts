@@ -29,28 +29,26 @@ router.get(
 router.post(
   '/partner/signup',
   validate([
-    body('name').isString().escape().withMessage(ERROR_MSG.NAME),
+    body('name', ERROR_MSG.NAME).isString().escape(),
 
-    body('phone')
+    body('phone', ERROR_MSG.PHONE)
       .isString()
-      .escape()
+      .escape(),
       // .isMobilePhone('any')
-      .withMessage(ERROR_MSG.PHONE),
 
-    body('password')
+    body('password', ERROR_MSG.PASSWORD)
       .isString()
       // .isStrongPassword()
-      .escape()
-      .withMessage(ERROR_MSG.PASSWORD),
+      .escape(),
   ]),
   PartnerController.signup,
 );
 router.post(
   '/partner/login',
   validate([
-    body('phone').isString().escape().withMessage(ERROR_MSG.PHONE),
+    body('phone', ERROR_MSG.PHONE).isString().escape(),
 
-    body('password').isString().escape().withMessage(ERROR_MSG.PASSWORD),
+    body('password', ERROR_MSG.PASSWORD).isString().escape(),
   ]),
   PartnerController.login,
 );
@@ -62,21 +60,20 @@ router.put(
     guard.check(['partner:read', 'partner:write']),
     authErrorHandler,
     validate([
-      body('name').optional().isString().escape().withMessage(ERROR_MSG.NAME),
+      body('name', ERROR_MSG.NAME).optional().isString().escape(),
 
-      body('phone')
+      body('phone', ERROR_MSG.PHONE)
         .optional()
         .escape()
-        .isString()
+        .isString(),
         // .isMobilePhone('any')
-        .withMessage(ERROR_MSG.PHONE),
+        
 
-      body('password')
+      body('password', ERROR_MSG.PASSWORD)
         .optional()
         .isString()
         // .isStrongPassword()
-        .escape()
-        .withMessage(ERROR_MSG.PASSWORD),
+        .escape(),
     ]),
   ],
   PartnerController.update,
