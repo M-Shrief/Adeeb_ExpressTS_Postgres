@@ -2,8 +2,8 @@ import express, { Application, Request, Response } from 'express';
 // Config
 import { PORT, CORS_ORIGIN, SENTRY_DNS } from './config';
 // Middlewares
-// import * as Sentry from '@sentry/node';
-// import { ProfilingIntegration } from '@sentry/profiling-node';
+import * as Sentry from '@sentry/node';
+import { ProfilingIntegration } from '@sentry/profiling-node';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -28,7 +28,7 @@ export default class App {
   constructor(routes: IRoute[]) {
     this.app = express();
     this.port = PORT || 3000;
-    // this.initializeSentry(this.app);
+    this.initializeSentry(this.app);
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeErrorHandling();
@@ -43,8 +43,8 @@ export default class App {
   }
 
   private initializeMiddlewares(): void {
-    // this.app.use(Sentry.Handlers.requestHandler()); // must be the first middleware on the app
-    // this.app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
+    this.app.use(Sentry.Handlers.requestHandler()); // must be the first middleware on the app
+    this.app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(compression());
@@ -81,23 +81,23 @@ export default class App {
     });
   }
 
-  // private initializeSentry(app: Application) {
-  //   Sentry.init({
-  //     dsn: SENTRY_DNS,
-  //     integrations: [
-  //       // enable HTTP calls tracing
-  //       new Sentry.Integrations.Http({ tracing: true }),
-  //       // enable Express.js middleware tracing
-  //       new Sentry.Integrations.Express({ app }),
-  //       new ProfilingIntegration(),
-  //     ],
-  //     // Performance Monitoring
-  //     tracesSampleRate: 0.4, // Capture 100% of the transactions, reduce in production!
-  //     // Set sampling rate for profiling - this is relative to tracesSampleRate
-  //     profilesSampleRate: 0.4, // Capture 100% of the transactions, reduce in production!
-  //   });
-  //   logger.info('Connected to Sentry');
-  // }
+  private initializeSentry(app: Application) {
+    Sentry.init({
+      dsn: SENTRY_DNS,
+      integrations: [
+        // enable HTTP calls tracing
+        new Sentry.Integrations.Http({ tracing: true }),
+        // enable Express.js middleware tracing
+        new Sentry.Integrations.Express({ app }),
+        new ProfilingIntegration(),
+      ],
+      // Performance Monitoring
+      tracesSampleRate: 0.4, // Capture 100% of the transactions, reduce in production!
+      // Set sampling rate for profiling - this is relative to tracesSampleRate
+      profilesSampleRate: 0.4, // Capture 100% of the transactions, reduce in production!
+    });
+    logger.info('Connected to Sentry');
+  }
 
   private initializeErrorHandling() {
     // if error is not operational/trusted/known we shall exit then use PM2 to restart.
@@ -110,7 +110,7 @@ export default class App {
       handleTrustedError(error as AppError, res);
     });
 
-    // this.app.use(Sentry.Handlers.errorHandler());
+    this.app.use(Sentry.Handlers.errorHandler());
     this.app.use(errorMiddleware);
   }
 }

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=21-bullseye-slim
+ARG NODE_VERSION=20-bullseye-slim
 
 ################################################################################
 # Use node image for base image for all stages.
@@ -53,7 +53,6 @@ COPY package.json .
 # the built application from the build stage into the image.
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/./dist ././dist
-COPY --from=build /usr/src/app/ecosystem.config.js ./ecosystem.config.js
 
 
 # Expose the port that the application listens on.
