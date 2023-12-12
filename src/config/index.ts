@@ -1,3 +1,6 @@
+import fs from 'fs'
+import { logger } from '../utils/logger';
+
 export const DB = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -9,14 +12,16 @@ export const DB = {
 
 export const REDIS = process.env.REDIS;
 
+if (!process.env.JWT_PRIVATE_FILE) {
+  logger.error("JWT Private key is not defined")
+  process.exit(1)
+}
+export const JWT_PRIVATE = fs.readFileSync(process.env.JWT_PRIVATE_FILE).toString().trim()
+
 export const {
   NODE_ENV,
   PORT,
-  SECRET_KEY,
-  LOG_FORMAT,
   LOG_DIR,
-  ORIGIN,
-  JWT_PRIVATE,
   CORS_ORIGIN,
   SENTRY_DNS,
 } = process.env;

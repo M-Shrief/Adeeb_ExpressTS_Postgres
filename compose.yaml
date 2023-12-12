@@ -1,36 +1,19 @@
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Docker compose reference guide at
-# https://docs.docker.com/compose/compose-file/
-
-# Here the instructions define your application as a service called "server".
 # This service is built from the Dockerfile in the current directory.
-# You can add other services your application may depend on here, such as a
-# database or a cache. For examples, see the Awesome Compose repository:
-# https://github.com/docker/awesome-compose
 services:
   server:
     container_name: adeeb_server
     build:
       context: .
     restart: unless-stopped
+    env_file:
+      - .env
+    # Provide secrets for server
     secrets:
-      - jwt-private
+      - jwt_private
     environment:
-      NODE_ENV: development
-      PORT: 3000
-      DB_HOST: adeeb_db
-      DB_PORT: 5432
-      DB_NAME: adeeb_db
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      REDIS: redis://redis:6379
-      JWT_PRIVATE: /run/secrets/jwt-private
-      CA_CERTIFICATE: 
-      SECRET_KEY:
-      LOG_DIR:
-      LOG_FORMAT:
-      CORS_ORIGIN: http://localhost:5173,
-      SENTRY_DNS: ''
+      # Provide JWT private key file in ENVs to read with something like `fs` in node, like:
+      # const JWT_PRIVATE = fs.readFileSync(process.env.JWT_PRIVATE_FILE).toString().trim()
+      JWT_PRIVATE_FILE: /run/secrets/jwt_private
     ports:
       - 3000:3000
     depends_on:
@@ -38,28 +21,31 @@ services:
       - redis
 
   db:
+    # Container name is used as ${host} when connecting to database
     container_name: adeeb_db
     image: postgres:15.1-alpine
     restart: unless-stopped
+    # Use db-data volume to persist Database on restarts
     volumes:
       - db-data:/var/lib/postgresql/data/
     environment:
       POSTGRES_DB: adeeb_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    expose:
+    ports:
       - 5432
 
   redis:
-    # container_name: adeeb_redis
+    container_name: adeeb_redis
     restart: unless-stopped
     image: redis:7.2.3-alpine 
-    command: redis-server --save 20 1 --loglevel warning
+    command: redis-server --loglevel warning
     ports:
-      - '6379:6379'
+      - 6379
 
 volumes:
   db-data:
+# For Secret data like certificats, JWT private keys,...etc
 secrets:
-  jwt-private:
-    file: jwtRSA256-private.pem
+  jwt_private:
+    file: ./jwtRSA256-private.pem
