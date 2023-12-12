@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { expressjwt } from 'express-jwt';
 import guardFactory from 'express-jwt-permissions';
+// Config
+import { JWT_PRIVATE } from '../config';
+// Utils
 import HttpStatusCode from '../utils/httpStatusCode';
 import { AppError } from '../utils/errorsCenter/appError';
 
 export const jwtToken = (bln?: boolean) =>
   expressjwt({
-    secret: process.env.JWT_PRIVATE as string,
+    secret: JWT_PRIVATE as string,
     algorithms: ['RS256'],
     credentialsRequired: bln ?? false, // set:false to identify registered users while still providing access to unregistered users.
     requestProperty: 'user', // made it user for guard, it's req.auth by default

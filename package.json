@@ -16,8 +16,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sentry/node": "^7.73.0",
-    "@sentry/profiling-node": "^1.2.1",
+    "@sentry/node": "^7.86.0",
+    "@sentry/profiling-node": "^1.2.6",
     "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",

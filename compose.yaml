@@ -1,0 +1,51 @@
+# This service is built from the Dockerfile in the current directory.
+services:
+  server:
+    container_name: adeeb_server
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    # Provide secrets for server
+    secrets:
+      - jwt_private
+    environment:
+      # Provide JWT private key file in ENVs to read with something like `fs` in node, like:
+      # const JWT_PRIVATE = fs.readFileSync(process.env.JWT_PRIVATE_FILE).toString().trim()
+      JWT_PRIVATE_FILE: /run/secrets/jwt_private
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+      - redis
+
+  db:
+    # Container name is used as ${host} when connecting to database
+    container_name: adeeb_db
+    image: postgres:15.1-alpine
+    restart: unless-stopped
+    # Use db-data volume to persist Database on restarts
+    volumes:
+      - db-data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: adeeb_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432
+
+  redis:
+    container_name: adeeb_redis
+    restart: unless-stopped
+    image: redis:7.2.3-alpine 
+    command: redis-server --loglevel warning
+    ports:
+      - 6379
+
+volumes:
+  db-data:
+# For Secret data like certificats, JWT private keys,...etc
+secrets:
+  jwt_private:
+    file: ./jwtRSA256-private.pem
