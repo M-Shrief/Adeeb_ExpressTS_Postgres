@@ -33,9 +33,7 @@ export const PartnerDB = {
     async login(
       phone: string,
     ): Promise<Partner | null> {
-      return await AppDataSource.getRepository(
-        Partner,
-      ).findOneBy({ phone });
+      return await db.findOneBy({ phone });
     },
   
     async update(
