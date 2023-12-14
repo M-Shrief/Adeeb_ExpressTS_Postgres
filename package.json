@@ -5,9 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "pm2 start ecosystem.config.js --env production:",
-    "dev": "pm2 start ecosystem.config.js --env development",
-    "dev:test": "pm2 start ecosystem.config.js --env development",
+    "start": "node dist/index.js",
     "test": "vitest",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
