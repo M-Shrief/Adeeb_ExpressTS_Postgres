@@ -19,5 +19,5 @@ export const handleTrustedError = (error: AppError, res: Response): void => {
   });
   res
     .status(error.httpCode)
-    .json({ status: error.httpCode, message: error.message });
+    .json({ message: error.message });
 };
