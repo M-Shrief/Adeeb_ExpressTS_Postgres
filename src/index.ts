@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { container } from 'tsyringe';
 import App from './app';
 // Databases
 import { connectDB } from './db';
