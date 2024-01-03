@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request, Response, Router } from 'express';
 // Config
 import { PORT, CORS_ORIGIN, SENTRY_DNS } from './config';
 // Middlewares
@@ -18,14 +18,13 @@ import {
   handleTrustedError,
 } from './utils/errorsCenter/errorHandlers';
 // interfaces
-import { IRoute } from './interfaces/route.interface';
 import { AppError } from './utils/errorsCenter/appError';
 
 export default class App {
   public app: Application;
   public port: string | number;
 
-  constructor(routes: IRoute[]) {
+  constructor(routes: Router[]) {
     this.app = express();
     this.port = PORT || 3000;
     this.initializeSentry(this.app);
@@ -61,7 +60,7 @@ export default class App {
     this.app.use(morganMiddleware);
   }
 
-  private async initializeRoutes(routes: IRoute[]) {
+  private async initializeRoutes(routes: Router[]) {
     // Importing commonjs dynamically, and using {*:*func} because it's a default export
     const apiLimiter = rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
@@ -76,8 +75,8 @@ export default class App {
     });
 
     // Apply the rate limiting middleware to API calls only
-    routes.forEach((route) => {
-      this.app.use('/api', apiLimiter, route.router);
+    routes.forEach((router) => {
+      this.app.use('/api', apiLimiter, router);
     });
   }
 

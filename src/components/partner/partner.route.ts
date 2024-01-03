@@ -3,7 +3,6 @@ import { body } from 'express-validator';
 // Controller
 import { PartnerController } from './partner.controller';
 // Types
-import { IRoute } from '../../interfaces/route.interface';
 import { ERROR_MSG } from './partner.entity';
 // middlewares
 import { validate } from '../../middlewares/validate.middleware';
@@ -88,6 +87,4 @@ router.delete(
   PartnerController.remove,
 );
 
-export const PartnerRoute: IRoute = {
-  router
-}
+export const PartnerRoute = router;
