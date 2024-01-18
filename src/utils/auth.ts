@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { JWT_PRIVATE } from '../config';
+import { JWT_PRIVATE, JWT_PUBLIC } from '../config';
 
 export const hashPassword = async (password: string) => {
   const salt = bcrypt.genSaltSync(); // default 10
@@ -21,7 +21,7 @@ export const decodeToken = (token: string) => {
 export const verifyToken = (token: string) => {
   const decoded = jwt.verify(
     token,
-    JWT_PRIVATE as string,
+    JWT_PUBLIC as string,
     { algorithms: ['RS256'] },
     // function (err, payload) {
     // if token alg != RS256,  return err == invalid signature

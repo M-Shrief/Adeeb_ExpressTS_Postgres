@@ -10,10 +10,12 @@ services:
     # Provide secrets for server
     secrets:
       - jwt_private
+      - jwt_public
     environment:
-      # Provide JWT private key file in ENVs to read with something like `fs` in node, like:
+      # Provide JWT private and public key file in ENVs to read with something like `fs` in node, like:
       # const JWT_PRIVATE = fs.readFileSync(process.env.JWT_PRIVATE_FILE).toString().trim()
       JWT_PRIVATE_FILE: /run/secrets/jwt_private
+      JWT_PUBLIC_FILE: /run/secrets/jwt_public
     ports:
       - 3000:3000
     depends_on:
@@ -49,3 +51,5 @@ volumes:
 secrets:
   jwt_private:
     file: ./jwtRSA256-private.pem
+  jwt_public:
+    file: ./jwtRSA256-public.pem

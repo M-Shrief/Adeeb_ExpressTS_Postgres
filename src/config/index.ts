@@ -13,11 +13,13 @@ export const DB = {
 export const REDIS = process.env.REDIS;
 
 export let JWT_PRIVATE: string = '';
+export let JWT_PUBLIC: string = '';
 
-if (process.env.JWT_PRIVATE_FILE) {
+if (process.env.JWT_PRIVATE_FILE && process.env.JWT_PUBLIC_FILE) {
   JWT_PRIVATE = fs.readFileSync(process.env.JWT_PRIVATE_FILE!).toString().trim()
+  JWT_PUBLIC = fs.readFileSync(process.env.JWT_PUBLIC_FILE!).toString().trim()
 } else {
-  logger.warn("JWT Private key is not defined")
+  logger.warn("JWT Private and Public key are not defined")
 }
 
 export const {
