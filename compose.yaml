@@ -3,10 +3,10 @@ services:
   server:
     container_name: adeeb_server
     build:
-      context: .
+      context: adeeb
     restart: unless-stopped
     env_file:
-      - .env
+      - adeeb/.env
     # Provide secrets for server
     secrets:
       - jwt_private
