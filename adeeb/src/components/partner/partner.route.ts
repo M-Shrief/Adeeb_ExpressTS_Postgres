@@ -15,6 +15,8 @@ import { setCache } from '../../middlewares/cache.middleware';
 
 const router: Router = Router();
 
+router.get('/ping', PartnerController.PingPong)
+
 router.get(
   '/partner/me',
   [

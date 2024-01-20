@@ -8,6 +8,7 @@ import { decodeToken, signToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 import { JwtPayload } from 'jsonwebtoken';
+import { deadLine, grpcClient } from '../../grpc';
 
 const signTokenFn = (name: string, id: string) =>
 signToken(
@@ -23,6 +24,36 @@ signToken(
 );
 
 export const PartnerController = {
+  PingPong: async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      await grpcClient.waitForReady(
+        deadLine,
+        (err) => {
+          if (err) {
+            console.log("Not ready:", err)
+            throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, err.message, true);
+          }
+
+          grpcClient.PingPong(
+            {message: "Ping"},
+            (err, result) => {
+                if(err) {
+                  console.error(err);
+                  throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, err.message, true);
+                }
+              res.status(HttpStatusCode.ACCEPTED).send(result);
+            }       
+          )    
+        })
+    } catch (error) {
+      next(error);
+    }
+  },
+
   indexInfo: async (
     req: Request,
     res: Response,
