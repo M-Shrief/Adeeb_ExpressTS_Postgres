@@ -16,6 +16,8 @@ can_use.md
 
 dataMapper.js
 
+**/pb
+
 # Certificates
 *.pem
 *.crt
