@@ -1,9 +1,11 @@
 # This service is built from the Dockerfile in the current directory.
 services:
-  server:
+  adeeb-server:
     container_name: adeeb_server
     build:
       context: adeeb
+      additional_contexts: 
+        resources: .
     restart: unless-stopped
     env_file:
       - adeeb/.env
@@ -44,6 +46,15 @@ services:
     command: redis-server --loglevel warning
     ports:
       - 6379
+      
+  users-service:
+    container_name: users-service 
+    build:
+      context: users-service
+      target: final
+    ports:
+      - 8080:8080
+
 
 volumes:
   db-data:
