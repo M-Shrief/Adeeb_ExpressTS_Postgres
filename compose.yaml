@@ -4,6 +4,7 @@ services:
     container_name: adeeb_server
     build:
       context: adeeb
+      # Providing rootdir, so that we can copy required folders like ./proto in adeeb/Dockerfile
       additional_contexts: 
         resources: .
     restart: unless-stopped
@@ -51,9 +52,8 @@ services:
     container_name: users-service 
     build:
       context: users-service
-      target: final
     ports:
-      - 8080:8080
+      - 8080
 
 
 volumes:

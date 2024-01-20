@@ -1,7 +1,9 @@
 # Adeeb
 
 
-### Generate Protobuf for each node
+## How to start the Application
+
+**First:** generate Protobuf for each node
 
 To generate Adeeb pb:
 
@@ -23,4 +25,20 @@ if you have a problem with GO_PATH, try:
 $ export GO_PATH=~/go
 
 $ export PATH=$PATH:/$GO_PATH/bin
+```
+
+**Secondly:** Generate JWT keys:
+
+```ssh
+$ openssl genrsa -out jwtRSA256-private.pem 2048
+
+$ openssl rsa -in jwtRSA256-private.pem -pubout -outform PEM -out jwtRSA256-public.pem
+```
+
+**Finally:** run docker-compose
+
+```ssh
+$ docker-compose build
+
+$ docker-compose up
 ```
