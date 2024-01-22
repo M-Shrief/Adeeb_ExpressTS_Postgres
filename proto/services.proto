@@ -6,12 +6,33 @@ option go_package = "users-service/pb";
 
 service Services {
     rpc PingPong(PingRequest) returns (PongResponse) {};
+
+    rpc Signup(SignupRequest) returns (SignupResponse) {};
 }
 
+// PingPong
 message PingRequest {
     string message = 1;
 }
 
 message PongResponse {
     string message = 1;
+}
+
+// Signup
+message SignupRequest {
+    string name = 1;
+    string phone = 2;
+    string password = 3;
+}
+
+message User { 
+    string id = 1;
+    string name = 2;
+    string phone = 3;
+}
+
+message SignupResponse {
+    User user = 1;
+    string token = 2;
 }

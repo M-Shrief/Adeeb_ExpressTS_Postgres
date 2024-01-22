@@ -50,10 +50,20 @@ services:
       
   users-service:
     container_name: users-service 
+    restart: unless-stopped
     build:
       context: users-service
     ports:
       - 8080
+    env_file:
+      - users-service/.env
+    secrets:
+      - jwt_private
+    environment:
+      # PORT: :8080
+      # Provide JWT private key file in ENVs to read with something like `fs` in node, like:
+      JWT_PRIVATE_FILE: /run/secrets/jwt_private
+
 
 
 volumes:
