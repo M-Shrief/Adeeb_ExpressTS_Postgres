@@ -42,7 +42,7 @@ router.post(
       // .isStrongPassword()
       .escape(),
   ]),
-  PartnerController.signup,
+  PartnerController.grpcSignup,
 );
 router.post(
   '/partner/login',

@@ -1,14 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
+// gRPC
+import { grpcClient } from '../../grpc';
 // Services
 import { PartnerService } from './partner.service';
 // Types
 import { ERROR_MSG, Partner } from './partner.entity';
+import { JwtPayload } from 'jsonwebtoken';
+// Schema
+import { createSchema } from './partner.schema';
 // Utils
 import { decodeToken, signToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
-import { JwtPayload } from 'jsonwebtoken';
-import { deadLine, grpcClient } from '../../grpc';
 
 const signTokenFn = (name: string, id: string) =>
 signToken(
@@ -59,6 +62,29 @@ export const PartnerController = {
      res.status(status).send(partner);
     } catch (error) {
       next(error);
+    }
+  },
+
+  grpcSignup: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const {name, phone, password} = req.body
+      const isValid = await createSchema.isValid({name, phone, password});
+      if (!isValid)
+        throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true);
+      grpcClient.Signup(
+        {name, phone, password},
+        (err, result) => {
+          try {
+            if(err) 
+              throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true);
+            res.status(HttpStatusCode.CREATED).send(result);
+          } catch (error) {
+            next(error);
+          }
+        }       
+      ) 
+    } catch (error) {
+        next(error)
     }
   },
 
