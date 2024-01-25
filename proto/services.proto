@@ -24,12 +24,14 @@ message SignupRequest {
     string name = 1;
     string phone = 2;
     string password = 3;
+    string signed_for = 4;
 }
 
 message User { 
     string id = 1;
     string name = 2;
     string phone = 3;
+    string signed_for = 4;
 }
 
 message SignupResponse {
