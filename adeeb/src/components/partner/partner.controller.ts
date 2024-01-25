@@ -72,7 +72,7 @@ export const PartnerController = {
       if (!isValid)
         throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true);
       grpcClient.Signup(
-        {name, phone, password},
+        {name, phone, password, signed_for: "adeeb"},
         (err, result) => {
           try {
             if(err) 
