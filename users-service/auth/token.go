@@ -9,7 +9,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func CreateToken(ttl time.Duration, content interface{}, permission []string) (string, error) {
+func CreateToken(ttl time.Duration, content interface{}, permissions []string) (string, error) {
 	privateKey, err := os.ReadFile(config.JWT_PRIVATE_FILE)
 	if err != nil {
 		return "", fmt.Errorf("couldn't read secret: %v", err)
@@ -26,7 +26,7 @@ func CreateToken(ttl time.Duration, content interface{}, permission []string) (s
 	claims["user"] = content            // Our custom data.
 	claims["exp"] = now.Add(ttl).Unix() // The expiration time after which the token must be disregarded.
 	claims["iat"] = now.Unix()          // The time at which the token was issued.
-	claims["permission"] = permission
+	claims["permissions"] = permissions
 	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, claims).SignedString(key)
 	if err != nil {
 		return "", fmt.Errorf("create token error: %w", err)
