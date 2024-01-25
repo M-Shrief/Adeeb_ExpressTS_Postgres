@@ -26,12 +26,6 @@ export const PartnerDB = {
       });
     },
   
-    async login(
-      phone: string,
-    ): Promise<Partner | null> {
-      return await db.findOneBy({ phone });
-    },
-  
     async update(
       id: string,
       partnerData: Partner,

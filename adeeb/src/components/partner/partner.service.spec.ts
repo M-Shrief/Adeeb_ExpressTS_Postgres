@@ -6,8 +6,6 @@ import { PartnerDB } from './partner.repository';
 // Types
 import { Partner } from './partner.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
-// Utils
-import { hashPassword } from '../../utils/auth';
 
 describe.concurrent('Testing PartnerService', async () => {
     describe("Testing getInfo()", async() => {
@@ -39,28 +37,6 @@ describe.concurrent('Testing PartnerService', async () => {
             vi.spyOn(PartnerDB, "getInfo").mockResolvedValue(null);
             const result = await PartnerService.getInfo("3251fb4d-aab0-4639-b049-815745ee7531");
             expect(result).toStrictEqual(false)
-        })
-    })
-
-    describe("Testing login()", async() => {
-        let phone = "01235554567",
-            password = "P@ssword1",
-            hashed = await hashPassword(password);
-        test("SignUp successfully after validation and hashing password", async() => {
-            vi.spyOn(PartnerDB, "login").mockResolvedValue({ phone, password: hashed} as Partner);
-            const result = await PartnerService.login(phone, password)
-            expect(result).toStrictEqual({phone, password: hashed} as Partner)
-        })
-        test("Returns false after for non-existing phone or inValid password", async() => {
-            vi.spyOn(PartnerDB, "login").mockResolvedValue(null);
-            const result = await PartnerService.login(phone, password)
-            expect(result).toEqual(false)
-        })
-        test("Returns false after for non-existing phone or inValid password", async() => {
-            // not equal the hashed password in DB
-            vi.spyOn(PartnerDB, "login").mockResolvedValue({ phone, password} as Partner);
-            const result = await PartnerService.login(phone, password)
-            expect(result).toEqual(false)
         })
     })
 

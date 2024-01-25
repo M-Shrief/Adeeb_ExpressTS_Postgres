@@ -14,17 +14,6 @@ export const PartnerService = {
     return partner;
   },
 
-  async login(
-    phone: string,
-    password: string,
-  ): Promise<Partner | false> {
-    const existingPartner = await PartnerDB.login(phone);
-    if (!existingPartner) return false;
-    const isValid = await comparePassword(password, existingPartner.password);
-    if (!isValid) return false;
-    return existingPartner;
-  },
-
   async update(
     id: string,
     partnerData: Partner,

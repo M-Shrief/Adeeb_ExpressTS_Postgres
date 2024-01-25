@@ -89,34 +89,20 @@ export const PartnerController = {
   },
 
   login: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const service = await PartnerService.login(
-        req.body.phone,
-        req.body.password,
-      );
-      const { status, partner, errMsg } =
-      responseInfo.login(service);
-      if (errMsg) throw new AppError(status, errMsg, true);
-      if (partner) {
-        const accessToken = signTokenFn(partner.name, partner.id);
-        res.status(status).json({
-          success: true,
-          partner: {
-            id: partner.id,
-            name: partner.name,
-            phone: partner.phone,
-          },
-          accessToken,
-        });  
+    const {phone, password} = req.body;
+    grpcClient.Login(
+      {phone, password},
+      (err, result) => {
+        try {
+          if(err)
+            throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true)
+          res.status(HttpStatusCode.ACCEPTED).send(result)
+        } catch (error) {
+          next(error)
+        }
       }
-    } catch (error) {
-      next(error);
-    }
+    )
   },
-
-  // logout: async (req: Request, res: Response, next: NextFunction) => {
-  //   res.status(HttpStatusCode.ACCEPTED).send('logged out');
-  // },
 
   update: async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -158,29 +144,6 @@ export const responseInfo = {
     }
     return { status: HttpStatusCode.OK, partner };
   },
-  signup: (
-    partner: Partner | false,
-  ): { status: number; partner?: Partner; errMsg?: string } => {
-    if (!partner) {
-      return {
-        status: HttpStatusCode.NOT_ACCEPTABLE,
-        errMsg: ERROR_MSG.NOT_VALID,
-      };
-    }
-    return { status: HttpStatusCode.CREATED, partner };
-  },
-  login: (
-    partner: Partner | false,
-  ): { status: number; partner?: Partner; errMsg?: string } => {
-    if (!partner) {
-      return {
-        status: HttpStatusCode.NOT_ACCEPTABLE,
-        errMsg: ERROR_MSG.NOT_VALID,
-      };
-    }
-    return { status: HttpStatusCode.ACCEPTED, partner };
-  },
-
   update: (partner: number | false): { status: number; errMsg?: string } => {
     if (!partner) {
       return {
