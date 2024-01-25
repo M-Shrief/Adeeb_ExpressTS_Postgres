@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 	"os"
 	"users-service/config"
+	"users-service/datasource"
 	"users-service/pb"
 	"users-service/services"
 
@@ -12,6 +14,13 @@ import (
 )
 
 func main() {
+	conn, err := datasource.ConnectDB()
+	if err != nil {
+		log.Printf("Failed to connect to the database: %v", err)
+		os.Exit(1)
+	}
+	log.Printf("connected to database")
+	defer conn.Close(context.TODO())
 
 	listener, err := net.Listen("tcp", config.PORT)
 	if err != nil {
