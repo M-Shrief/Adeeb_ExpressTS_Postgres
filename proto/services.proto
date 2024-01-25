@@ -10,6 +10,8 @@ service Services {
     rpc Signup(SignupRequest) returns (SignupResponse) {};
 
     rpc Login(LoginRequest) returns (LoginResponse) {};
+
+    rpc Delete(DeleteRequest) returns (DeleteResponse) {};
 }
 
 // PingPong
@@ -52,3 +54,11 @@ message LoginResponse {
     User user = 1;
     string token = 2;
 }
+
+
+// Delete
+message DeleteRequest {
+    string id = 1;
+}
+
+message DeleteResponse {}
