@@ -41,29 +41,16 @@ describe.concurrent("Testing PartnerController's responseInfo", async () => {
         });
     })
 
-    describe('Testing update()', async () => {
-        test('Updates partner successfully', async () => {
-          const { status, errMsg } = responseInfo.update(1);
-          expect(status).toEqual(HttpStatusCode.ACCEPTED);
-          expect(errMsg).toBeUndefined();
-        });
-        test('Error, Update is not Acceptable', async () => {
-          const { status, errMsg } = responseInfo.update(false);
-          expect(status).toEqual(HttpStatusCode.NOT_ACCEPTABLE);
-          expect(errMsg).toEqual(ERROR_MSG.NOT_VALID);
-        });
-      });
-    
-    describe('Testing remove()', async () => {
-        test('Updates partner successfully', async () => {
-          const { status, errMsg } = responseInfo.remove(1);
-          expect(status).toEqual(HttpStatusCode.ACCEPTED);
-          expect(errMsg).toBeUndefined();
-        });
-        test('Error, Update is not Acceptable', async () => {
-          const { status, errMsg } = responseInfo.remove(false);
-          expect(status).toEqual(HttpStatusCode.NOT_FOUND);
-          expect(errMsg).toEqual(ERROR_MSG.NOT_FOUND);
-        });
-    });
+    // describe('Testing update()', async () => {
+    //     test('Updates partner successfully', async () => {
+    //       const { status, errMsg } = responseInfo.update(1);
+    //       expect(status).toEqual(HttpStatusCode.ACCEPTED);
+    //       expect(errMsg).toBeUndefined();
+    //     });
+    //     test('Error, Update is not Acceptable', async () => {
+    //       const { status, errMsg } = responseInfo.update(false);
+    //       expect(status).toEqual(HttpStatusCode.NOT_ACCEPTABLE);
+    //       expect(errMsg).toEqual(ERROR_MSG.NOT_VALID);
+    //     });
+    // });
 })

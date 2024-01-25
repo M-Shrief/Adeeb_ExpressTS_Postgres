@@ -14,21 +14,15 @@ export const PartnerService = {
     return partner;
   },
 
-  async update(
-    id: string,
-    partnerData: Partner,
-  ): Promise<number | false> {
-    const isValid = await updateSchema.isValid(partnerData);
-    if (!isValid) return false;
+  // async update(
+  //   id: string,
+  //   partnerData: Partner,
+  // ): Promise<number | false> {
+  //   const isValid = await updateSchema.isValid(partnerData);
+  //   if (!isValid) return false;
 
-    const newPartner = await PartnerDB.update(id, partnerData);
-    if (!newPartner.affected) return false;
-    return newPartner.affected;
-  },
-
-  async remove(id: string): Promise<number | false> {
-    const partner = await PartnerDB.remove(id);
-    if (!partner.affected) return false;
-    return partner.affected;
-  }
+  //   const newPartner = await PartnerDB.update(id, partnerData);
+  //   if (!newPartner.affected) return false;
+  //   return newPartner.affected;
+  // },
 }

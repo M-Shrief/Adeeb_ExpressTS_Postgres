@@ -54,31 +54,31 @@ router.post(
   PartnerController.login,
 );
 // router.post('/partner/logout', PartnerController.logout);
-router.put(
-  '/partner/me',
-  [
-    jwtToken(true),
-    guard.check(['partner:read', 'partner:write']),
-    authErrorHandler,
-    validate([
-      body('name', ERROR_MSG.NAME).optional().isString().escape(),
+// router.put(
+//   '/partner/me',
+//   [
+//     jwtToken(true),
+//     guard.check(['partner:read', 'partner:write']),
+//     authErrorHandler,
+//     validate([
+//       body('name', ERROR_MSG.NAME).optional().isString().escape(),
 
-      body('phone', ERROR_MSG.PHONE)
-        .optional()
-        .escape()
-        .isString(),
-        // .isMobilePhone('any')
+//       body('phone', ERROR_MSG.PHONE)
+//         .optional()
+//         .escape()
+//         .isString(),
+//         // .isMobilePhone('any')
         
 
-      body('password', ERROR_MSG.PASSWORD)
-        .optional()
-        .isString()
-        // .isStrongPassword()
-        .escape(),
-    ]),
-  ],
-  PartnerController.update,
-);
+//       body('password', ERROR_MSG.PASSWORD)
+//         .optional()
+//         .isString()
+//         // .isStrongPassword()
+//         .escape(),
+//     ]),
+//   ],
+//   PartnerController.update,
+// );
 router.delete(
   '/partner/me',
   [

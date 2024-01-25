@@ -26,15 +26,11 @@ export const PartnerDB = {
       });
     },
   
-    async update(
-      id: string,
-      partnerData: Partner,
-    ): Promise<UpdateResult> {
-      return await db.update(id, partnerData);
-    },
-  
-    async remove(id: string): Promise<DeleteResult> {
-      return await db.delete(id);
-    }
+    // async update(
+    //   id: string,
+    //   partnerData: Partner,
+    // ): Promise<UpdateResult> {
+    //   return await db.update(id, partnerData);
+    // },
   }
   

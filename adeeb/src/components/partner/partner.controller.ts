@@ -104,34 +104,38 @@ export const PartnerController = {
     )
   },
 
-  update: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const decoded = decodeToken(
-        req.headers.authorization!.slice(7),
-      ) as JwtPayload;
-      const service = await PartnerService.update(decoded.id, req.body);
-      const { status, errMsg } =
-      responseInfo.update(service);
-      if (errMsg) throw new AppError(status, errMsg, true);
-      res.sendStatus(status);
-    } catch (error) {
-      next(error);
-    }
-  },
+  // update: async (req: Request, res: Response, next: NextFunction) => {
+  //   try {
+  //     const decoded = decodeToken(
+  //       req.headers.authorization!.slice(7),
+  //     ) as JwtPayload;
+  //     const service = await PartnerService.update(decoded.id, req.body);
+  //     const { status, errMsg } =
+  //     responseInfo.update(service);
+  //     if (errMsg) throw new AppError(status, errMsg, true);
+  //     res.sendStatus(status);
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // },
 
   remove: async (req: Request, res: Response, next: NextFunction) => {
-    try {
+    // try {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
-      const service = await PartnerService.remove(decoded.id);
-      const { status, errMsg } =
-      responseInfo.remove(service);
-      if (errMsg) throw new AppError(status, errMsg, true);
-      res.sendStatus(status);
-    } catch (errors) {
-      next(errors);
-    }
+      grpcClient.Delete(
+        {id: decoded.user.id},
+        (err, result) => {
+          try {
+            if(err)
+              throw new AppError(HttpStatusCode.NOT_FOUND, ERROR_MSG.NOT_FOUND, true);
+            res.sendStatus(HttpStatusCode.ACCEPTED);
+          } catch (error) {
+            next(error)
+          }
+        }
+      )
   },
 }
 
@@ -144,19 +148,13 @@ export const responseInfo = {
     }
     return { status: HttpStatusCode.OK, partner };
   },
-  update: (partner: number | false): { status: number; errMsg?: string } => {
-    if (!partner) {
-      return {
-        status: HttpStatusCode.NOT_ACCEPTABLE,
-        errMsg: ERROR_MSG.NOT_VALID,
-      };
-    }
-    return { status: HttpStatusCode.ACCEPTED };
-  },
-  remove: (partner: number | false): { status: number; errMsg?: string } => {
-    if (!partner) {
-      return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
-    }
-    return { status: HttpStatusCode.ACCEPTED };
-  },
+  // update: (partner: number | false): { status: number; errMsg?: string } => {
+  //   if (!partner) {
+  //     return {
+  //       status: HttpStatusCode.NOT_ACCEPTABLE,
+  //       errMsg: ERROR_MSG.NOT_VALID,
+  //     };
+  //   }
+  //   return { status: HttpStatusCode.ACCEPTED };
+  // },
 }
