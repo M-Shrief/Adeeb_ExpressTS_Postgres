@@ -24,6 +24,7 @@ services:
     depends_on:
       - db
       - redis
+      - users-service
 
   db:
     # Container name is used as ${host} when connecting to database
@@ -38,7 +39,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - 5432
+      - 5432:5432
 
   redis:
     container_name: adeeb_redis
@@ -49,7 +50,7 @@ services:
       - 6379
       
   users-service:
-    container_name: users-service 
+    container_name: users_service 
     restart: unless-stopped
     build:
       context: users-service
@@ -59,15 +60,38 @@ services:
       - users-service/.env
     secrets:
       - jwt_private
+      - jwt_public
     environment:
       # PORT: :8080
-      # Provide JWT private key file in ENVs to read with something like `fs` in node, like:
+      # Provide JWT private key file in ENVs to read with something like `os.ReadFile` in go, see an example in /config.
       JWT_PRIVATE_FILE: /run/secrets/jwt_private
+      JWT_PUBLIC_FILE: /run/secrets/jwt_public
+    depends_on:
+      - users-db
 
+  users-db:
+    # Container name is used as ${host} when connecting to database
+    container_name: users_db
+    image: postgres:15.1-alpine
+    restart: unless-stopped
+    # Use db-data volume to persist Database on restarts
+    volumes:
+      - users-data:/var/lib/postgresql/data/
+      # copy the sql script to create tables
+      - ./users-service/datasource/sql/create_table.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # copy the sql script to fill tables
+      # - ./sql/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+    environment:
+      POSTGRES_DB: users_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5433:5432
 
 
 volumes:
   db-data:
+  users-data:
 # For Secret data like certificats, JWT private keys,...etc
 secrets:
   jwt_private:
