@@ -12,23 +12,30 @@ import (
 )
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (name,phone,password) VALUES ($1, $2, $3) RETURNING id, name, phone, password, created_at, update_at
+INSERT INTO users (name,phone,password, signed_for) VALUES ($1, $2, $3, $4) RETURNING id, name, phone, password, signed_for, created_at, update_at
 `
 
 type CreateUserParams struct {
-	Name     string `json:"name"`
-	Phone    string `json:"phone"`
-	Password string `json:"password"`
+	Name      string    `json:"name"`
+	Phone     string    `json:"phone"`
+	Password  string    `json:"password"`
+	SignedFor SignedFor `json:"signed_for"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRow(ctx, createUser, arg.Name, arg.Phone, arg.Password)
+	row := q.db.QueryRow(ctx, createUser,
+		arg.Name,
+		arg.Phone,
+		arg.Password,
+		arg.SignedFor,
+	)
 	var i User
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Phone,
 		&i.Password,
+		&i.SignedFor,
 		&i.CreatedAt,
 		&i.UpdateAt,
 	)
@@ -68,7 +75,7 @@ func (q *Queries) GetUser(ctx context.Context, phone string) (GetUserRow, error)
 }
 
 const updateUser = `-- name: UpdateUser :one
-UPDATE users set name = $2 WHERE id = $1 RETURNING id, name, phone, password, created_at, update_at
+UPDATE users set name = $2 WHERE id = $1 RETURNING id, name, phone, password, signed_for, created_at, update_at
 `
 
 type UpdateUserParams struct {
@@ -84,6 +91,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.Name,
 		&i.Phone,
 		&i.Password,
+		&i.SignedFor,
 		&i.CreatedAt,
 		&i.UpdateAt,
 	)
