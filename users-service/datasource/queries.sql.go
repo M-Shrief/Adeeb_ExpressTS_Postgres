@@ -51,25 +51,27 @@ func (q *Queries) DeleteUser(ctx context.Context, id pgtype.UUID) error {
 	return err
 }
 
-const getUser = `-- name: GetUser :one
-SELECT id, phone, name, password FROM users WHERE phone = $1 LIMIT 1
+const getUserByPhone = `-- name: GetUserByPhone :one
+SELECT id, phone, name, password, signed_for FROM users WHERE phone = $1 LIMIT 1
 `
 
-type GetUserRow struct {
-	ID       pgtype.UUID `json:"id"`
-	Phone    string      `json:"phone"`
-	Name     string      `json:"name"`
-	Password string      `json:"password"`
+type GetUserByPhoneRow struct {
+	ID        pgtype.UUID `json:"id"`
+	Phone     string      `json:"phone"`
+	Name      string      `json:"name"`
+	Password  string      `json:"password"`
+	SignedFor SignedFor   `json:"signed_for"`
 }
 
-func (q *Queries) GetUser(ctx context.Context, phone string) (GetUserRow, error) {
-	row := q.db.QueryRow(ctx, getUser, phone)
-	var i GetUserRow
+func (q *Queries) GetUserByPhone(ctx context.Context, phone string) (GetUserByPhoneRow, error) {
+	row := q.db.QueryRow(ctx, getUserByPhone, phone)
+	var i GetUserByPhoneRow
 	err := row.Scan(
 		&i.ID,
 		&i.Phone,
 		&i.Name,
 		&i.Password,
+		&i.SignedFor,
 	)
 	return i, err
 }
