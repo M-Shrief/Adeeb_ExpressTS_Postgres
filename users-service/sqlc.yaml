@@ -1,0 +1,13 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "datasource/sql/queries.sql"
+    schema: "datasource/sql/create_table.sql"
+    gen:
+      go:
+        package:  "datasource"
+        sql_package: "pgx/v5"
+        out: "datasource"
+        emit_json_tags: true
+        emit_prepared_queries: false
+        emit_interface: false
