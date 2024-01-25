@@ -21,7 +21,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	}
 
 	user := &pb.User{
-		Id:        datasource.ToString(existingUser.ID),
+		Id:        datasource.UUIDToString(existingUser.ID),
 		Name:      existingUser.Name,
 		Phone:     existingUser.Phone,
 		SignedFor: string(existingUser.SignedFor),

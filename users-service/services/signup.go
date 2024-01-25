@@ -28,7 +28,7 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 		return nil, fmt.Errorf("couldn't create user, Error: %v", err)
 	}
 
-	userId := datasource.ToString(res.ID)
+	userId := datasource.UUIDToString(res.ID)
 	user := &pb.User{
 		Id:        userId,
 		Name:      res.Name,
