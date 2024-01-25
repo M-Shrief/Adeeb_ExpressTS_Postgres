@@ -27,7 +27,11 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 		SignedFor: string(existingUser.SignedFor),
 	}
 
-	token, err := auth.CreateToken(time.Hour, user)
+	token, err := auth.CreateToken(
+		time.Hour,
+		user,
+		auth.NewPermission(string(existingUser.SignedFor)),
+	)
 	if err != nil {
 		return nil, err
 	}

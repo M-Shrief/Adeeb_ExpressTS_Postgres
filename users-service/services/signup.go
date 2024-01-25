@@ -39,6 +39,7 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 	token, err := auth.CreateToken(
 		time.Hour,
 		user,
+		auth.NewPermission(string(res.SignedFor)),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't create jwt token, Error: %v", err)
