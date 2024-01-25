@@ -18,9 +18,10 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 	res, err := datasource.DB.CreateUser(
 		ctx,
 		datasource.CreateUserParams{
-			Name:     req.GetName(),
-			Phone:    req.GetPhone(),
-			Password: hashedPassword,
+			Name:      req.GetName(),
+			Phone:     req.GetPhone(),
+			Password:  hashedPassword,
+			SignedFor: datasource.SignedFor(req.GetSignedFor()),
 		},
 	)
 	if err != nil {
@@ -29,9 +30,10 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 
 	userId := datasource.ToString(res.ID)
 	user := &pb.User{
-		Id:    userId,
-		Name:  res.Name,
-		Phone: res.Phone,
+		Id:        userId,
+		Name:      res.Name,
+		Phone:     res.Phone,
+		SignedFor: string(res.SignedFor),
 	}
 
 	token, err := auth.CreateToken(
