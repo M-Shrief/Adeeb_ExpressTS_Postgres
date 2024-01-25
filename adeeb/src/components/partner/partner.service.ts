@@ -14,22 +14,6 @@ export const PartnerService = {
     return partner;
   },
 
-  async signup(partnerData: Partner): Promise<Partner | false> {
-    const isValid = await createSchema.isValid(partnerData);
-    if (!isValid) return false;
-
-    const password = await hashPassword(partnerData.password);
-    const partner = new Partner();
-
-    partner.name = partnerData.name;
-    partner.phone = partnerData.phone;
-    partner.password = password;
-
-    const newPartner = await PartnerDB.signup(partner);
-    if (!newPartner) return false;
-    return newPartner;
-  },
-
   async login(
     phone: string,
     password: string,

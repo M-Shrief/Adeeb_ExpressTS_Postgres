@@ -65,7 +65,7 @@ export const PartnerController = {
     }
   },
 
-  grpcSignup: async (req: Request, res: Response, next: NextFunction) => {
+  signup: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {name, phone, password} = req.body
       const isValid = await createSchema.isValid({name, phone, password});
@@ -85,31 +85,6 @@ export const PartnerController = {
       ) 
     } catch (error) {
         next(error)
-    }
-  },
-
-  signup: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const service = await PartnerService.signup(req.body);
-      const { status, partner, errMsg } =
-      responseInfo.signup(service);
-      if (errMsg) throw new AppError(status, errMsg, true);
-      if (partner) {
-        const accessToken = signTokenFn(partner.name, partner.id);
-
-        res.status(status).json({
-          Success: true,
-          partner: {
-            id: partner.id,
-            name: partner.name,
-            phone: partner.phone,
-          },
-          accessToken,
-        });
-  
-      }
-    } catch (error) {
-      next(error);
     }
   },
 

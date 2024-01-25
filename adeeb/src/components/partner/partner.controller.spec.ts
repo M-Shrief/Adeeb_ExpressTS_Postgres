@@ -41,26 +41,6 @@ describe.concurrent("Testing PartnerController's responseInfo", async () => {
         });
     })
 
-    describe("Testing signup()", async() => {
-        const service = {
-            "name": "E2E Test",
-            "phone": "01235554567",
-            "password": "P@ssword1"
-        } as Partner;
-        test('Success, saved and return partner with status: ok', async () => {
-            const { status, partner, errMsg } = responseInfo.signup(service);
-            expect(status).toEqual(HttpStatusCode.CREATED);
-            expect(partner).toStrictEqual(service);
-            expect(errMsg).toBeUndefined();
-          });
-        test('Error, return errMsg: Not_VALID with status: Not_ACCEPTABLE', async () => {
-            const { status, partner, errMsg } = responseInfo.signup(false);
-            expect(status).toEqual(HttpStatusCode.NOT_ACCEPTABLE);
-            expect(errMsg).toStrictEqual(ERROR_MSG.NOT_VALID);
-            expect(partner).toBeUndefined();
-        });
-    })
-
     describe("Testing login()", async() => {
         const service = {
             "phone": "01235554567",

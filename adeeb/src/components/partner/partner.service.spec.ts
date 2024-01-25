@@ -42,28 +42,6 @@ describe.concurrent('Testing PartnerService', async () => {
         })
     })
 
-    describe("Testing signup()", async() => {
-        let name = "E2E Test",
-            phone = "01235554567",
-            password = "P@ssword1",
-            hashed = await hashPassword(password);
-        test("SignUp successfully after validation and hashing password", async() => {
-            vi.spyOn(PartnerDB, "signup").mockResolvedValue({name, phone, password: hashed} as Partner);
-            const result = await PartnerService.signup({name, phone, password} as Partner)
-            expect(result).toStrictEqual({name, phone, password: hashed} as Partner)
-        })
-        test("Returns false after inValid data", async() => {
-            vi.spyOn(PartnerDB, "signup").mockResolvedValue({name, phone, password: hashed} as Partner);
-            
-            const result1 = await PartnerService.signup({name, phone} as Partner)
-            expect(result1).toEqual(false)
-            const result2 = await PartnerService.signup({name, password} as Partner)
-            expect(result2).toEqual(false)
-            const result3 = await PartnerService.signup({phone, password} as Partner)
-            expect(result3).toEqual(false)
-        })
-    })
-
     describe("Testing login()", async() => {
         let phone = "01235554567",
             password = "P@ssword1",

@@ -26,10 +26,6 @@ export const PartnerDB = {
       });
     },
   
-    async signup(partnerData: Partner): Promise<Partner> {
-      return await db.save(partnerData);
-    },
-  
     async login(
       phone: string,
     ): Promise<Partner | null> {
