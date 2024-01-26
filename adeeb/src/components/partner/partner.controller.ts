@@ -9,22 +9,9 @@ import { JwtPayload } from 'jsonwebtoken';
 // Schema
 import { createSchema } from './partner.schema';
 // Utils
-import { decodeToken, signToken } from '../../utils/auth';
+import { decodeToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
-
-const signTokenFn = (name: string, id: string) =>
-signToken(
-  {
-    name,
-    id,
-    permissions: ['partner:read', 'partner:write'],
-  },
-  {
-    algorithm: 'RS256',
-    expiresIn: '8h',
-  },
-);
 
 export const PartnerController = {
   PingPong: async (

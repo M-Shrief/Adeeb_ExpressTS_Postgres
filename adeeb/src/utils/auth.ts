@@ -10,10 +10,6 @@ export const hashPassword = async (password: string) => {
 export const comparePassword = async (raw: string, hash: string) =>
   await bcrypt.compare(raw, hash);
 
-export const signToken = (user: any, options?: SignOptions) => {
-  return jwt.sign(user, JWT_PRIVATE as string, options);
-};
-
 export const decodeToken = (token: string) => {
   return jwt.decode(token);
 };
