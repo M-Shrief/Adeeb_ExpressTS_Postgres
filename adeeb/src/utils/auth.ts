@@ -1,14 +1,5 @@
-import bcrypt from 'bcrypt';
-import jwt, { SignOptions } from 'jsonwebtoken';
-import { JWT_PRIVATE, JWT_PUBLIC } from '../config';
-
-export const hashPassword = async (password: string) => {
-  const salt = bcrypt.genSaltSync(); // default 10
-  return await bcrypt.hash(password, salt);
-};
-
-export const comparePassword = async (raw: string, hash: string) =>
-  await bcrypt.compare(raw, hash);
+import jwt from 'jsonwebtoken';
+import { JWT_PUBLIC } from '../config';
 
 export const decodeToken = (token: string) => {
   return jwt.decode(token);
