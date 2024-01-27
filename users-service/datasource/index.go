@@ -28,7 +28,7 @@ func ConnectDB() (*pgx.Conn, error) {
 	for _, typeName := range dataTypeNames {
 		dataType, err := conn.LoadType(ctx, typeName)
 		if err != nil {
-			log.Printf("couldb't register type:", err)
+			log.Fatalf("couldb't register database type: %v", err)
 		}
 		conn.TypeMap().RegisterType(dataType)
 	}
