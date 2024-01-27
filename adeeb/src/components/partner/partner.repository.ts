@@ -25,12 +25,5 @@ export const PartnerDB = {
         cache: 1000 * 60,
       });
     },
-  
-    // async update(
-    //   id: string,
-    //   partnerData: Partner,
-    // ): Promise<UpdateResult> {
-    //   return await db.update(id, partnerData);
-    // },
   }
   

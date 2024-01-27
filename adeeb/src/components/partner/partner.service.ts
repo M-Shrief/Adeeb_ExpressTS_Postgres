@@ -13,16 +13,4 @@ export const PartnerService = {
     if (!partner) return false;
     return partner;
   },
-
-  // async update(
-  //   id: string,
-  //   partnerData: Partner,
-  // ): Promise<number | false> {
-  //   const isValid = await updateSchema.isValid(partnerData);
-  //   if (!isValid) return false;
-
-  //   const newPartner = await PartnerDB.update(id, partnerData);
-  //   if (!newPartner.affected) return false;
-  //   return newPartner.affected;
-  // },
 }

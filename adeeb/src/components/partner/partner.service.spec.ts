@@ -39,44 +39,4 @@ describe.concurrent('Testing PartnerService', async () => {
             expect(result).toStrictEqual(false)
         })
     })
-
-    // describe("Testing update()", async() => {
-    //     let name = "E2E Test",
-    //         phone = "01235554567",
-    //         password = "P@ssword1";
-    //     test("Updated Partner data successfully after validation and hashing password", async() => {
-    //         vi.spyOn(PartnerDB, "update").mockResolvedValue({
-    //             affected: 1,
-    //           } as UpdateResult);
-    //         const result1 = await PartnerService.update("1", {name} as Partner)
-    //         expect(result1).toStrictEqual(1)
-    //         const result2 = await PartnerService.update("1", {phone} as Partner)
-    //         expect(result2).toStrictEqual(1)
-    //         const result3 = await PartnerService.update("1", {password} as Partner)
-    //         expect(result3).toStrictEqual(1)
-    //     })
-    //     test("return false if partner is not found", async() => {
-    //         vi.spyOn(PartnerDB, "update").mockResolvedValue({
-    //             affected: 0,
-    //           } as UpdateResult);
-    //         const result1 = await PartnerService.update("1", {name} as Partner)
-    //         expect(result1).toEqual(false)
-    //         const result2 = await PartnerService.update("1", {phone} as Partner)
-    //         expect(result2).toEqual(false)
-    //         const result3 = await PartnerService.update("1", {password} as Partner)
-    //         expect(result3).toEqual(false)
-    //     })
-    //     test("Returns false after inValid data", async() => {
-    //         vi.spyOn(PartnerDB, "update").mockResolvedValue({
-    //             affected: 1,
-    //           } as UpdateResult);
-            
-    //           const result1 = await PartnerService.update("1", {name: "sd"} as Partner)
-    //           expect(result1).toEqual(false)
-    //           const result2 = await PartnerService.update("1", {phone: "sd"} as Partner)
-    //           expect(result2).toEqual(false)
-    //           const result3 = await PartnerService.update("1", {password: "sd"} as Partner)
-    //           expect(result3).toEqual(false)
-    //     })
-    // })
 })

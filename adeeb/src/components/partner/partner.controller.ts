@@ -7,7 +7,7 @@ import { PartnerService } from './partner.service';
 import { ERROR_MSG, Partner } from './partner.entity';
 import { JwtPayload } from 'jsonwebtoken';
 // Schema
-import { createSchema } from './partner.schema';
+import { createSchema, updateSchema } from './partner.schema';
 // Utils
 import { decodeToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
@@ -91,23 +91,31 @@ export const PartnerController = {
     )
   },
 
-  // update: async (req: Request, res: Response, next: NextFunction) => {
-  //   try {
-  //     const decoded = decodeToken(
-  //       req.headers.authorization!.slice(7),
-  //     ) as JwtPayload;
-  //     const service = await PartnerService.update(decoded.id, req.body);
-  //     const { status, errMsg } =
-  //     responseInfo.update(service);
-  //     if (errMsg) throw new AppError(status, errMsg, true);
-  //     res.sendStatus(status);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // },
+  update: async (req: Request, res: Response, next: NextFunction) => {
+    const decoded = decodeToken(
+      req.headers.authorization!.slice(7),
+    ) as JwtPayload;
+    const {name, phone, password} = req.body;
+
+    const isValid = await updateSchema.isValid({name, phone, password});
+    if (!isValid)
+      throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true);
+
+    grpcClient.Update(
+      {id: decoded.user.id, name: name || '', phone: phone || '', password: password || ''},
+      (err, result) => {
+        try {
+          if(err)
+            throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true);
+          res.sendStatus(HttpStatusCode.ACCEPTED);
+        } catch (error) {
+          next(error)
+        }
+      }
+    )
+  },
 
   remove: async (req: Request, res: Response, next: NextFunction) => {
-    // try {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
@@ -135,13 +143,4 @@ export const responseInfo = {
     }
     return { status: HttpStatusCode.OK, partner };
   },
-  // update: (partner: number | false): { status: number; errMsg?: string } => {
-  //   if (!partner) {
-  //     return {
-  //       status: HttpStatusCode.NOT_ACCEPTABLE,
-  //       errMsg: ERROR_MSG.NOT_VALID,
-  //     };
-  //   }
-  //   return { status: HttpStatusCode.ACCEPTED };
-  // },
 }

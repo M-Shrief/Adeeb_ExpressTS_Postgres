@@ -39,18 +39,5 @@ describe.concurrent("Testing PartnerController's responseInfo", async () => {
             expect(errMsg).toStrictEqual(ERROR_MSG.NOT_FOUND);
             expect(partner).toBeUndefined();
         });
-    })
-
-    // describe('Testing update()', async () => {
-    //     test('Updates partner successfully', async () => {
-    //       const { status, errMsg } = responseInfo.update(1);
-    //       expect(status).toEqual(HttpStatusCode.ACCEPTED);
-    //       expect(errMsg).toBeUndefined();
-    //     });
-    //     test('Error, Update is not Acceptable', async () => {
-    //       const { status, errMsg } = responseInfo.update(false);
-    //       expect(status).toEqual(HttpStatusCode.NOT_ACCEPTABLE);
-    //       expect(errMsg).toEqual(ERROR_MSG.NOT_VALID);
-    //     });
-    // });
+    });
 })
