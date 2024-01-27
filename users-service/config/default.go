@@ -19,4 +19,5 @@ var (
 // Secretes
 var (
 	JWT_PRIVATE_FILE = os.Getenv("JWT_PRIVATE_FILE")
+	JWT_PUBLIC_FILE  = os.Getenv("JWT_PUBLIC_FILE")
 )

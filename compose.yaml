@@ -1,5 +1,6 @@
 # This service is built from the Dockerfile in the current directory.
 services:
+######### Adeeb 
   adeeb-server:
     container_name: adeeb_server
     build:
@@ -47,6 +48,7 @@ services:
     ports:
       - 6379
       
+######### Users service
   users-service:
     container_name: users_service 
     restart: unless-stopped
@@ -60,8 +62,7 @@ services:
       - jwt_private
       - jwt_public
     environment:
-      # PORT: :8080
-      # Provide JWT private key file in ENVs to read with something like `os.ReadFile` in go, see an example in /config.
+      # Provide JWT private key file in ENVs to read with something like `os.ReadFile` in go, see an example in users-service/config.
       JWT_PRIVATE_FILE: /run/secrets/jwt_private
       JWT_PUBLIC_FILE: /run/secrets/jwt_public
     depends_on:
