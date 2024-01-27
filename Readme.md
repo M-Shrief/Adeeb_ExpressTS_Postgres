@@ -3,7 +3,16 @@
 
 ## How to start the Application
 
-**First:** generate Protobuf for each node
+**Firstly:** Generate JWT keys:
+
+```ssh
+$ openssl genrsa -out jwtRSA256-private.pem 2048
+
+$ openssl rsa -in jwtRSA256-private.pem -pubout -outform PEM -out jwtRSA256-public.pem
+```
+
+
+**Secondly:** generate Protobuf for each node
 
 To generate Adeeb pb:
 
@@ -27,12 +36,11 @@ $ export GO_PATH=~/go
 $ export PATH=$PATH:/$GO_PATH/bin
 ```
 
-**Secondly:** Generate JWT keys:
+**Thirdly**: Use Sqlc to generte type safe code for users-service:
+```
+$ cd users-service
 
-```ssh
-$ openssl genrsa -out jwtRSA256-private.pem 2048
-
-$ openssl rsa -in jwtRSA256-private.pem -pubout -outform PEM -out jwtRSA256-public.pem
+$ sqlc generate
 ```
 
 **Finally:** run docker-compose
