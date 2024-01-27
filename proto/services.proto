@@ -11,6 +11,8 @@ service Services {
 
     rpc Login(LoginRequest) returns (LoginResponse) {};
 
+    rpc Update(UpdateRequest) returns (UpdateResponse) {};
+
     rpc Delete(DeleteRequest) returns (DeleteResponse) {};
 }
 
@@ -55,6 +57,15 @@ message LoginResponse {
     string token = 2;
 }
 
+// Update
+message UpdateRequest {
+    string id = 1;
+    optional string name = 2;
+    optional string phone = 3;
+    optional string password = 4;
+}
+
+message UpdateResponse {}
 
 // Delete
 message DeleteRequest {
