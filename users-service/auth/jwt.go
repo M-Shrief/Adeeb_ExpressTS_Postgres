@@ -10,7 +10,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func CreateToken(ttl time.Duration, content interface{}, permissions []string) (string, error) {
+func CreateJWT(ttl time.Duration, content interface{}, permissions []string) (string, error) {
 	privateKey, err := os.ReadFile(config.JWT_PRIVATE_FILE)
 	if err != nil {
 		return "", fmt.Errorf("couldn't read secret: %v", err)

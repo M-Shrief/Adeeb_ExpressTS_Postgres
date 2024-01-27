@@ -26,7 +26,7 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 		Phone: existingUser.Phone,
 	}
 
-	token, err := auth.CreateToken(
+	token, err := auth.CreateJWT(
 		time.Hour,
 		user,
 		auth.NewPermission(existingUser.SignedFor),
