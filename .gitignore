@@ -16,7 +16,13 @@ can_use.md
 
 dataMapper.js
 
+# Generated Proto buffers for certain languages
 **/pb
+
+# Generate Sqlc fiels
+users-service/datasource/db.go
+users-service/datasource/models.go
+users-service/datasource/queries.sql.go
 
 # Certificates
 *.pem
