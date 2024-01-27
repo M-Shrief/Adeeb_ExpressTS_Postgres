@@ -3,6 +3,7 @@ package datasource
 import (
 	"context"
 	"fmt"
+	"log"
 	"users-service/config"
 
 	"github.com/jackc/pgx/v5"
@@ -18,6 +19,20 @@ func ConnectDB() (*pgx.Conn, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	dataTypeNames := []string{
+		"signed_for",
+		// An underscore prefix is an array type in pgtypes.
+		"_signed_for",
+	}
+	for _, typeName := range dataTypeNames {
+		dataType, err := conn.LoadType(ctx, typeName)
+		if err != nil {
+			log.Printf("couldb't register type:", err)
+		}
+		conn.TypeMap().RegisterType(dataType)
+	}
+
 	DB = New(conn)
 	return conn, err
 }
