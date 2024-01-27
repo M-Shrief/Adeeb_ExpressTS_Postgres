@@ -33,7 +33,7 @@ router.get(
   '/orders/partner',
   [
     jwtToken(true),
-    guard.check(['partner:read', 'partner:write']),
+    guard.check(['adeeb:read', 'adeeb:write']),
     authErrorHandler,
   ],
   OrderController.indexPartnerOrders,
@@ -78,7 +78,7 @@ router.post(
   '/order/partner',
   [
     jwtToken(true),
-    guard.check(['partner:read', 'partner:write']),
+    guard.check(['adeeb:read', 'adeeb:write']),
     authErrorHandler,
     validate([
       body('name', ERROR_MSG.NAME).isString(),
