@@ -5,8 +5,6 @@ package services;
 option go_package = "users-service/pb";
 
 service Services {
-    rpc PingPong(PingRequest) returns (PongResponse) {};
-
     rpc Signup(SignupRequest) returns (SignupResponse) {};
 
     rpc Login(LoginRequest) returns (LoginResponse) {};

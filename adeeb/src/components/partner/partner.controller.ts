@@ -14,25 +14,6 @@ import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
 export const PartnerController = {
-  PingPong: async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    grpcClient.PingPong(
-      {message: "Ping"},
-      (err, result) => {
-        try {
-          if(err) 
-            throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, err.message, true);
-          res.status(HttpStatusCode.ACCEPTED).send(result);
-        } catch (error) {
-          next(error);
-        }
-      }       
-    ) 
-  },
-
   indexInfo: async (
     req: Request,
     res: Response,
