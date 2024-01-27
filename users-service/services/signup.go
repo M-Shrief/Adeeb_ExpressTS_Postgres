@@ -21,7 +21,7 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 			Name:      req.GetName(),
 			Phone:     req.GetPhone(),
 			Password:  hashedPassword,
-			SignedFor: datasource.SignedFor(req.GetSignedFor()),
+			SignedFor: []datasource.SignedFor{datasource.SignedFor(req.GetSignedFor())},
 		},
 	)
 	if err != nil {
@@ -30,16 +30,15 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 
 	userId := datasource.UUIDToString(res.ID)
 	user := &pb.User{
-		Id:        userId,
-		Name:      res.Name,
-		Phone:     res.Phone,
-		SignedFor: string(res.SignedFor),
+		Id:    userId,
+		Name:  res.Name,
+		Phone: res.Phone,
 	}
 
 	token, err := auth.CreateToken(
 		time.Hour,
 		user,
-		auth.NewPermission(string(res.SignedFor)),
+		auth.NewPermission(res.SignedFor),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't create jwt token, Error: %v", err)

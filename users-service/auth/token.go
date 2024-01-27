@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 	"users-service/config"
+	"users-service/datasource"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -35,11 +36,21 @@ func CreateToken(ttl time.Duration, content interface{}, permissions []string) (
 	return token, nil
 }
 
-func NewPermission(signedFor string) []string {
-	switch signedFor {
-	case "adeeb":
-		return []string{"partner:read", "partner:write"}
-	default:
-		return []string{"user:read"}
+func NewPermission(signedFor []datasource.SignedFor) []string {
+	var permission []string
+	for _, service := range signedFor {
+		switch service {
+		case datasource.SignedForManagement:
+			permission = append(permission, fmt.Sprintf("%v:read", datasource.SignedForManagement), fmt.Sprintf("%v:write", datasource.SignedForManagement))
+		case datasource.SignedForDBA:
+			permission = append(permission, fmt.Sprintf("%v:read", datasource.SignedForDBA), fmt.Sprintf("%v:write", datasource.SignedForDBA))
+		case datasource.SignedForAnalytics:
+			permission = append(permission, fmt.Sprintf("%v:read", datasource.SignedForAnalytics), fmt.Sprintf("%v:write", datasource.SignedForAnalytics))
+		case datasource.SignedForAdeeb:
+			permission = append(permission, fmt.Sprintf("%v:read", datasource.SignedForAdeeb), fmt.Sprintf("%v:write", datasource.SignedForAdeeb))
+		default:
+			return []string{}
+		}
 	}
+	return permission
 }

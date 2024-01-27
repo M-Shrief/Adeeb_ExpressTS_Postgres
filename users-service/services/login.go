@@ -21,16 +21,15 @@ func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResp
 	}
 
 	user := &pb.User{
-		Id:        datasource.UUIDToString(existingUser.ID),
-		Name:      existingUser.Name,
-		Phone:     existingUser.Phone,
-		SignedFor: string(existingUser.SignedFor),
+		Id:    datasource.UUIDToString(existingUser.ID),
+		Name:  existingUser.Name,
+		Phone: existingUser.Phone,
 	}
 
 	token, err := auth.CreateToken(
 		time.Hour,
 		user,
-		auth.NewPermission(string(existingUser.SignedFor)),
+		auth.NewPermission(existingUser.SignedFor),
 	)
 	if err != nil {
 		return nil, err
