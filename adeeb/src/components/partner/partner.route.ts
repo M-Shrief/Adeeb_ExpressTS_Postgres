@@ -11,20 +11,9 @@ import {
   jwtToken,
   authErrorHandler,
 } from '../../middlewares/auth.middleware';
-import { setCache } from '../../middlewares/cache.middleware';
 
 const router: Router = Router();
 
-router.get(
-  '/partner/me',
-  [
-    jwtToken(true),
-    guard.check(['adeeb:read', 'adeeb:write']),
-    authErrorHandler,
-    setCache,
-  ],
-  PartnerController.indexInfo,
-);
 router.post(
   '/partner/signup',
   validate([
