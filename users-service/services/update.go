@@ -14,10 +14,24 @@ import (
 // https://medium.com/developer-rants/conditional-update-in-postgresql-a27ddb5dd35
 
 func (s *Server) Update(ctx context.Context, req *pb.UpdateRequest) (*pb.UpdateResponse, error) {
+	token := auth.GetAuthToken(ctx)
+	err := auth.ValidateToken(
+		token,
+		[]string{
+			fmt.Sprintf("%v:write", datasource.SignedForAdeeb),
+			fmt.Sprintf("%v:write", datasource.SignedForDBA),
+			fmt.Sprintf("%v:write", datasource.SignedForManagement),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
 	uuid, err := datasource.StringToUUID(req.GetId())
 	if err != nil {
 		return nil, fmt.Errorf("not a valid uuid")
 	}
+
 	var name, phone, password string
 	if req.GetName() != "" {
 		name = req.GetName()
