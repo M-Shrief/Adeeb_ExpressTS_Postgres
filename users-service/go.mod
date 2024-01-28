@@ -6,6 +6,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jackc/pgx/v5 v5.5.2
 	golang.org/x/crypto v0.18.0
+	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
 	google.golang.org/grpc v1.60.1
 	google.golang.org/protobuf v1.32.0
 )
