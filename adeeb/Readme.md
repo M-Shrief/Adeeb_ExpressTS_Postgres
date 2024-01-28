@@ -23,8 +23,6 @@
 
 ## File Structure
 
-- _./github_ for Github actions.
-
 - _./src_:
 
   - _app.ts_ is the main file for app logic, initializing middlewares and routes, and
@@ -73,20 +71,3 @@
 - _vitest.config.ts_ for Vitest config
 
 - _Dockerfile_, _compose.yaml_, _.dockerignore_ for containerization
-
-
-## Roadmap
-
-After building the project, Adeeb's team got some notes that they should use the pre-existing Users service, rather than duplicating the service with their partner functionality.
-
-The service is built with Go and it exposes a gRPC server, which is used for:
-- Managing and Keeping track of all users which uses our company services, noting which service did the user have sign for (becuase signing for one service doesn't mean they want to sign to all services)
-- JWT Authentication and Authorization
-
-We need to refactor partner component to:
-- remove partner's entity from Adeeb's database. (as long as the order uses the jwt token, it doesn't need to confirm that the user id exist in our database.)
-- use gRPC to make signups, logins and delete accounts from Users service.
-- give Adeeb backend access to JWT public key only.
-- ...and more.
-
-You'll find the ongoing work in ***partner-grpc*** branch
