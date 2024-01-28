@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"users-service/auth"
 	"users-service/datasource"
 	"users-service/pb"
 
@@ -10,6 +11,18 @@ import (
 )
 
 func (s *Server) Delete(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteResponse, error) {
+	token := auth.GetAuthToken(ctx)
+	err := auth.ValidateToken(
+		token,
+		[]string{
+			fmt.Sprintf("%v:write", datasource.SignedForAdeeb),
+			fmt.Sprintf("%v:write", datasource.SignedForDBA),
+			fmt.Sprintf("%v:write", datasource.SignedForManagement),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
 	uuid, err := datasource.StringToUUID(req.GetId())
 	if err != nil {
 		return nil, fmt.Errorf("can't parse UUID")
