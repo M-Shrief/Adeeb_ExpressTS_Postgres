@@ -1,10 +1,10 @@
-# REST API for "Adeeb أديب", using Express with TypeScript
+# "Adeeb أديب"
 
 **Overview**: Adeeb's concerned with Arabic literature. It assumes a business model in which it's a branch of a larger company. It enables you to order a specific piece of literature to be printed with especial colors and font. Then it'll be delivered to the customer, with the ability for the customer to follow up the process. And for special customers, it provides them with the ability to make bulk orders fast and easy. And if they’re willing to signup, they can review all of their past orders.
 
 - Tech stack:
 
-  - Full **TypeScript**
+  - Built with **TypeScript**
   - **Nodejs** & **Express.js**
   - Database:
     - **Postgres** & **TypeORM**
@@ -19,6 +19,7 @@
   - Centralized Error Handling
   - Data Validation with Yup and express-validator
   - Security best practices from OWASP
+  - Communicate with gRPC server with Proto Buffers
   - …and more
 
 ## File Structure
