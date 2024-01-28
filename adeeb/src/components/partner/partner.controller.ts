@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import * as grpc from '@grpc/grpc-js'
 // gRPC
 import { grpcClient } from '../../grpc';
 // Types
@@ -61,8 +62,11 @@ export const PartnerController = {
     if (!isValid)
       throw new AppError(HttpStatusCode.NOT_ACCEPTABLE, ERROR_MSG.NOT_VALID, true);
 
+    const requestMetadata = new grpc.Metadata();
+      requestMetadata.add('Authorization', req.headers.authorization!)
     grpcClient.Update(
       {id: decoded.user.id, name: name || '', phone: phone || '', password: password || ''},
+      requestMetadata,
       (err, result) => {
         try {
           if(err)
@@ -79,8 +83,11 @@ export const PartnerController = {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
+      const requestMetadata = new grpc.Metadata();
+        requestMetadata.add('Authorization', req.headers.authorization!)
       grpcClient.Delete(
         {id: decoded.user.id},
+        requestMetadata,
         (err, result) => {
           try {
             if(err)
