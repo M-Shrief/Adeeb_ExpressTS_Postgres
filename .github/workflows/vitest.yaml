@@ -14,8 +14,8 @@ jobs:
 
     runs-on: ubuntu-latest
     defaults:
-          run:
-            working-directory: ./adeeb
+      run:
+        working-directory: ./adeeb
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -28,6 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: adeeb/package-lock.json`
     - name: install dependancies
       run: npm ci
     - name: Run tests
