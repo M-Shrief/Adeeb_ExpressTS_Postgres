@@ -6,7 +6,6 @@ import { Poet } from './components/poet/poet.entity';
 import { Poem } from './components/poem/poem.entity';
 import { ChosenVerse } from './components/chosenVerse/chosenVerse.entity';
 import { Prose } from './components/prose/prose.entity';
-import { Partner } from './components/partner/partner.entity';
 import { Order } from './components/order/order.entity';
 // Utils
 import { logger } from './utils/logger';
@@ -26,7 +25,7 @@ export const AppDataSource = new DataSource({
     : false,
   synchronize: true,
   logging: true,
-  entities: [Poet, Poem, ChosenVerse, Prose, Partner, Order],
+  entities: [Poet, Poem, ChosenVerse, Prose, Order],
   migrations: [],
   subscribers: [],
 });

@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 // Entities
-import { Partner } from '../partner/partner.entity';
 import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { Product, ProductGroup } from '../../interfaces/__types__';
@@ -15,10 +14,6 @@ import { Product, ProductGroup } from '../../interfaces/__types__';
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
-
-  @ManyToOne((type) => Partner, (partner) => partner.orders)
-  @JoinColumn({ name: 'partner_id' })
-  partner!: Partner;
 
   @Column({ name: 'partner_id', nullable: true })
   partnerId!: string;
