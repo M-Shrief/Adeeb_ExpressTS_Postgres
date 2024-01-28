@@ -13,7 +13,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    defaults:
+          run:
+            working-directory: ./adeeb
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -23,13 +25,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
-      working-directory: ./adeeb
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: install dependancies
-      working-directory: ./adeeb 
       run: npm ci
     - name: Run tests
-      working-directory: ./adeeb 
       run: npm test
