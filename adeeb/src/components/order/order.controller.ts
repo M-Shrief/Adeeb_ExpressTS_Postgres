@@ -33,7 +33,7 @@ export const OrderController = {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
-      const service = await OrderService.getPartnerOrders(decoded.id);
+      const service = await OrderService.getPartnerOrders(decoded.user.id);
       const { status, orders, errMsg } = responseInfo.indexOrders(service);
       if (errMsg) throw new AppError(status, errMsg, true);
       res.status(status).send(orders);
@@ -60,7 +60,7 @@ export const OrderController = {
       ) as JwtPayload;
       const service = await OrderService.post({
         ...req.body,
-        partnerId: decoded.id,
+        partnerId: decoded.user.id,
       });
       const { status, order, errMsg } = responseInfo.postOrder(service);
       if (errMsg) throw new AppError(status, errMsg, true);
