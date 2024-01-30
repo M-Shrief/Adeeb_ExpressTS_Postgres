@@ -9,9 +9,14 @@ on:
   pull_request:
     branches: [ "main" ]
 
-jobs:
-  build:
 
+defaults:
+  run:
+    working-directory: adeeb
+
+jobs:
+
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -19,17 +24,13 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: go to ./adeeb
-      run: |
-        pwd          
-        cd adeeb
-        pwd         
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: adeeb/package-lock.json
     - name: install dependancies
       run: npm ci
     - name: Run tests
