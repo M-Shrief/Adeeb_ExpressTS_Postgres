@@ -2,6 +2,9 @@
 -- name: CreateUser :one
 INSERT INTO users (name,phone,password, signed_for) VALUES ($1, $2, $3, $4) RETURNING *;
 
+-- name: NewServiceSignedFor :one
+UPDATE users set signed_for =  (select array_agg(distinct e) from unnest(array_append(users."signed_for", $2::"signed_for")) e) WHERE phone = $1 RETURNING *;
+
 -- name: GetUserByPhone :one
 SELECT id, phone, name, password, signed_for FROM users WHERE phone = $1 LIMIT 1;
 

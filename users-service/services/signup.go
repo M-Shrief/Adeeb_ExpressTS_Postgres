@@ -2,17 +2,17 @@ package services
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 	"users-service/auth"
 	"users-service/datasource"
 	"users-service/pb"
+
+	"github.com/jackc/pgerrcode"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
-// Make a request first to know if the user already exists,
-// but wants to signup for other service,
-// if yes, add it to signed_for[] field
-// else create a new service
 func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupResponse, error) {
 	hashedPassword, err := auth.Hash(req.GetPassword())
 	if err != nil {
@@ -29,7 +29,12 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 		},
 	)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't create user, Error: %v", err)
+		var pgErr *pgconn.PgError
+		isPgError := errors.As(err, &pgErr)
+		if isPgError && pgErr.Code == pgerrcode.UniqueViolation {
+			return newServiceSignedFor(ctx, req.GetPhone(), req.GetPassword(), req.GetSignedFor())
+		}
+		return nil, fmt.Errorf("signup error, please try again later")
 	}
 	userId := datasource.UUIDToString(res.ID)
 	user := &pb.User{
@@ -49,24 +54,41 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 	return &pb.SignupResponse{User: user, Token: token}, nil
 }
 
-// func getUserByPhone(ctx context.Context, phone string) (*datasource.GetUserByPhoneRow, error) {
-// 	existingUser, err := datasource.DB.GetUserByPhone(ctx, phone)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("user Doesn't exist")
-// 	}
-// 	return &existingUser, nil
-// }
+func newServiceSignedFor(ctx context.Context, phone, password string, newService string) (*pb.SignupResponse, error) {
+	// Not handling err, because we use it after having Phone unique violation error
+	existingUser, _ := datasource.DB.GetUserByPhone(ctx, phone)
 
-// func newServiceSignedFor(ctx context.Context, phone string, newService string) error {
-// 	err := datasource.DB.NewServiceSignedFor(
-// 		ctx,
-// 		datasource.NewServiceSignedForParams{
-// 			Phone:       phone,
-// 			ArrayAppend: datasource.SignedFor(newService),
-// 		},
-// 	)
-// 	if err != nil {
-// 		return fmt.Errorf("couldn't ")
-// 	}
-// 	return nil
-// }
+	// compare existing user password
+	err := auth.CompareHash(existingUser.Password, password)
+	if err != nil {
+		return nil, fmt.Errorf("wrong password, not authorized to sign up to a new service")
+	}
+
+	user, err := datasource.DB.NewServiceSignedFor(
+		ctx,
+		datasource.NewServiceSignedForParams{
+			Phone:   phone,
+			Column2: datasource.SignedFor(newService),
+		},
+	)
+	if err != nil {
+		return nil, fmt.Errorf("couldn't ")
+	}
+
+	userId := datasource.UUIDToString(user.ID)
+	pbUser := &pb.User{
+		Id:    userId,
+		Name:  user.Name,
+		Phone: user.Phone,
+	}
+
+	token, err := auth.CreateJWT(
+		time.Hour,
+		pbUser,
+		auth.NewPermission(user.SignedFor),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("couldn't create jwt token, Error: %v", err)
+	}
+	return &pb.SignupResponse{User: pbUser, Token: token}, nil
+}
