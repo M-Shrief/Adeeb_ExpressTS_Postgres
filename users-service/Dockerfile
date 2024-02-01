@@ -1,15 +1,16 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/engine/reference/builder/
+ARG GO_VERSION=1.21.6-bullseye
 
 ################################################################################
-# Create a stage for building the application.
-ARG GO_VERSION=1.21.6-bullseye
-FROM golang:${GO_VERSION} AS build
+# Use go image for base image for all stages.
+FROM golang:${GO_VERSION} AS base
+# Set working directory for all build stages.
 WORKDIR /src
 
+
+# Create a stage for installing dependecies.
+FROM base as deps
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
 # Leverage bind mounts to go.sum and go.mod to avoid having to copy them into
@@ -19,6 +20,11 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
     --mount=type=bind,source=go.mod,target=go.mod \
     go mod download -x
 
+
+
+################################################################################
+# Create a stage for building the application.
+FROM deps as build
 # Build the application.
 # Leverage a cache mount to /go/pkg/mod/ to speed up subsequent builds.
 # Leverage a bind mount to the current directory to avoid having to copy the
@@ -36,7 +42,6 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
 FROM build AS final
 
 ################## Can't figure out how to give user permission to read secrets
-
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
 # ARG UID=10001
