@@ -7,6 +7,7 @@ import (
 	"users-service/datasource"
 	"users-service/pb"
 
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
@@ -23,6 +24,12 @@ func (s *Server) Update(ctx context.Context, req *pb.UpdateRequest) (*pb.UpdateR
 			fmt.Sprintf("%v:write", datasource.SignedForManagement),
 		},
 	)
+	if err != nil {
+		return nil, err
+	}
+
+	// Validate req fields:
+	err = validateUpdateReq(req)
 	if err != nil {
 		return nil, err
 	}
@@ -59,4 +66,13 @@ func (s *Server) Update(ctx context.Context, req *pb.UpdateRequest) (*pb.UpdateR
 	}
 
 	return &pb.UpdateResponse{}, nil
+}
+
+func validateUpdateReq(req *pb.UpdateRequest) error {
+	// Validate req fields:
+	return validation.ValidateStruct(req, // already a pointer
+		validation.Field(&req.Name, validation.Length(5, 50)),
+		validation.Field(&req.Phone, validation.Length(5, 50)),
+		validation.Field(&req.Password, validation.Length(5, 100)),
+	)
 }
