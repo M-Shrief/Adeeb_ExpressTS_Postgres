@@ -4,16 +4,26 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 	"users-service/auth"
 	"users-service/datasource"
 	"users-service/pb"
 
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
 func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupResponse, error) {
+
+	// Validate req fields:
+	err := validateSignupReq(req)
+	if err != nil {
+		log.Printf("validation error: %v", err)
+		return nil, err
+	}
+
 	hashedPassword, err := auth.Hash(req.GetPassword())
 	if err != nil {
 		return nil, err
@@ -72,7 +82,7 @@ func newServiceSignedFor(ctx context.Context, phone, password string, newService
 		},
 	)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't ")
+		return nil, fmt.Errorf("couldn't sign up for a new service")
 	}
 
 	userId := datasource.UUIDToString(user.ID)
@@ -91,4 +101,50 @@ func newServiceSignedFor(ctx context.Context, phone, password string, newService
 		return nil, fmt.Errorf("couldn't create jwt token, Error: %v", err)
 	}
 	return &pb.SignupResponse{User: pbUser, Token: token}, nil
+}
+
+func validateSignupReq(req *pb.SignupRequest) error {
+	// Validate req fields:
+	return validation.ValidateStruct(req, // already a pointer
+		// Street cannot be empty, and the length must between 5 and 50
+		validation.Field(&req.Name, validation.Required, validation.Length(5, 50)),
+		// City cannot be empty, and the length must between 5 and 50
+		validation.Field(&req.Phone, validation.Required, validation.Length(5, 50)),
+		// State cannot be empty, and must be a string consisting of two letters in upper case
+		validation.Field(&req.Password, validation.Required, validation.Length(5, 100)),
+		// State cannot be empty, and must be a string consisting of five digits
+		validation.Field(&req.SignedFor, validation.Required, validation.In(
+			string(datasource.SignedForAdeeb),
+			string(datasource.SignedForManagement),
+			string(datasource.SignedForDBA),
+			string(datasource.SignedForAnalytics),
+		)),
+	)
+	// err := validation.Validate(req.GetName(), validation.Required, validation.Length(5, 50))
+	// if err != nil {
+
+	// 	return err
+	// }
+	// err = validation.Validate(req.GetPhone(), validation.Required, validation.Length(5, 50))
+	// if err != nil {
+	// 	return err
+	// }
+	// err = validation.Validate(req.GetPassword(), validation.Required, validation.Length(5, 100))
+	// if err != nil {
+	// 	return err
+	// }
+	// err = validation.Validate(
+	// 	req.GetSignedFor(),
+	// 	validation.Required,
+	// 	validation.In(
+	// 		datasource.SignedForAdeeb,
+	// 		datasource.SignedForManagement,
+	// 		datasource.SignedForDBA,
+	// 		datasource.SignedForAnalytics,
+	// 	),
+	// )
+	// if err != nil {
+	// 	return err
+	// }
+	// return nil
 }
