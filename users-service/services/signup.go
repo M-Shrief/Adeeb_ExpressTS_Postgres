@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"time"
 	"users-service/auth"
 	"users-service/datasource"
@@ -20,7 +19,6 @@ func (s *Server) Signup(ctx context.Context, req *pb.SignupRequest) (*pb.SignupR
 	// Validate req fields:
 	err := validateSignupReq(req)
 	if err != nil {
-		log.Printf("validation error: %v", err)
 		return nil, err
 	}
 
@@ -120,31 +118,4 @@ func validateSignupReq(req *pb.SignupRequest) error {
 			string(datasource.SignedForAnalytics),
 		)),
 	)
-	// err := validation.Validate(req.GetName(), validation.Required, validation.Length(5, 50))
-	// if err != nil {
-
-	// 	return err
-	// }
-	// err = validation.Validate(req.GetPhone(), validation.Required, validation.Length(5, 50))
-	// if err != nil {
-	// 	return err
-	// }
-	// err = validation.Validate(req.GetPassword(), validation.Required, validation.Length(5, 100))
-	// if err != nil {
-	// 	return err
-	// }
-	// err = validation.Validate(
-	// 	req.GetSignedFor(),
-	// 	validation.Required,
-	// 	validation.In(
-	// 		datasource.SignedForAdeeb,
-	// 		datasource.SignedForManagement,
-	// 		datasource.SignedForDBA,
-	// 		datasource.SignedForAnalytics,
-	// 	),
-	// )
-	// if err != nil {
-	// 	return err
-	// }
-	// return nil
 }
