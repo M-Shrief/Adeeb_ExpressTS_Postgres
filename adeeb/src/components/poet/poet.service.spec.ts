@@ -180,6 +180,8 @@ describe.concurrent('Testing PoetSerivce', async () => {
       vi.spyOn(PoetDB, 'update').mockResolvedValue({
         affected: 1,
       } as UpdateResult);
+      vi.spyOn(PoetRedis, 'exists').mockResolvedValue(1);
+      vi.spyOn(PoetRedis, 'delete').mockResolvedValue(1);
 
       const result1 = await PoetService.update('1', { name } as Poet);
       expect(result1).toEqual(1);
@@ -217,6 +219,7 @@ describe.concurrent('Testing PoetSerivce', async () => {
       vi.spyOn(PoetDB, 'remove').mockResolvedValue({
         affected: 1,
       } as DeleteResult);
+      vi.spyOn(PoetRedis, 'delete').mockResolvedValue(1);
 
       const result1 = await PoetService.remove('1');
       expect(result1).toEqual(1);
