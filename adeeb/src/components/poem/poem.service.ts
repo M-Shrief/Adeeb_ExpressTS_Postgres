@@ -69,12 +69,21 @@ export const PoemService = {
 
     const newPoem = await PoemDB.update(id, poemData);
     if (!newPoem.affected) return false;
+    if(await PoemRedis.exists(id) != 0) {
+      // To update it I need to make 2 requests to return the raw in typeorm
+      // So I need to replace it with something like Drizzle.
+      // await PoemRedis.set(id, newPoem) 
+
+      // Until I change it, I will delete it to make sure it's not in the cache
+      await PoemRedis.delete(id);
+    }
     return newPoem.affected;
   },
 
   async remove(id: string): Promise<number | false> {
     const poem = await PoemDB.remove(id);
     if (!poem.affected) return false;
+    await PoemRedis.delete(id)
     return poem.affected;
   },
 };

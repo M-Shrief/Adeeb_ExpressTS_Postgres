@@ -73,7 +73,9 @@ export const PoemDB = {
     return await db.save(poemsData);
   },
   async update(id: string, poemData: Poem): Promise<UpdateResult> {
-    return await db.update(id, poemData);
+    const result =  await db.update(id, poemData);
+    logger.info(result)
+    return result
   },
   async remove(id: string): Promise<DeleteResult> {
     return await db.delete(id);
@@ -89,4 +91,10 @@ export const PoemRedis = {
       .set(`poem:${id}`, JSON.stringify(poem), { EX: 60 * 15 })
       .catch((err) => logger.error(`CacheError: couldn't cache poem:${id}`));
   },
+  async exists(id: string): Promise<number> {
+    return await redisClient.exists(`poem:${id}`)
+  },
+  async delete(id: string): Promise<number> {
+    return await redisClient.del(`poem:${id}`)
+  }
 };

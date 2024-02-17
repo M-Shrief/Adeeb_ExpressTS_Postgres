@@ -60,12 +60,21 @@ export const PoetService = {
 
     const newPoet = await PoetDB.update(id, poetData);
     if (!newPoet.affected) return false;
+    if(await PoetRedis.exists(id) != 0) {
+      // To update it I need to make 2 requests to return the raw in typeorm
+      // So I need to replace it with something like Drizzle.
+      // await PoemRedis.set(id, newPoem) 
+
+      // Until I change it, I will delete it to make sure it's not in the cache
+      await PoetRedis.delete(id);
+    }
     return newPoet.affected;
   },
 
   async remove(id: string): Promise<number | false> {
     const poet = await PoetDB.remove(id);
     if (!poet.affected) return false;
+    await PoetRedis.delete(id);
     return poet.affected;
   },
 };

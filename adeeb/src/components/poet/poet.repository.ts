@@ -75,4 +75,10 @@ export const PoetRedis = {
       .set(`poet:${id}`, JSON.stringify(poet), { EX: 60 * 15 })
       .catch((err) => logger.error(`CacheError: couldn't cache poet:${id}`));
   },
+  async exists(id: string): Promise<number> {
+    return await redisClient.exists(`poet:${id}`)
+  },
+  async delete(id: string): Promise<number> {
+    return await redisClient.del(`poet:${id}`)
+  }
 };
