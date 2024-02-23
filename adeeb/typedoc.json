@@ -1,0 +1,14 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    // Comments are supported, like tsconfig.json
+    "entryPoints": ["src/**/*.ts"],
+    "entryPointStrategy": "resolve",
+    "exclude": ["**/*+(.spec|.e2e).ts"],
+    "out": "docs",
+    "logLevel": "Info",
+    "jsDocCompatibility": true,
+    "sort": [
+        "source-order",
+        "kind"
+    ]
+}
