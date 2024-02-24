@@ -10,6 +10,15 @@ import { Order } from './components/order/order.entity';
 // Utils
 import { logger } from './utils/logger';
 
+/**
+ * Used to access the Database in components repository.
+ * 
+ * ```ts 
+ * const db = AppDataSource.getRepository(entity);
+ * ....
+ * db.find();
+ * ``` 
+ */ 
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: DB.host,
@@ -30,6 +39,10 @@ export const AppDataSource = new DataSource({
   subscribers: [],
 });
 
+
+/**
+ * Used to initialize Database connection on Adeeb entry: src/index.ts 
+ */
 export const connectDB = async () => {
   try {
     await AppDataSource.initialize();
@@ -40,7 +53,9 @@ export const connectDB = async () => {
   }
 };
 
-// If the Node process ends, close the Mongoose connection
+/**
+ *  If the Node process ends, close the postgres connection 
+ */
 process.on('SIGINT', async () => {
   await AppDataSource.destroy().catch((err) => logger.error(`${err}`));
   logger.info(
