@@ -10,6 +10,9 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { Product, ProductGroup } from '../../interfaces/__types__';
 
+/**
+ * Order's Entity
+*/
 @Entity()
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -37,6 +40,9 @@ export class Order extends BaseEntity {
   completed!: boolean;
 }
 
+/**
+ * An Enum of Order's error messages.
+ */
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No Order available',
   NOT_FOUND = "Order's not found",

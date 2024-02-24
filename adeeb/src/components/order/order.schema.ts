@@ -9,6 +9,7 @@ import {
 } from '../../utils/schemas';
 
 const customizationSchema = string().min(1).max(10);
+
 const printSchema = object({
   id: uuidSchema.optional(),
   poem: uuidSchema.optional(),
@@ -26,6 +27,10 @@ const productsSchema = array().of(
   }),
 );
 
+/**
+ * Schema for creating a new order
+ * verifies Order's (partnerId?, name, phone, address, products, reviewed, completed)
+*/
 export const createSchema = object({
   partnerId: uuidSchema.optional(),
   name: nameSchema.required(),
@@ -36,6 +41,10 @@ export const createSchema = object({
   completed: boolean().default(false),
 });
 
+/**
+ * Schema for updating an order
+ * verifies Order's (partnerId?, name, phone, address, products, reviewed, completed), if any of them is provided
+*/
 export const updateSchema = object({
   partnerId: uuidSchema.optional(),
   name: nameSchema.optional(),

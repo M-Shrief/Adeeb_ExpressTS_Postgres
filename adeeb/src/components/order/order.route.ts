@@ -164,4 +164,23 @@ router.delete(
   OrderController.remove,
 );
 
+
+/**
+ * Order's API routes
+ * 
+ * @remarks
+ * Handles:
+ * 
+ * GET /orders/guest with {@link OrderController.indexGuestOrders} 
+ * 
+ * GET /orders/partner with {@link OrderController.indexPartnerOrders}
+ * 
+ * POST /order/guest with {@link OrderController.postGuest}
+ * 
+ * POST /order/partner with {@link OrderController.postPartner}
+ * 
+ * PUT /order/:id with {@link OrderController.update}
+ * 
+ * DELETE /order/:id with {@link OrderController.remove} 
+*/
 export const OrderRoute = router;
