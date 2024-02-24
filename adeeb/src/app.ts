@@ -20,10 +20,17 @@ import {
 // interfaces
 import { AppError } from './utils/errorsCenter/appError';
 
-export default class App {
-  public app: Application;
-  public port: string | number;
 
+/**
+ * App class, contains App properties and methods 
+ */ 
+export default class App {
+  private app: Application;
+  private port: string | number;
+
+  /**
+  * @param {Router[]} routes - An array of Express router instance for every component.
+  */
   constructor(routes: Router[]) {
     this.app = express();
     this.port = PORT || 3000;
@@ -33,6 +40,9 @@ export default class App {
     this.initializeErrorHandling();
   }
 
+  /**
+   * Used to initialize the app, listening on {@link App.port}
+   */ 
   public listen(): void {
     this.app.listen(this.port, () => {
       logger.info(
@@ -41,12 +51,15 @@ export default class App {
     });
   }
 
+  /**
+   * Used to initialize App's middlewares
+  */ 
   private initializeMiddlewares(): void {
     this.app.use(Sentry.Handlers.requestHandler()); // must be the first middleware on the app
     this.app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(compression());
+     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cookieParser());
     this.app.use(
@@ -60,6 +73,11 @@ export default class App {
     this.app.use(morganMiddleware);
   }
 
+  /**
+   * Used to initialize App's routes
+   * 
+   * @param {Router[]} routes - express.router instance for every component routes.
+  */ 
   private async initializeRoutes(routes: Router[]) {
     // Importing commonjs dynamically, and using {*:*func} because it's a default export
     const apiLimiter = rateLimit({
@@ -79,7 +97,12 @@ export default class App {
       this.app.use('/api', apiLimiter, router);
     });
   }
-
+  
+  /**
+   * Used to initialize Sentry Logging & Monitoring.
+   * 
+   * @param {Application} app - Express App.
+  */ 
   private initializeSentry(app: Application) {
     Sentry.init({
       dsn: SENTRY_DNS,
@@ -98,6 +121,9 @@ export default class App {
     logger.info('Connected to Sentry');
   }
 
+  /**
+   * Used to Initialize App's error handling mechanisms.
+   */ 
   private initializeErrorHandling() {
     // if error is not operational/trusted/known we shall exit then use PM2 to restart.
     process.on('unhandledRejection', (reason: Error) => {
