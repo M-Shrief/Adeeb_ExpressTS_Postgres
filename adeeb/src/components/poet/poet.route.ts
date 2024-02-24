@@ -59,4 +59,22 @@ router.delete(
   PoetController.remove,
 );
 
+/**
+ * Poet's API routes
+ * 
+ * @remarks
+ * Handles:
+ * 
+ * GET /poets with {@link PoetController.index} 
+ * 
+ * GET /poet/:id with {@link PoetController.indexOneWithLiterature}
+ * 
+ * POST /poet with {@link PoetController.post} 
+ *  
+ * POST /poets with {@link PoetController.postMany} 
+ * 
+ * PUT /poet/:id with {@link PoetController.update}
+ * 
+ * DELETE /poet/:id with {@link PoetController.remove} 
+*/
 export const PoetRoute= router;

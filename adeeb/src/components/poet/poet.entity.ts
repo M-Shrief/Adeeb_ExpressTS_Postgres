@@ -19,6 +19,9 @@ export type TimePeriodType =
   | 'عثماني ومملوكي'
   | 'متأخر وحديث';
 
+/**
+ * Poet's Entity
+*/
 @Entity()
 export class Poet extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -55,6 +58,9 @@ export class Poet extends BaseEntity {
   proses!: Prose[];
 }
 
+/**
+ * An Enum of Poet's error messages.
+ */
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No poet available',
   NOT_FOUND = "Poet's not found",
