@@ -68,4 +68,25 @@ router.delete(
   ChosenVerseController.remove,
 );
 
+
+/**
+ * ChosenVerse's API routes
+ * 
+ * @remarks
+ * Handles:
+ * 
+ * GET /chosenverses with {@link ChosenVerseController.indexOneWithPoetName} 
+ * 
+ * GET /chosenverses/random with {@link ChosenVerseController.indexRandomWithPoetName}
+ * 
+ * GET /chosenverse/:id with {@link ChosenVerseController.indexOneWithPoetName}
+ * 
+ * POST /chosenverse with {@link ChosenVerseController.post} 
+ *  
+ * POST /chosenverses with {@link ChosenVerseController.postMany} 
+ * 
+ * PUT /chosenverse/:id with {@link ChosenVerseController.update}
+ * 
+ * DELETE /chosenverse/:id with {@link ChosenVerseController.remove} 
+*/
 export const ChosenVerseRoute = router

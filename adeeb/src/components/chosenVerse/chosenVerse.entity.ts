@@ -12,6 +12,9 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { VerseType } from '../../interfaces/__types__';
 
+/**
+ * ChosenVerse's Entity
+*/
 @Entity()
 export class ChosenVerse extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -34,7 +37,9 @@ export class ChosenVerse extends BaseEntity {
   @Column({ type: 'boolean', default: true })
   reviewed!: boolean;
 }
-
+/**
+ * An Enum of ChosenVerse's error messages.
+ */
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No chosenVerse available',
   NOT_FOUND = "chosenVerse's not found",

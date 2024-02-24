@@ -7,7 +7,14 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 const db = AppDataSource.getRepository(ChosenVerse);
 
+/**
+ * Used to access Database's ChosenVerse repository.
+ */
 export const ChosenVerseDB = {
+  /**
+   * Returns an array of ChosenVerses with the poet name
+   * @returns 
+   */
     async getAllWithPoetName(): Promise<ChosenVerse[]> {
         return await db.find({
           select: {
@@ -28,7 +35,10 @@ export const ChosenVerseDB = {
         });
         
     },
-
+   /**
+   * Returns a random array of ChosenVerses' with the poet name, with a specified length
+   * @returns 
+   */
     async getRandomWithPoetName(
         num: number,
       ): Promise<ChosenVerse[]> {
@@ -40,7 +50,11 @@ export const ChosenVerseDB = {
           .cache(false)
           .getMany();
     },
-
+    /**
+     * Returns ChosenVerse data and its poet data
+     * @param {string} id - chosenVerse's id
+     * @returns 
+    */
     async getOneWithPoetName(id: string): Promise<ChosenVerse | null> {
         return await db.findOne({
           where: { id },
@@ -61,7 +75,11 @@ export const ChosenVerseDB = {
           cache: true,
         });
     },
-
+    /**
+     * Create a new ChosenVerse
+     * @param {ChosenVerse} chosenVerseData - ChosenVerse's data
+     * @returns 
+    */
     async post(
         chosenVerseData: ChosenVerse,
       ): Promise<ChosenVerse> {
@@ -69,7 +87,11 @@ export const ChosenVerseDB = {
           chosenVerseData,
         );
     },
-
+    /**
+     * Create new ChosenVerses
+     * @param {ChosenVerse[]} chosenVersesData - ChosenVerse's data
+     * @returns 
+    */
     async postMany(
         chosenVersesData: ChosenVerse[],
       ): Promise<ChosenVerse[]> {
@@ -77,11 +99,20 @@ export const ChosenVerseDB = {
           chosenVersesData,
         );
     },
-
+    /**
+     * Update a ChosenVerse
+     * @param {string} id - ChosenVerse's id
+     * @param {ChosenVerse} chosenVerseData - ChosenVerse's data
+     * @returns 
+    */
     async update(id: string, chosenVerseData: ChosenVerse): Promise<UpdateResult> {
         return await db.update(id, chosenVerseData);
     },
-
+    /**
+     * Delete a ChosenVerse
+     * @param {string} id - ChosenVerse's id
+     * @returns 
+    */
     async remove(id: string): Promise<DeleteResult> {
         return await db.delete(id);
     },
