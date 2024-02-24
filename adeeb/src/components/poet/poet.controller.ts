@@ -77,7 +77,7 @@ export const PoetController = {
   /**
    * Handle postMany request to create a new Poets
    * @remarks
-   * if some or all data was valid, res = { newPoets: Poet[]; inValidPoets: Poet[] } with success status: {@link HttpStatusCode.CREATED}.
+   * if some or all data was valid, res = { newPoets: Poet[], inValidPoets: Poet[] } with success status: {@link HttpStatusCode.CREATED}.
    * 
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
   */   

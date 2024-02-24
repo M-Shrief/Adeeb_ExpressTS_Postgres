@@ -32,7 +32,7 @@ export const ProseDB = {
         });
     },
    /**
-   * Returns a random array of Proses' with the poet name, with a specified lenght
+   * Returns a random array of Proses' with the poet name, with a specified length
    * @returns 
    */
     async getRandomWithPoetName(num: number): Promise<Prose[]> {

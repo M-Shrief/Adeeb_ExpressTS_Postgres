@@ -2,7 +2,7 @@ import { object, boolean } from 'yup';
 import { uuidSchema, qouteSchema, tagsSchema } from '../../utils/schemas';
 
 /**
- * Schema for creating up a new prose
+ * Schema for creating a new prose
  * verifies Poet's (poet, tags, qoute, reviewed)
 */
 export const createSchema = object({
@@ -13,7 +13,7 @@ export const createSchema = object({
 });
 
 /**
- * Schema for updating up a prose's data
+ * Schema for updating a prose's data
  * verifies Poet's (poet, tags, qoute, reviewed), if any of them is provided
 */
 export const updateSchema = object({

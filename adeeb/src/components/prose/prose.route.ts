@@ -59,7 +59,7 @@ router.delete(
 );
 
 /**
- * Poem's API routes
+ * Prose's API routes
  * 
  * @remarks
  * Handles:

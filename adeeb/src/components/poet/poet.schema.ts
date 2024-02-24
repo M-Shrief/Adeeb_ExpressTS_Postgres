@@ -2,7 +2,7 @@ import { object, boolean } from 'yup';
 import { nameSchema, timePeriodSchema, bioSchema } from '../../utils/schemas';
 
 /**
- * Schema for creating up a new poet
+ * Schema for creating a new poet
  * verifies Poet's (name, time_period, bio, reviewed)
 */
 export const createSchema = object({
@@ -13,7 +13,7 @@ export const createSchema = object({
 });
 
 /**
- * Schema for updating up a poet's data
+ * Schema for updating a poet's data
  * verifies Poet's (name, time_period, bio, reviewed), if any of them is provided
 */
 export const updateSchema = object({

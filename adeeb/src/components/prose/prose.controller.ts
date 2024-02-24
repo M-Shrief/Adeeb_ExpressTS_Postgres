@@ -102,7 +102,7 @@ export const ProseController = {
   /**
    * Handle postMany request to create a new Proses
    * @remarks
-   * if some or all data was valid, res = { newProses: Prose[]; inValidProses: Prose[] } with success status: {@link HttpStatusCode.CREATED}.
+   * if some or all data was valid, res = { newProses: Prose[], inValidProses: Prose[] } with success status: {@link HttpStatusCode.CREATED}.
    * 
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
   */   
@@ -163,9 +163,7 @@ export const responseInfo = {
   /**
    * evalute ProseController.indexWithPoetName, depending on ProseService.indexWithPoetName result
   */  
-  indexWithPoetName: (
-    proses: Prose[] | false,
-  ): { status: number; proses?: Prose[]; errMsg?: string } => {
+  indexWithPoetName(proses: Prose[] | false): { status: number; proses?: Prose[]; errMsg?: string } {
     if (!proses) {
       return {
         status: HttpStatusCode.NOT_FOUND,
@@ -177,9 +175,7 @@ export const responseInfo = {
   /**
    * evalute ProseController.indexRandomWithPoetName, depending on ProseService.indexRandomWithPoetName result
   */  
-  indexRandomWithPoetName: (
-    proses: Prose[] | false,
-  ): { status: number; proses?: Prose[]; errMsg?: string } => {
+  indexRandomWithPoetName(proses: Prose[] | false): { status: number; proses?: Prose[]; errMsg?: string } {
     if (!proses) {
       return {
         status: HttpStatusCode.NOT_FOUND,
@@ -191,9 +187,7 @@ export const responseInfo = {
   /**
    * evalute ProseController.indexOneWithPoetName, depending on ProseService.indexOneWithPoetName result
   */  
-  indexOneWithPoetName: (
-    prose: Prose| false,
-  ): { status: number; prose?: Prose; errMsg?: string } => {
+  indexOneWithPoetName(prose: Prose| false): { status: number; prose?: Prose; errMsg?: string } {
     if (!prose) {
       return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
     }
@@ -202,9 +196,7 @@ export const responseInfo = {
   /**
    * evalute ProseController.post, depending on ProseService.post result
   */  
-  post: (
-    prose: Prose | false,
-  ): { status: number; prose?: Prose; errMsg?: string } => {
+  post(prose: Prose | false): { status: number; prose?: Prose; errMsg?: string } {
     if (!prose) {
       return {
         status: HttpStatusCode.NOT_ACCEPTABLE,
@@ -216,9 +208,13 @@ export const responseInfo = {
   /**
    * evalute ProseController.postMany, depending on ProseService.postMany result
   */  
-  postMany: (
+  postMany(
     proses: { newProses: Prose[]; inValidProses: Prose[] } | false,
-  ): { status: number; proses?: { newProses: Prose[]; inValidProses: Prose[] }; errMsg?: string } => {
+  ): {
+    status: number; 
+    proses?: { newProses: Prose[]; inValidProses: Prose[] };
+    errMsg?: string 
+  } {
     if (!proses) {
       return {
         status: HttpStatusCode.NOT_ACCEPTABLE,
@@ -230,7 +226,7 @@ export const responseInfo = {
   /**
    * evalute ProseController.update, depending on ProseService.update result
   */  
-  update: (prose: number | false): { status: number; errMsg?: string } => {
+  update(prose: number | false): { status: number; errMsg?: string } {
     if (!prose) {
       return {
         status: HttpStatusCode.NOT_ACCEPTABLE,
@@ -242,7 +238,7 @@ export const responseInfo = {
   /**
    * evalute ProseController.remove, depending on ProseService.remove result
   */  
-  remove: (prose: number | false): { status: number; errMsg?: string } => {
+  remove(prose: number | false): { status: number; errMsg?: string } {
     if (!prose) {
       return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
     }
