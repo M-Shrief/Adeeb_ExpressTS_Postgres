@@ -76,4 +76,18 @@ router.delete(
   PartnerController.remove,
 );
 
+/**
+ * Partner's API routes
+ * 
+ * @remarks
+ * Handles:
+ * 
+ * Signup requests - POST /partner/signup with {@link PartnerController.signup}
+ * 
+ * Login requests - POST /partner/login with {@link PartnerController.login}
+ *
+ * Update requests - PUT /partner/me with {@link PartnerController.update}
+ * 
+ * Remove requests - DELETE /partner/me with {@link PartnerController.remove}
+ */
 export const PartnerRoute = router;

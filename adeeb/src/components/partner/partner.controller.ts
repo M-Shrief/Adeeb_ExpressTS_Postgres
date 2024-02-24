@@ -12,8 +12,19 @@ import { decodeToken } from '../../utils/auth';
 import { AppError } from '../../utils/errorsCenter/appError';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
+/**
+ * Partner's Controller to handle request using gRPC calls for Users's service.
+ */
 export const PartnerController = {
-  signup: async (req: Request, res: Response, next: NextFunction) => {
+  signup:
+  /**
+   * Handle Signup request, recieving User's (name,phone,password) in reqest body
+   * @remarks
+   * if valid, res = {user, token} with success status: {@link HttpStatusCode.CREATED}.
+   * 
+   * if not valid, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
+  */ 
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const {name, phone, password} = req.body
       const isValid = await createSchema.isValid({name, phone, password});
@@ -36,7 +47,15 @@ export const PartnerController = {
     }
   },
 
-  login: async (req: Request, res: Response, next: NextFunction) => {
+  login:
+  /**
+   * Handle Login request, recieving User's (phone,password) in reqest body
+   * @remarks
+   * if valid, res = {user, token} with success status: {@link HttpStatusCode.ACCEPTED}.
+   * 
+   * if not valid, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
+  */   
+  async (req: Request, res: Response, next: NextFunction) => {
     const {phone, password} = req.body;
     grpcClient.Login(
       {phone, password},
@@ -52,7 +71,16 @@ export const PartnerController = {
     )
   },
 
-  update: async (req: Request, res: Response, next: NextFunction) => {
+  update:
+  /**
+   * Handle Update request, recieving one or more of User's properties in reqest body
+   * and JWT token in req.headers.authorization as `Bearer ${token}`
+   * @remarks
+   * if valid, response with success status: {@link HttpStatusCode.ACCEPTED}.
+   * 
+   * if not valid, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
+  */ 
+  async (req: Request, res: Response, next: NextFunction) => {
     const decoded = decodeToken(
       req.headers.authorization!.slice(7),
     ) as JwtPayload;
@@ -79,7 +107,15 @@ export const PartnerController = {
     )
   },
 
-  remove: async (req: Request, res: Response, next: NextFunction) => {
+  remove:
+  /**
+   * Handle Remove request, recieving JWT token in req.headers.authorization as `Bearer ${token}`
+   * @remarks
+   * if valid, response with success status: {@link HttpStatusCode.ACCEPTED}.
+   * 
+   * if not valid, res = {@link ERROR_MSG.NOT_FOUND} with error {@link HttpStatusCode.NOT_FOUND}.
+  */ 
+  async (req: Request, res: Response, next: NextFunction) => {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
       ) as JwtPayload;
