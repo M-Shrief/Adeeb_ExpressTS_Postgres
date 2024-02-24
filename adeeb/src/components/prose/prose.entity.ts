@@ -9,6 +9,9 @@ import {
 import { Poet } from '../poet/poet.entity';
 import { BaseEntity } from '../../interfaces/baseEntity';
 
+/**
+ * Prose's Entity
+*/
 @Entity()
 export class Prose extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -28,6 +31,9 @@ export class Prose extends BaseEntity {
   reviewed!: boolean;
 }
 
+/**
+ * An Enum of Prose's error messages.
+ */
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No prose available',
   NOT_FOUND = "Prose's not found",
