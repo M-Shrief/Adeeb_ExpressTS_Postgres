@@ -1,6 +1,10 @@
 import { object, boolean } from 'yup';
 import { uuidSchema, versesSchema, introSchema } from '../../utils/schemas';
 
+/**
+ * Schema for creating up a new poem
+ * verifies Poet's (intro, poet, verses, reviewed)
+*/
 export const createSchema = object({
   intro: introSchema.required(),
   poet: uuidSchema.required(),
@@ -8,6 +12,10 @@ export const createSchema = object({
   reviewed: boolean().default(true),
 });
 
+/**
+ * Schema for updating up a poem's data
+ * verifies Poem's (intro, poet, verses, reviewed), if any of them is provided
+*/
 export const updateSchema = object({
   intro: introSchema.optional(),
   poet: uuidSchema.optional(),

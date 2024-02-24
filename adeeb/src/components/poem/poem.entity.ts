@@ -13,6 +13,9 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
 import { VerseType } from '../../interfaces/__types__';
 
+/**
+ * Poem's Entity
+*/
 @Entity()
 export class Poem extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -36,6 +39,9 @@ export class Poem extends BaseEntity {
   reviewed!: boolean;
 }
 
+/**
+ * An Enum of Poem's error messages.
+ */
 export enum ERROR_MSG {
   NOT_AVAILABLE = 'No poem available',
   NOT_FOUND = "Poem's not found",

@@ -6,21 +6,34 @@ import { Poem } from './poem.entity';
 import { createSchema, updateSchema } from './poem.schema';
 // Utils
 import { filterAsync } from '../../utils/asyncFilterAndMap';
-import { logger } from '../../utils/logger';
 
+/**
+ * Handle PoemService requests
+ */
 export const PoemService = {
+  /**
+   * get all poems' data and poets' names. If data is not available, it returns false
+   * @returns 
+  */
   async getAllWithPoetName(): Promise<Poem[] | false> {
     const poems = await PoemDB.getAllWithPoetName();
     if (poems.length === 0) return false;
     return poems;
   },
-
+  /**
+   * get all poems' intros and poets' names. If data is not available, it returns false
+   * @returns 
+  */
   async getAllIntrosWithPoetName(): Promise<Poem[] | false> {
     const poems = await PoemDB.getAllIntrosWithPoetName();
     if (poems.length === 0) return false;
     return poems;
   },
-
+  /**
+   * get poem's data and poet data. If data is not available, it returns false
+   * @param {string} id - poem's id.
+   * @returns 
+   */
   async getOneWithPoet(id: string): Promise<Poem | false> {
     let poem: Poem | null;
 
@@ -35,7 +48,11 @@ export const PoemService = {
     await PoemRedis.set(id, poem);
     return poem;
   },
-
+  /**
+   * create a new poem. If data is not valid, it returns false
+   * @param {Poem} poemData - poem's data.
+   * @returns 
+  */
   async post(poemData: Poem): Promise<Poem | false> {
     const isValid = await createSchema.isValid(poemData);
     if (!isValid) return false;
@@ -44,17 +61,22 @@ export const PoemService = {
     if (!newPoem) return false;
     return newPoem;
   },
-
+  /**
+   * create new poems, returns the valid and created ones, and the invalid and not-created ones.
+   * If all data is invalid, it returns false.
+   * @param {Poem[]} poemsData - poems' data.
+   * @returns 
+  */
   async postMany(
-    PoemsData: Poem[],
+    poemsData: Poem[],
   ): Promise<{ newPoems: Poem[]; inValidPoems: Poem[] } | false> {
     let isValid = async (PoemData: Poem) =>
       await createSchema.isValid(PoemData);
     let isNotValid = async (PoemData: Poem) =>
       (await createSchema.isValid(PoemData)) === false;
 
-    const validPoems: Poem[] = await filterAsync(PoemsData, isValid);
-    const inValidPoems: Poem[] = await filterAsync(PoemsData, isNotValid);
+    const validPoems: Poem[] = await filterAsync(poemsData, isValid);
+    const inValidPoems: Poem[] = await filterAsync(poemsData, isNotValid);
 
     const newPoems = await PoemDB.postMany(validPoems);
     if (!newPoems) return false;
@@ -62,7 +84,12 @@ export const PoemService = {
     const result = { newPoems, inValidPoems };
     return result;
   },
-
+  /**
+   * update a poem's data, returns false if poem's is not found or data isn't valid.
+   * @param {string} id - poem's id.
+   * @param {Poem} poemData - poem's data.
+   * @returns 
+  */
   async update(id: string, poemData: Poem): Promise<number | false> {
     const isValid = await updateSchema.isValid(poemData);
     if (!isValid) return false;
@@ -79,7 +106,11 @@ export const PoemService = {
     }
     return newPoem.affected;
   },
-
+  /**
+   * delete a poem, returns false if poem's is not found.
+   * @param {string} id - poem's id.
+   * @returns 
+  */
   async remove(id: string): Promise<number | false> {
     const poem = await PoemDB.remove(id);
     if (!poem.affected) return false;
