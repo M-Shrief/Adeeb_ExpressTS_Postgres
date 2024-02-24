@@ -3,7 +3,7 @@ import { uuidSchema, versesSchema, introSchema } from '../../utils/schemas';
 
 /**
  * Schema for creating a new poem
- * verifies Poet's (intro, poet, verses, reviewed)
+ * verifies Poem's (intro, poet, verses, reviewed)
 */
 export const createSchema = object({
   intro: introSchema.required(),

@@ -3,7 +3,7 @@ import { uuidSchema, qouteSchema, tagsSchema } from '../../utils/schemas';
 
 /**
  * Schema for creating a new prose
- * verifies Poet's (poet, tags, qoute, reviewed)
+ * verifies prose's (poet, tags, qoute, reviewed)
 */
 export const createSchema = object({
   poet: uuidSchema.required(),
@@ -14,7 +14,7 @@ export const createSchema = object({
 
 /**
  * Schema for updating a prose's data
- * verifies Poet's (poet, tags, qoute, reviewed), if any of them is provided
+ * verifies prose's (poet, tags, qoute, reviewed), if any of them is provided
 */
 export const updateSchema = object({
   poet: uuidSchema.optional(),

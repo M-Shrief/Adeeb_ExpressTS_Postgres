@@ -3,7 +3,7 @@ import { versesSchema, uuidSchema, tagsSchema } from '../../utils/schemas';
 
 /**
  * Schema for creating a new chosenverse
- * verifies Poet's (poet, poem, tags, verses, reviewed)
+ * verifies chosenverse's (poet, poem, tags, verses, reviewed)
 */
 export const createSchema = object({
   poet: uuidSchema.required(),
@@ -15,7 +15,7 @@ export const createSchema = object({
 
 /**
  * Schema for updating a chosenverse
- * verifies Poet's (poet, poem, tags, verses, reviewed), if any of them is provided
+ * verifies chosenverse's (poet, poem, tags, verses, reviewed), if any of them is provided
 */
 export const updateSchema = object({
   poet: uuidSchema.optional(),
