@@ -23,4 +23,4 @@ const app = new App([
   OrderRoute,
 ]);
 
-export default app.listen();
+app.listen();
