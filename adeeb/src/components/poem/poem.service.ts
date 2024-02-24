@@ -8,7 +8,7 @@ import { createSchema, updateSchema } from './poem.schema';
 import { filterAsync } from '../../utils/asyncFilterAndMap';
 
 /**
- * Handle PoemService requests
+ * Handle PoemService calls
  */
 export const PoemService = {
   /**

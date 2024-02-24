@@ -134,7 +134,7 @@ export const PoemController = {
   /**
    * Handle remove request to remove a Poem's data
    * 
-   * Recieving poem's id in req.params.id, and Poem's updated fields in req.body
+   * Recieving poem's id in req.params.id.
    * @remarks
    * if successful, res with success status: {@link HttpStatusCode.ACCEPTED}.
    * 

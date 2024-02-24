@@ -14,7 +14,7 @@ const db = AppDataSource.getRepository(Poem);
 
 
 /**
- * Used to access Database's Poet repository.
+ * Used to access Database's Poem repository.
  */
 export const PoemDB = {
   /**

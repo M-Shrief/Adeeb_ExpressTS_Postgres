@@ -118,7 +118,7 @@ export const PoetController = {
   /**
    * Handle remove request to remove a Poet's data
    * 
-   * Recieving poet's id in req.params.id, and Poet's updated fields in req.body
+   * Recieving poet's id in req.params.id.
    * @remarks
    * if successful, res with success status: {@link HttpStatusCode.ACCEPTED}.
    * 
