@@ -1,6 +1,9 @@
 import fs from 'fs'
 import { logger } from '../utils/logger';
 
+/**
+ * Database config
+ */
 export const DB = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -10,8 +13,14 @@ export const DB = {
   ca: process.env.CA_CERTIFICATE,
 };
 
+/**
+ * Redis URL
+ */
 export const REDIS = process.env.REDIS;
 
+/**
+ * JWT Public key
+ */
 export let JWT_PUBLIC: string = '';
 
 if (process.env.JWT_PUBLIC_FILE) {
