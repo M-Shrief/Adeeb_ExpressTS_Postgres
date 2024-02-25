@@ -94,13 +94,15 @@ const transports = [
   }),
 ];
 
-// Create the logger instance that has to be exported
-// and used to log messages.
+/**
+ * Create the logger instance that has to be exported and used to log messages.
+ */
 const logger = winston.createLogger({
   level: level(),
   levels,
   transports,
 });
+
 const stream = {
   write: (message: string) => {
     logger.info(message.substring(0, message.lastIndexOf('\n')));
