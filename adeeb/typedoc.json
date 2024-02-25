@@ -3,7 +3,7 @@
     // Comments are supported, like tsconfig.json
     "entryPoints": ["src/**/*.ts"],
     "entryPointStrategy": "resolve",
-    "exclude": ["**/*+(.spec|.e2e).ts"],
+    "exclude": ["**/*+(.spec|.e2e).ts", "src/pb/**"],
     "out": "docs",
     "logLevel": "Info",
     "jsDocCompatibility": true,
