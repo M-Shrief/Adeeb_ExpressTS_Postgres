@@ -16,7 +16,7 @@ const db = AppDataSource.getRepository(Poet);
 export const PoetDB = {
   /**
    * Returns an array of Poet's data
-   * @returns 
+   * @returns
    */
   async getAll(): Promise<Poet[]> {
     return await db.find({
@@ -32,8 +32,8 @@ export const PoetDB = {
   /**
    * Returns Poet data and literature (poems, chosenVerses, proses)
    * @param {string} id - poet's id
-   * @returns 
-  */
+   * @returns
+   */
   async getOneWithLiterature(id: string): Promise<Poet | null> {
     return db.findOne({
       where: { id },
@@ -67,16 +67,16 @@ export const PoetDB = {
   /**
    * Create a Poet
    * @param {Poet} poetData - poet's data
-   * @returns 
-  */
+   * @returns
+   */
   async post(poetData: Poet): Promise<Poet> {
     return await db.save(poetData);
   },
   /**
    * Create a Poets
    * @param {Poet[]} poetsData - poets' data
-   * @returns 
-  */
+   * @returns
+   */
   async postMany(poetsData: Poet[]): Promise<Poet[]> {
     return await db.save(poetsData);
   },
@@ -84,16 +84,16 @@ export const PoetDB = {
    * update a Poet data
    * @param {string} id - poet's id
    * @param {Poet} poetData - poet's data
-   * @returns 
-  */
+   * @returns
+   */
   async update(id: string, poetData: Poet): Promise<UpdateResult> {
     return await db.update(id, poetData);
   },
   /**
    * remove a Poet
    * @param {string} id - poet's id
-   * @returns 
-  */
+   * @returns
+   */
   async remove(id: string): Promise<DeleteResult> {
     return await db.delete(id);
   },
@@ -106,8 +106,8 @@ export const PoetRedis = {
   /**
    * get a poet from cache
    * @param {string} id - poet's id
-   * @returns 
-  */
+   * @returns
+   */
   async get(id: string): Promise<string | null> {
     return await redisClient.get(`poet:${id}`);
   },
@@ -115,8 +115,8 @@ export const PoetRedis = {
    * set a poet to cache
    * @param {string} id - poet's id
    * @param {Poet} poet - poet's data
-   * @returns 
-  */
+   * @returns
+   */
   async set(id: string, poet: Poet): Promise<string | Logger | null> {
     return await redisClient
       .set(`poet:${id}`, JSON.stringify(poet), { EX: 60 * 15 })
@@ -125,17 +125,17 @@ export const PoetRedis = {
   /**
    * check if a poet exists
    * @param {string} id - poet's id
-   * @returns 
-  */
+   * @returns
+   */
   async exists(id: string): Promise<number> {
-    return await redisClient.exists(`poet:${id}`)
+    return await redisClient.exists(`poet:${id}`);
   },
   /**
    * delete a poet from cache
    * @param {string} id - poet's id
-   * @returns 
-  */
+   * @returns
+   */
   async delete(id: string): Promise<number> {
-    return await redisClient.del(`poet:${id}`)
-  }
+    return await redisClient.del(`poet:${id}`);
+  },
 };

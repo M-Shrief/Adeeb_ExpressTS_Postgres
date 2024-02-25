@@ -11,7 +11,7 @@ import { BaseEntity } from '../../interfaces/baseEntity';
 
 /**
  * Prose's Entity
-*/
+ */
 @Entity()
 export class Prose extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

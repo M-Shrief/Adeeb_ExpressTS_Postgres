@@ -13,8 +13,8 @@ import { filterAsync } from '../../utils/asyncFilterAndMap';
 export const PoemService = {
   /**
    * get all poems' data and poets' names. If data is not available, it returns false
-   * @returns 
-  */
+   * @returns
+   */
   async getAllWithPoetName(): Promise<Poem[] | false> {
     const poems = await PoemDB.getAllWithPoetName();
     if (poems.length === 0) return false;
@@ -22,8 +22,8 @@ export const PoemService = {
   },
   /**
    * get all poems' intros and poets' names. If data is not available, it returns false
-   * @returns 
-  */
+   * @returns
+   */
   async getAllIntrosWithPoetName(): Promise<Poem[] | false> {
     const poems = await PoemDB.getAllIntrosWithPoetName();
     if (poems.length === 0) return false;
@@ -32,7 +32,7 @@ export const PoemService = {
   /**
    * get poem's data and poet data. If data is not available, it returns false
    * @param {string} id - poem's id.
-   * @returns 
+   * @returns
    */
   async getOneWithPoet(id: string): Promise<Poem | false> {
     let poem: Poem | null;
@@ -51,8 +51,8 @@ export const PoemService = {
   /**
    * create a new poem. If data is not valid, it returns false
    * @param {Poem} poemData - poem's data.
-   * @returns 
-  */
+   * @returns
+   */
   async post(poemData: Poem): Promise<Poem | false> {
     const isValid = await createSchema.isValid(poemData);
     if (!isValid) return false;
@@ -65,8 +65,8 @@ export const PoemService = {
    * create new poems, returns the valid and created ones, and the invalid and not-created ones.
    * If all data is invalid, it returns false.
    * @param {Poem[]} poemsData - poems' data.
-   * @returns 
-  */
+   * @returns
+   */
   async postMany(
     poemsData: Poem[],
   ): Promise<{ newPoems: Poem[]; inValidPoems: Poem[] } | false> {
@@ -88,18 +88,18 @@ export const PoemService = {
    * update a poem's data, returns false if poem's is not found or data isn't valid.
    * @param {string} id - poem's id.
    * @param {Poem} poemData - poem's data.
-   * @returns 
-  */
+   * @returns
+   */
   async update(id: string, poemData: Poem): Promise<number | false> {
     const isValid = await updateSchema.isValid(poemData);
     if (!isValid) return false;
 
     const newPoem = await PoemDB.update(id, poemData);
     if (!newPoem.affected) return false;
-    if(await PoemRedis.exists(id) != 0) {
+    if ((await PoemRedis.exists(id)) != 0) {
       // To update it I need to make 2 requests to return the raw in typeorm
       // So I need to replace it with something like Drizzle.
-      // await PoemRedis.set(id, newPoem) 
+      // await PoemRedis.set(id, newPoem)
 
       // Until I change it, I will delete it to make sure it's not in the cache
       await PoemRedis.delete(id);
@@ -109,12 +109,12 @@ export const PoemService = {
   /**
    * delete a poem, returns false if poem's is not found.
    * @param {string} id - poem's id.
-   * @returns 
-  */
+   * @returns
+   */
   async remove(id: string): Promise<number | false> {
     const poem = await PoemDB.remove(id);
     if (!poem.affected) return false;
-    await PoemRedis.delete(id)
+    await PoemRedis.delete(id);
     return poem.affected;
   },
 };

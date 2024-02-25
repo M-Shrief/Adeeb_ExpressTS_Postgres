@@ -11,14 +11,13 @@ import HttpStatusCode from '../../utils/httpStatusCode';
  * Poet's Controller to handle request.
  */
 export const PoetController = {
-  
   /**
    * Handle Index request to get All Poets data
    * @remarks
    * if successful, res = {poets: Poet[]} with success status: {@link HttpStatusCode.OK}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_AVAILABLE} with error {@link HttpStatusCode.NOT_FOUND}.
-  */ 
+   */
   async index(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await PoetService.getAll();
@@ -38,10 +37,14 @@ export const PoetController = {
    * Recieving poet's id in req.params.id
    * @remarks
    * if successful, res = {poet: Poet} with success status: {@link HttpStatusCode.OK}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_FOUND} with error {@link HttpStatusCode.NOT_FOUND}.
-  */ 
-  async indexOneWithLiterature(req: Request, res: Response, next: NextFunction) {
+   */
+  async indexOneWithLiterature(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
       const service = await PoetService.getOneWithLiterature(req.params.id);
       const { status, poet, errMsg } =
@@ -54,14 +57,14 @@ export const PoetController = {
       next(err);
     }
   },
-  
+
   /**
    * Handle post request to create a new Poet
    * @remarks
    * if successful, res = Poet with success status: {@link HttpStatusCode.CREATED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
-  */ 
+   */
   async post(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await PoetService.post(req.body);
@@ -78,9 +81,9 @@ export const PoetController = {
    * Handle postMany request to create a new Poets
    * @remarks
    * if some or all data was valid, res = { newPoets: Poet[], inValidPoets: Poet[] } with success status: {@link HttpStatusCode.CREATED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
-  */   
+   */
   async postMany(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await PoetService.postMany(req.body);
@@ -96,13 +99,13 @@ export const PoetController = {
 
   /**
    * Handle update request to update a Poet's data
-   * 
+   *
    * Recieving poet's id in req.params.id, and Poet's updated field in req.body
    * @remarks
    * if successful, res with success status: {@link HttpStatusCode.ACCEPTED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
-  */ 
+   */
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await PoetService.update(req.params.id, req.body);
@@ -117,13 +120,13 @@ export const PoetController = {
   },
   /**
    * Handle remove request to remove a Poet's data
-   * 
+   *
    * Recieving poet's id in req.params.id.
    * @remarks
    * if successful, res with success status: {@link HttpStatusCode.ACCEPTED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_FOUND} with error {@link HttpStatusCode.NOT_FOUND}.
-  */ 
+   */
   async remove(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await PoetService.remove(req.params.id);
@@ -140,11 +143,14 @@ export const PoetController = {
  * returns response info depending on the parameter value.
  */
 export const responseInfo = {
-
   /**
    * evalute PoetController.index, depending on PoetService.index result
-  */  
-  index(poets: Poet[] | false) : { status: number; poets?: Poet[]; errMsg?: string } {
+   */
+  index(poets: Poet[] | false): {
+    status: number;
+    poets?: Poet[];
+    errMsg?: string;
+  } {
     if (!poets) {
       return {
         status: HttpStatusCode.NOT_FOUND,
@@ -156,8 +162,12 @@ export const responseInfo = {
 
   /**
    * evalute PoetController.indexOneWithLiterature, depending on PoetService.indexOneWithLiterature result
-  */   
-  indexOneWithLiterature(poet: Poet | false): { status: number; poet?: Poet; errMsg?: string } {
+   */
+  indexOneWithLiterature(poet: Poet | false): {
+    status: number;
+    poet?: Poet;
+    errMsg?: string;
+  } {
     if (!poet) {
       return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
     }
@@ -166,8 +176,8 @@ export const responseInfo = {
 
   /**
    * evalute PoetController.post, depending on PoetService.post result
-  */   
-  post(poet: Poet | false) : { status: number; poet?: Poet; errMsg?: string } {
+   */
+  post(poet: Poet | false): { status: number; poet?: Poet; errMsg?: string } {
     if (!poet) {
       return {
         status: HttpStatusCode.NOT_ACCEPTABLE,
@@ -179,7 +189,7 @@ export const responseInfo = {
 
   /**
    * evalute PoetController.postMany, depending on PoetService.postMany result
-  */  
+   */
   postMany(poets: { newPoets: Poet[]; inValidPoets: Poet[] } | false): {
     status: number;
     poets?: { newPoets: Poet[]; inValidPoets: Poet[] };
@@ -196,7 +206,7 @@ export const responseInfo = {
 
   /**
    * evalute PoetController.update, depending on PoetService.update result
-  */    
+   */
   update(poet: number | false): { status: number; errMsg?: string } {
     if (!poet) {
       return {
@@ -209,7 +219,7 @@ export const responseInfo = {
 
   /**
    * evalute PoetController.remove, depending on PoetService.remove result
-  */  
+   */
   remove(poet: number | false): { status: number; errMsg?: string } {
     if (!poet) {
       return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };

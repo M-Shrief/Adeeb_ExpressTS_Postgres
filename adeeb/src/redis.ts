@@ -4,9 +4,8 @@ import { REDIS } from './config';
 // Utils
 import { logger } from './utils/logger';
 
-
 /**
- * Used to initialize Redis connection on Adeeb entry: src/index.ts 
+ * Used to initialize Redis connection on Adeeb entry: src/index.ts
  */
 const redisClient = REDIS
   ? createClient({
@@ -25,7 +24,6 @@ export const connectRedis = async () => {
   await redisClient.connect().catch((err) => logger.error(err));
 };
 
-
 /**
  *  If the Node process ends, close the Cache connection
  */
@@ -36,9 +34,9 @@ process.on('SIGINT', async () => {
 
 /**
  * Used to access Redis cache in components repository.
- * 
- * ```ts 
- * redisClient.get(string); 
+ *
+ * ```ts
+ * redisClient.get(string);
  * ```
- */ 
+ */
 export default redisClient;

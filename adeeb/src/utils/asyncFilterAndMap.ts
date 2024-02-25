@@ -1,8 +1,8 @@
 /**
  * Map an array Asynchronosly
- * @param array 
+ * @param array
  * @param callbackfn - map callback
- * @returns 
+ * @returns
  */
 export function mapAsync<T, U>(
   array: T[],
@@ -13,9 +13,9 @@ export function mapAsync<T, U>(
 
 /**
  * Filter an array Asynchronosly
- * @param array 
+ * @param array
  * @param callbackfn - filter callback
- * @returns 
+ * @returns
  */
 export async function filterAsync<T>(
   array: T[],

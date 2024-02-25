@@ -15,13 +15,13 @@ import { decodeToken } from '../../utils/auth';
 export const OrderController = {
   /**
    * Handle indexGuestOrders request to get All Guest's orders
-   * 
+   *
    * Recieving guests's {name, phone} in req.params
    * @remarks
    * if successful, res = {orders: Order[]} with success status: {@link HttpStatusCode.OK}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_AVAILABLE} with error {@link HttpStatusCode.NOT_FOUND}.
-  */ 
+   */
   async indexGuestOrders(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await OrderService.getGuestOrders(
@@ -37,18 +37,14 @@ export const OrderController = {
   },
   /**
    * Handle indexPartnerOrders request to get All Partner's orders
-   * 
+   *
    * Recieving Partner's JWT token in req.headers,authorization as `Bearer ${token}`
    * @remarks
    * if successful, res = {orders: Order[]} with success status: {@link HttpStatusCode.OK}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_AVAILABLE} with error {@link HttpStatusCode.NOT_FOUND}.
-  */ 
-  async indexPartnerOrders(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+   */
+  async indexPartnerOrders(req: Request, res: Response, next: NextFunction) {
     try {
       const decoded = decodeToken(
         req.headers.authorization!.slice(7),
@@ -63,13 +59,13 @@ export const OrderController = {
   },
   /**
    * Handle postGuest request to create a new guestOrder
-   * 
+   *
    * Recieving guestOrder's data {name, phone, address, products, reviewed, completed} from req.body
    * @remarks
    * if successful, res = Order with success status: {@link HttpStatusCode.CREATED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
-  */ 
+   */
   async postGuest(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await OrderService.post(req.body);
@@ -82,13 +78,13 @@ export const OrderController = {
   },
   /**
    * Handle postPartner request to create a new partnerOrder (only availaible to authenticated partners)
-   * 
+   *
    * Recieving partnerOrder's data {partnerId, name, phone, address, products, reviewed, completed} from req.body
    * @remarks
    * if successful, res = Order with success status: {@link HttpStatusCode.CREATED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
-  */ 
+   */
   async postPartner(req: Request, res: Response, next: NextFunction) {
     try {
       const decoded = decodeToken(
@@ -107,14 +103,14 @@ export const OrderController = {
   },
   /**
    * Handle update request to update a Order's data (only availaible to authenticated partners)
-   * 
+   *
    * Recieving order's id in req.params.id, and Order's updated field in req.body
-   * 
+   *
    * @remarks
    * if successful, res with success status: {@link HttpStatusCode.ACCEPTED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_VALID} with error {@link HttpStatusCode.NOT_ACCEPTABLE}.
-  */ 
+   */
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await OrderService.update(req.params.id, req.body);
@@ -127,13 +123,13 @@ export const OrderController = {
   },
   /**
    * Handle remove request to remove a order's data (only availaible to authenticated partners)
-   * 
+   *
    * Recieving order's id in req.params.id.
    * @remarks
    * if successful, res with success status: {@link HttpStatusCode.ACCEPTED}.
-   * 
+   *
    * if not, res = {@link ERROR_MSG.NOT_FOUND} with error {@link HttpStatusCode.NOT_FOUND}.
-  */ 
+   */
   async remove(req: Request, res: Response, next: NextFunction) {
     try {
       const service = await OrderService.remove(req.params.id);
@@ -152,10 +148,12 @@ export const OrderController = {
 export const responseInfo = {
   /**
    * evalute OrderController.indexGuestOrders || OrderController.indexPartnerOrders, depending on OrderService.indexGuestOrders || OrderService.indexPartnerOrders result
-  */  
-  indexOrders(
-    orders: Order[] | false,
-  ): { status: number; orders?: Order[]; errMsg?: string } {
+   */
+  indexOrders(orders: Order[] | false): {
+    status: number;
+    orders?: Order[];
+    errMsg?: string;
+  } {
     if (!orders) {
       return {
         status: HttpStatusCode.NOT_FOUND,
@@ -166,10 +164,12 @@ export const responseInfo = {
   },
   /**
    * evalute OrderController.postGuest || OrderController.postPartner, depending on OrderService.postGuest || OrderService.postPartner result
-  */  
-  postOrder(
-    order: Order | false,
-  ): { status: number; order?: Order; errMsg?: string } {
+   */
+  postOrder(order: Order | false): {
+    status: number;
+    order?: Order;
+    errMsg?: string;
+  } {
     if (!order) {
       return {
         status: HttpStatusCode.NOT_ACCEPTABLE,
@@ -180,7 +180,7 @@ export const responseInfo = {
   },
   /**
    * evalute OrderController.update, depending on OrderService.update result
-  */  
+   */
   update(order: number | false): { status: number; errMsg?: string } {
     if (!order) {
       return {
@@ -192,11 +192,11 @@ export const responseInfo = {
   },
   /**
    * evalute OrderController.remove, depending on OrderService.remove result
-  */  
+   */
   remove(order: number | false): { status: number; errMsg?: string } {
     if (!order) {
       return { status: HttpStatusCode.NOT_FOUND, errMsg: ERROR_MSG.NOT_FOUND };
     }
     return { status: HttpStatusCode.ACCEPTED };
   },
-}
+};

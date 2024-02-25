@@ -21,7 +21,7 @@ export type TimePeriodType =
 
 /**
  * Poet's Entity
-*/
+ */
 @Entity()
 export class Poet extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

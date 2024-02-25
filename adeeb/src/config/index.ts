@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'fs';
 import { logger } from '../utils/logger';
 
 /**
@@ -24,15 +24,9 @@ export const REDIS = process.env.REDIS;
 export let JWT_PUBLIC: string = '';
 
 if (process.env.JWT_PUBLIC_FILE) {
-  JWT_PUBLIC = fs.readFileSync(process.env.JWT_PUBLIC_FILE!).toString().trim()
+  JWT_PUBLIC = fs.readFileSync(process.env.JWT_PUBLIC_FILE!).toString().trim();
 } else {
-  logger.warn("JWT Private and Public key are not defined")
+  logger.warn('JWT Private and Public key are not defined');
 }
 
-export const {
-  NODE_ENV,
-  PORT,
-  LOG_DIR,
-  CORS_ORIGIN,
-  SENTRY_DNS,
-} = process.env;
+export const { NODE_ENV, PORT, LOG_DIR, CORS_ORIGIN, SENTRY_DNS } = process.env;

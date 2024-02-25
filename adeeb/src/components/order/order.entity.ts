@@ -12,7 +12,7 @@ import { Product, ProductGroup } from '../../interfaces/__types__';
 
 /**
  * Order's Entity
-*/
+ */
 @Entity()
 export class Order extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

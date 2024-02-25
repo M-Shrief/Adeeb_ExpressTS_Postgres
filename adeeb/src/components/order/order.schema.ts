@@ -30,7 +30,7 @@ const productsSchema = array().of(
 /**
  * Schema for creating a new order
  * verifies Order's (partnerId?, name, phone, address, products, reviewed, completed)
-*/
+ */
 export const createSchema = object({
   partnerId: uuidSchema.optional(),
   name: nameSchema.required(),
@@ -44,7 +44,7 @@ export const createSchema = object({
 /**
  * Schema for updating an order
  * verifies Order's (partnerId?, name, phone, address, products, reviewed, completed), if any of them is provided
-*/
+ */
 export const updateSchema = object({
   partnerId: uuidSchema.optional(),
   name: nameSchema.optional(),

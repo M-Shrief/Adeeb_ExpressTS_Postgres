@@ -14,10 +14,7 @@ router.get('/poems', setCache, PoemController.indexWithPoetName);
 router.get('/poems_intros', setCache, PoemController.indexIntrosWithPoetName);
 router.get(
   '/poem/:id',
-  [
-    validate([param('id', ERROR_MSG.NOT_FOUND).isUUID(4)]),
-    setCache,
-  ],
+  [validate([param('id', ERROR_MSG.NOT_FOUND).isUUID(4)]), setCache],
   PoemController.indexOneWithPoet,
 );
 router.post(
@@ -51,18 +48,8 @@ router.put(
 
     body('verses', ERROR_MSG.VERSES).optional().isArray(),
 
-    body('verses.*.first', ERROR_MSG.VERSES)
-      .optional()
-      .isString()
-      .escape()
-      ,
-
-    body('verses.*.sec', ERROR_MSG.VERSES)
-      .optional()
-      .isString()
-      .escape()
-      ,
-
+    body('verses.*.first', ERROR_MSG.VERSES).optional().isString().escape(),
+    body('verses.*.sec', ERROR_MSG.VERSES).optional().isString().escape(),
     body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
   ]),
   PoemController.update,
@@ -76,22 +63,22 @@ router.delete(
 
 /**
  * Poem's API routes
- * 
+ *
  * @remarks
  * Handles:
- * 
- * GET /poems with {@link PoemController.indexWithPoetName} 
- * 
+ *
+ * GET /poems with {@link PoemController.indexWithPoetName}
+ *
  * GET /poems_intros with {@link PoemController.indexIntrosWithPoetName}
- * 
+ *
  * GET /poem/:id with {@link PoemController.indexOneWithPoet}
- * 
- * POST /poem with {@link PoemController.post} 
- *  
- * POST /poems with {@link PoemController.postMany} 
- * 
+ *
+ * POST /poem with {@link PoemController.post}
+ *
+ * POST /poems with {@link PoemController.postMany}
+ *
  * PUT /poem/:id with {@link PoemController.update}
- * 
- * DELETE /poem/:id with {@link PoemController.remove} 
-*/
+ *
+ * DELETE /poem/:id with {@link PoemController.remove}
+ */
 export const PoemRoute = router;

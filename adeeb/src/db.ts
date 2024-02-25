@@ -12,13 +12,13 @@ import { logger } from './utils/logger';
 
 /**
  * Used to access the Database in components repository.
- * 
- * ```ts 
+ *
+ * ```ts
  * const db = AppDataSource.getRepository(entity);
  * ....
  * db.find();
- * ``` 
- */ 
+ * ```
+ */
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: DB.host,
@@ -39,9 +39,8 @@ export const AppDataSource = new DataSource({
   subscribers: [],
 });
 
-
 /**
- * Used to initialize Database connection on Adeeb entry: src/index.ts 
+ * Used to initialize Database connection on Adeeb entry: src/index.ts
  */
 export const connectDB = async () => {
   try {
@@ -54,7 +53,7 @@ export const connectDB = async () => {
 };
 
 /**
- *  If the Node process ends, close the postgres connection 
+ *  If the Node process ends, close the postgres connection
  */
 process.on('SIGINT', async () => {
   await AppDataSource.destroy().catch((err) => logger.error(`${err}`));

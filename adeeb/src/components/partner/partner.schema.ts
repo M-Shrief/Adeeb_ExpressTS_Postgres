@@ -5,7 +5,7 @@ const passwordSchema = string().min(4).max(100);
 /**
  * Schema for signing up a new partner
  * verifies Partner's (name, phone, password)
-*/
+ */
 export const createSchema = object({
   name: nameSchema.required(),
   phone: phoneSchema.required(),
@@ -15,7 +15,7 @@ export const createSchema = object({
 /**
  * Schema for updating a partner's data
  * verifies Partner's (name, phone, password) if any of them is provided
-*/
+ */
 export const updateSchema = object({
   name: nameSchema.optional(),
   phone: phoneSchema.optional(),

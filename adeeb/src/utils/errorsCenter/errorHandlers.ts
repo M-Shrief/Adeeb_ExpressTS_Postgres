@@ -5,8 +5,8 @@ import { logger } from '../logger';
 
 /**
  * check if error is instance of AppError && isOperational
- * @param error 
- * @returns 
+ * @param error
+ * @returns
  */
 export const isTrustedError = (error: Error) => {
   if (error instanceof AppError) {
@@ -17,8 +17,8 @@ export const isTrustedError = (error: Error) => {
 
 /**
  * Log error, and response = err.message with err.httpCode.
- * @param error 
- * @param res 
+ * @param error
+ * @param res
  */
 export const handleTrustedError = (error: AppError, res: Response): void => {
   logger.error({
@@ -27,7 +27,5 @@ export const handleTrustedError = (error: AppError, res: Response): void => {
     isOperational: true,
     stack: error.stack,
   });
-  res
-    .status(error.httpCode)
-    .json({ message: error.message });
+  res.status(error.httpCode).json({ message: error.message });
 };

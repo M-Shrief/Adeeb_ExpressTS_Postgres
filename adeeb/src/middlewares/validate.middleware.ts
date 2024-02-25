@@ -8,9 +8,9 @@ import HttpStatusCode from '../utils/httpStatusCode';
  * @param {ValidationChain[]} validations - an array of validation chains
  * @remarks
  * sequential processing, stops running validations chain if the previous one fails.&
- * 
+ *
  * if valid, go to next middleware or controller.
- * 
+ *
  * if not valid, throw operational error,with error message and {@link HttpStatusCode.BAD_REQUEST}.
  */
 export const validate = (validations: ValidationChain[]) => {

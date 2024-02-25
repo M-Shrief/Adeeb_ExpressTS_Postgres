@@ -12,14 +12,13 @@ import { Logger } from 'winston';
 
 const db = AppDataSource.getRepository(Poem);
 
-
 /**
  * Used to access Database's Poem repository.
  */
 export const PoemDB = {
   /**
    * Returns an array of Poems with the poet name
-   * @returns 
+   * @returns
    */
   async getAllWithPoetName(): Promise<Poem[]> {
     return await db.find({
@@ -42,7 +41,7 @@ export const PoemDB = {
   },
   /**
    * Returns an array of Poems' intros with the poet name
-   * @returns 
+   * @returns
    */
   async getAllIntrosWithPoetName(): Promise<Poem[]> {
     return await db.find({
@@ -62,8 +61,8 @@ export const PoemDB = {
   /**
    * Returns Poem data and its poet data
    * @param {string} id - poem's id
-   * @returns 
-  */
+   * @returns
+   */
   async getOneWithPoet(id: string): Promise<Poem | null> {
     return await db.findOne({
       where: { id },
@@ -86,16 +85,16 @@ export const PoemDB = {
   /**
    * Create a new Poem
    * @param {Poem} poemData - poem's data
-   * @returns 
-  */
+   * @returns
+   */
   async post(poemData: Poem): Promise<Poem> {
     return await db.save(poemData);
   },
   /**
    * Create new Poems
    * @param {Poem[]} poemsData - poem's data
-   * @returns 
-  */
+   * @returns
+   */
   async postMany(poemsData: Poem[]): Promise<Poem[]> {
     return await db.save(poemsData);
   },
@@ -103,18 +102,18 @@ export const PoemDB = {
    * Update a Poem's data
    * @param {string} id - poem's id
    * @param {Poem} poemData - poem's data
-   * @returns 
-  */
+   * @returns
+   */
   async update(id: string, poemData: Poem): Promise<UpdateResult> {
-    const result =  await db.update(id, poemData);
-    logger.info(result)
-    return result
+    const result = await db.update(id, poemData);
+    logger.info(result);
+    return result;
   },
   /**
    * Remove a Poem
    * @param {string} id - poem's id
-   * @returns 
-  */
+   * @returns
+   */
   async remove(id: string): Promise<DeleteResult> {
     return await db.delete(id);
   },
@@ -127,8 +126,8 @@ export const PoemRedis = {
   /**
    * get a poem from cache
    * @param {string} id - poem's id
-   * @returns 
-  */
+   * @returns
+   */
   async get(id: string): Promise<string | null> {
     return await redisClient.get(`poem:${id}`);
   },
@@ -136,8 +135,8 @@ export const PoemRedis = {
    * set a poem to cache
    * @param {string} id - poem's id
    * @param {Poem} poem - poem's data
-   * @returns 
-  */
+   * @returns
+   */
   async set(id: string, poem: Poem): Promise<string | Logger | null> {
     return await redisClient
       .set(`poem:${id}`, JSON.stringify(poem), { EX: 60 * 15 })
@@ -146,17 +145,17 @@ export const PoemRedis = {
   /**
    * check if a poem exists
    * @param {string} id - poem's id
-   * @returns 
-  */
+   * @returns
+   */
   async exists(id: string): Promise<number> {
-    return await redisClient.exists(`poem:${id}`)
+    return await redisClient.exists(`poem:${id}`);
   },
   /**
    * delete a poem from cache
    * @param {string} id - poem's id
-   * @returns 
-  */
+   * @returns
+   */
   async delete(id: string): Promise<number> {
-    return await redisClient.del(`poem:${id}`)
-  }
+    return await redisClient.del(`poem:${id}`);
+  },
 };

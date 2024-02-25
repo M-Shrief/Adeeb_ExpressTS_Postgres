@@ -1,6 +1,6 @@
 // General and reused types
 
-export interface  Verse{
+export interface Verse {
   first: string;
   sec: string;
 }

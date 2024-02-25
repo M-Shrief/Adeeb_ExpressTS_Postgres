@@ -10,19 +10,19 @@ import { AppError } from '../utils/errorsCenter/appError';
 /**
  * Used to validate requests jwtToken
  * @param {boolean} bln -  set true to prevent unauthenticated users, set false to identify registered users while still providing access to unregistered users.
- * @returns 
+ * @returns
  */
 export const jwtToken = (bln?: boolean) =>
   expressjwt({
     secret: JWT_PUBLIC as string,
     algorithms: ['RS256'],
-    credentialsRequired: bln ?? false, // 
+    credentialsRequired: bln ?? false, //
     requestProperty: 'user', // made it user for guard, it's req.auth by default
   });
 
 /**
  * Check JWT Payload for permissions: string[]
- * 
+ *
  * @remarks
  * example
  * ```ts

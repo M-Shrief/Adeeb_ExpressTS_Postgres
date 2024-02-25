@@ -20,10 +20,8 @@ router.post(
   [
     validate([
       body('name', ERROR_MSG.NAME).isString(),
-      body('phone', ERROR_MSG.PHONE)
-        .isString()
-        .escape(),
-        // .isMobilePhone('any')
+      body('phone', ERROR_MSG.PHONE).isString().escape(),
+      // .isMobilePhone('any')
     ]),
     setCache,
   ],
@@ -45,10 +43,8 @@ router.post(
     validate([
       body('name', ERROR_MSG.NAME).isString(),
 
-      body('phone', ERROR_MSG.PHONE)
-        .isString()
-        .escape(),
-        // .isMobilePhone('any')
+      body('phone', ERROR_MSG.PHONE).isString().escape(),
+      // .isMobilePhone('any')
 
       body('address', ERROR_MSG.ADDRESS).isString(), // should have more constraints
 
@@ -57,18 +53,12 @@ router.post(
       body('completed', ERROR_MSG.COMPLETED).optional().isBoolean(),
 
       body('products', ERROR_MSG.PRODUCTS).isArray(),
-      body('products.*.fontType', ERROR_MSG.PRODUCTS)
-        .optional()
-        .isString(),
-      body('products.*.fontColor', ERROR_MSG.PRODUCTS)
-        .optional()
-        .isString(),
+      body('products.*.fontType', ERROR_MSG.PRODUCTS).optional().isString(),
+      body('products.*.fontColor', ERROR_MSG.PRODUCTS).optional().isString(),
       body('products.*.backgroundColor', ERROR_MSG.PRODUCTS)
         .optional()
         .isString(),
-      body('products.*.print')
-        .optional()
-        .isObject(),
+      body('products.*.print').optional().isObject(),
     ]),
   ],
   OrderController.postGuest,
@@ -96,19 +86,12 @@ router.post(
       body('completed', ERROR_MSG.COMPLETED).optional().isBoolean(),
 
       body('products', ERROR_MSG.PRODUCTS).isArray(),
-      body('products.*.fontType', ERROR_MSG.PRODUCTS)
-        .optional()
-        .isString()
-        ,
-      body('products.*.fontColor', ERROR_MSG.PRODUCTS)
-        .optional()
-        .isString(),
+      body('products.*.fontType', ERROR_MSG.PRODUCTS).optional().isString(),
+      body('products.*.fontColor', ERROR_MSG.PRODUCTS).optional().isString(),
       body('products.*.backgroundColor', ERROR_MSG.PRODUCTS)
         .optional()
         .isString(),
-      body('products.*.prints', ERROR_MSG.PRODUCTS)
-        .optional()
-        .isArray(),
+      body('products.*.prints', ERROR_MSG.PRODUCTS).optional().isArray(),
     ]),
   ],
   OrderController.postPartner,
@@ -123,37 +106,22 @@ router.put(
 
     body('name', ERROR_MSG.NAME).optional().isString(),
 
-    body('phone', ERROR_MSG.PHONE)
-      .optional()
-      .isString()
-      .escape(),
-      // .isMobilePhone('any')
+    body('phone', ERROR_MSG.PHONE).optional().isString().escape(),
+    // .isMobilePhone('any')
 
-    body('address', ERROR_MSG.ADDRESS)
-      .optional()
-      .isString()
-      .escape(),
+    body('address', ERROR_MSG.ADDRESS).optional().isString().escape(),
 
     body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
 
     body('completed', ERROR_MSG.COMPLETED).optional().isBoolean(),
 
-   body('products', ERROR_MSG.PRODUCTS).optional().isArray(),
-    body('products.*.fontType', ERROR_MSG.PRODUCTS)
-      .optional()
-      .isString()
-      ,
-    body('products.*.fontColor', ERROR_MSG.PRODUCTS)
-      .optional()
-      .isString()
-      ,
+    body('products', ERROR_MSG.PRODUCTS).optional().isArray(),
+    body('products.*.fontType', ERROR_MSG.PRODUCTS).optional().isString(),
+    body('products.*.fontColor', ERROR_MSG.PRODUCTS).optional().isString(),
     body('products.*.backgroundColor', ERROR_MSG.PRODUCTS)
       .optional()
-      .isString()
-      ,
-    body('products.*.print', ERROR_MSG.PRODUCTS)
-      .optional()
-      .isArray(),
+      .isString(),
+    body('products.*.print', ERROR_MSG.PRODUCTS).optional().isArray(),
   ]),
   OrderController.update,
 );
@@ -164,23 +132,22 @@ router.delete(
   OrderController.remove,
 );
 
-
 /**
  * Order's API routes
- * 
+ *
  * @remarks
  * Handles:
- * 
- * GET /orders/guest with {@link OrderController.indexGuestOrders} 
- * 
+ *
+ * GET /orders/guest with {@link OrderController.indexGuestOrders}
+ *
  * GET /orders/partner with {@link OrderController.indexPartnerOrders}
- * 
+ *
  * POST /order/guest with {@link OrderController.postGuest}
- * 
+ *
  * POST /order/partner with {@link OrderController.postPartner}
- * 
+ *
  * PUT /order/:id with {@link OrderController.update}
- * 
- * DELETE /order/:id with {@link OrderController.remove} 
-*/
+ *
+ * DELETE /order/:id with {@link OrderController.remove}
+ */
 export const OrderRoute = router;

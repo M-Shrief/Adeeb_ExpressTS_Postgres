@@ -48,15 +48,9 @@ router.put(
 
     body('tags', ERROR_MSG.TAGS).optional().isString().escape(),
     body('verses', ERROR_MSG.VERSES).optional().isArray(),
-    body('verses.*.first', ERROR_MSG.VERSES)
-      .optional()
-      .isString()
-      .escape(),
+    body('verses.*.first', ERROR_MSG.VERSES).optional().isString().escape(),
 
-    body('verses.*.sec', ERROR_MSG.VERSES)
-      .optional()
-      .isString()
-      .escape(),
+    body('verses.*.sec', ERROR_MSG.VERSES).optional().isString().escape(),
 
     body('reviewed', ERROR_MSG.REVIEWED).optional().isBoolean(),
   ]),
@@ -68,25 +62,24 @@ router.delete(
   ChosenVerseController.remove,
 );
 
-
 /**
  * ChosenVerse's API routes
- * 
+ *
  * @remarks
  * Handles:
- * 
- * GET /chosenverses with {@link ChosenVerseController.indexOneWithPoetName} 
- * 
+ *
+ * GET /chosenverses with {@link ChosenVerseController.indexOneWithPoetName}
+ *
  * GET /chosenverses/random with {@link ChosenVerseController.indexRandomWithPoetName}
- * 
+ *
  * GET /chosenverse/:id with {@link ChosenVerseController.indexOneWithPoetName}
- * 
- * POST /chosenverse with {@link ChosenVerseController.post} 
- *  
- * POST /chosenverses with {@link ChosenVerseController.postMany} 
- * 
+ *
+ * POST /chosenverse with {@link ChosenVerseController.post}
+ *
+ * POST /chosenverses with {@link ChosenVerseController.postMany}
+ *
  * PUT /chosenverse/:id with {@link ChosenVerseController.update}
- * 
- * DELETE /chosenverse/:id with {@link ChosenVerseController.remove} 
-*/
-export const ChosenVerseRoute = router
+ *
+ * DELETE /chosenverse/:id with {@link ChosenVerseController.remove}
+ */
+export const ChosenVerseRoute = router;

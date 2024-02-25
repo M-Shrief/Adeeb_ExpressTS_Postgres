@@ -13,7 +13,7 @@ import { filterAsync } from '../../utils/asyncFilterAndMap';
 export const PoetService = {
   /**
    * get all poets' data. If data is not available, it returns false
-   * @returns 
+   * @returns
    */
   async getAll(): Promise<Poet[] | false> {
     const poets = await PoetDB.getAll();
@@ -24,7 +24,7 @@ export const PoetService = {
   /**
    * get poet's data and literature (poems, chosenVerses, proses). If data is not available, it returns false
    * @param {string} id - poet's id.
-   * @returns 
+   * @returns
    */
   async getOneWithLiterature(id: string): Promise<Poet | false> {
     let poet: Poet | null;
@@ -42,8 +42,8 @@ export const PoetService = {
   /**
    * create a new poet. If data is not valid, it returns false
    * @param {Poet} poetData - poet's data.
-   * @returns 
-  */
+   * @returns
+   */
   async post(poetData: Poet): Promise<Poet | false> {
     const isValid = await createSchema.isValid(poetData);
     if (!isValid) return false;
@@ -57,8 +57,8 @@ export const PoetService = {
    * create new poets, returns the valid and created ones, and the invalid and not-created ones.
    * If all data is invalid, it returns false.
    * @param {Poet[]} poetsData - poets' data.
-   * @returns 
-  */
+   * @returns
+   */
   async postMany(
     poetsData: Poet[],
   ): Promise<{ newPoets: Poet[]; inValidPoets: Poet[] } | false> {
@@ -81,18 +81,18 @@ export const PoetService = {
    * update a poet's data, returns false if poet's is not found or data isn't valid.
    * @param {string} id - poet's id.
    * @param {Poet} poetData - poet's data.
-   * @returns 
-  */
+   * @returns
+   */
   async update(id: string, poetData: Poet): Promise<number | false> {
     const isValid = await updateSchema.isValid(poetData);
     if (!isValid) return false;
 
     const newPoet = await PoetDB.update(id, poetData);
     if (!newPoet.affected) return false;
-    if(await PoetRedis.exists(id) != 0) {
+    if ((await PoetRedis.exists(id)) != 0) {
       // To update it I need to make 2 requests to return the raw in typeorm
       // So I need to replace it with something like Drizzle.
-      // await PoemRedis.set(id, newPoem) 
+      // await PoemRedis.set(id, newPoem)
 
       // Until I change it, I will delete it to make sure it's not in the cache
       await PoetRedis.delete(id);
@@ -102,8 +102,8 @@ export const PoetService = {
   /**
    * delete a poet, returns false if poet's is not found.
    * @param {string} id - poet's id.
-   * @returns 
-  */
+   * @returns
+   */
   async remove(id: string): Promise<number | false> {
     const poet = await PoetDB.remove(id);
     if (!poet.affected) return false;

@@ -4,6 +4,6 @@ import { ERROR_MSG } from './partner.entity';
 // Utils
 import HttpStatusCode from '../../utils/httpStatusCode';
 
-describe.concurrent("Testing PartnerController", async () => {
-    it("")
-})
+describe.concurrent('Testing PartnerController', async () => {
+  it('');
+});

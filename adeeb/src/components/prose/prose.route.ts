@@ -60,22 +60,22 @@ router.delete(
 
 /**
  * Prose's API routes
- * 
+ *
  * @remarks
  * Handles:
- * 
- * GET /proses with {@link ProseController.indexOneWithPoetName} 
- * 
+ *
+ * GET /proses with {@link ProseController.indexOneWithPoetName}
+ *
  * GET /proses/random with {@link ProseController.indexRandomWithPoetName}
- * 
+ *
  * GET /prose/:id with {@link ProseController.indexOneWithPoetName}
- * 
- * POST /prose with {@link ProseController.post} 
- *  
- * POST /proses with {@link ProseController.postMany} 
- * 
+ *
+ * POST /prose with {@link ProseController.post}
+ *
+ * POST /proses with {@link ProseController.postMany}
+ *
  * PUT /prose/:id with {@link ProseController.update}
- * 
- * DELETE /prose/:id with {@link ProseController.remove} 
-*/
+ *
+ * DELETE /prose/:id with {@link ProseController.remove}
+ */
 export const ProseRoute = router;

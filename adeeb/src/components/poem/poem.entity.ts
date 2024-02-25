@@ -15,7 +15,7 @@ import { Verse } from '../../interfaces/__types__';
 
 /**
  * Poem's Entity
-*/
+ */
 @Entity()
 export class Poem extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
