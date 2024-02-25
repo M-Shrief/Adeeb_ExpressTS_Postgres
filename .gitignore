@@ -16,6 +16,9 @@ can_use.md
 
 dataMapper.js
 
+# Documentation site
+docs
+
 # Generated Proto buffers for certain languages
 **/pb
 
