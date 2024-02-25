@@ -5,6 +5,9 @@ import {
   isTrustedError,
 } from '../utils/errorsCenter/errorHandlers';
 
+/**
+ * Error Middleware to handle trusted/operational and not trusted/not-operational errors
+ */
 export const errorMiddleware = async (
   err: AppError,
   req: Request,

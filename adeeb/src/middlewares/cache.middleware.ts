@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
+/**
+ * Set Cache-control header
+ */
 export const setCache = function (
   req: Request,
   res: Response,

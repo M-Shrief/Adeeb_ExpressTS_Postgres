@@ -13,6 +13,9 @@ const skip = () => {
   return env !== 'development';
 };
 
+/**
+ * log requests' (method, url, status,..etc)
+ */
 export const morganMiddleware = morgan(
   ':method :url :status :res[content-length] - :response-time ms',
   { stream, skip },
