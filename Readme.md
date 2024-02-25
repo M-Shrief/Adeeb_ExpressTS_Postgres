@@ -27,6 +27,7 @@ Adeeb is a RESTful API, which communicates with Users-service gRPC API to handle
   - JWT Authentication & Authorization
   - Centralized Error Handling
   - Data Validation with Yup and express-validator
+  - Documentation with TSdoc and TypeDoc.
   - Security best practices from OWASP
   - Secrets handling.
   - Using Proto Buffers

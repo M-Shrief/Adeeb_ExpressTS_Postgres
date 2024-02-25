@@ -18,6 +18,7 @@
   - JWT Authentication & Authorization
   - Centralized Error Handling
   - Data Validation with Yup and express-validator
+  - Documentation with TSdoc and TypeDoc.
   - Security best practices from OWASP
   - Communicate with gRPC server with Proto Buffers
   - …and more
