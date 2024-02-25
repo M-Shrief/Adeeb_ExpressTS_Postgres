@@ -11,7 +11,7 @@ import { Poet } from '../poet/poet.entity';
 import { ChosenVerse } from '../chosenVerse/chosenVerse.entity';
 import { BaseEntity } from '../../interfaces/baseEntity';
 // Types
-import { VerseType } from '../../interfaces/__types__';
+import { Verse } from '../../interfaces/__types__';
 
 /**
  * Poem's Entity
@@ -33,7 +33,7 @@ export class Poem extends BaseEntity {
   chosenVerses!: ChosenVerse[];
 
   @Column('jsonb', { nullable: false })
-  verses!: VerseType[];
+  verses!: Verse[];
 
   @Column({ type: 'boolean', default: true })
   reviewed!: boolean;

@@ -1,13 +1,13 @@
 // General and reused types
-export interface VerseType {
+
+export interface  Verse{
   first: string;
   sec: string;
 }
-
 export interface Print {
   id?: string;
   poem?: string;
-  verse?: VerseType[];
+  verse?: Verse[];
   qoute?: string;
 }
 export interface Product {
