@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import App from './app';
 // Databases
 import { connectDB } from './db';
-import { connectRedis } from './redis';
 // Routes
 import { PoetRoute } from './components/poet/poet.route';
 import { PoemRoute } from './components/poem/poem.route';
@@ -12,7 +11,6 @@ import { PartnerRoute } from './components/partner/partner.route';
 import { OrderRoute } from './components/order/order.route';
 
 connectDB();
-connectRedis();
 
 const app = new App([
   PoetRoute,

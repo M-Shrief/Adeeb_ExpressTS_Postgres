@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=20-bullseye-slim
+ARG NODE_VERSION=22.1.0-bullseye-slim
 
 ################################################################################
 # Use node image for base image for all stages.

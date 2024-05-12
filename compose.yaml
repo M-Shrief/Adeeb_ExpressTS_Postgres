@@ -1,3 +1,4 @@
+version: '3.8'
 # This service is built from the Dockerfile in the current directory.
 services:
 ######### Adeeb 
@@ -43,8 +44,8 @@ services:
   redis:
     container_name: adeeb_redis
     restart: unless-stopped
-    image: redis:7.2.3-alpine 
-    command: redis-server --loglevel warning
+    image: valkey/valkey:7.2.5-bookworm
+    command: valkey-server --loglevel warning
     ports:
       - 6379
       

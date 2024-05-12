@@ -11,7 +11,7 @@ Adeeb is a RESTful API, which communicates with Users-service gRPC API to handle
         - **Nodejs** and **Express.js** 
         - Database:
             - **Postgres** and **TypeORM**
-            - Caching with **Redis**
+            - Caching with ~~Redis~~ **ValKey**
         - **Docker** Containerization
 
     - Users-service API:
