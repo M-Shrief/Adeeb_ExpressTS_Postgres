@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG GO_VERSION=1.21.6-bullseye
+ARG GO_VERSION=1.22.3-bullseye
 
 ################################################################################
 # Use go image for base image for all stages.
