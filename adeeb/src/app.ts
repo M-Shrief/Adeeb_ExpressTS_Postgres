@@ -16,9 +16,8 @@ import { logger } from './utils/logger';
 import {
   isTrustedError,
   handleTrustedError,
-} from './utils/errorsCenter/errorHandlers';
-// interfaces
-import { AppError } from './utils/errorsCenter/appError';
+  AppError
+} from './utils/errors';
 
 /**
  * App class, contains App properties and methods

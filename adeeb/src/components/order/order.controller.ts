@@ -5,7 +5,7 @@ import { OrderService } from './order.service';
 import { JwtPayload } from 'jsonwebtoken';
 import { ERROR_MSG, Order } from './order.entity';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
+import { AppError } from '../../utils/errors';
 import HttpStatusCode from '../../utils/httpStatusCode';
 import { decodeToken } from '../../utils/auth';
 

@@ -4,7 +4,7 @@ import { PoetService } from './poet.service';
 // Types
 import { ERROR_MSG, Poet } from './poet.entity';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
+import { AppError } from '../../utils/errors';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
 /**

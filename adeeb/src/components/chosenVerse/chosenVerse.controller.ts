@@ -4,7 +4,7 @@ import { ChosenVerseService } from './chosenVerse.service';
 // Types
 import { ChosenVerse, ERROR_MSG } from './chosenVerse.entity';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
+import { AppError } from '../../utils/errors';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
 /**

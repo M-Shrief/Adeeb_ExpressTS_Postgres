@@ -1,9 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../utils/errorsCenter/appError';
-import {
-  handleTrustedError,
-  isTrustedError,
-} from '../utils/errorsCenter/errorHandlers';
+import { AppError, handleTrustedError, isTrustedError } from '../utils/errors';
 
 /**
  * Error Middleware to handle trusted/operational and not trusted/not-operational errors

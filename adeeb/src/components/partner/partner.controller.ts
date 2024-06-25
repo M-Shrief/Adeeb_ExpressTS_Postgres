@@ -9,7 +9,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { createSchema, updateSchema } from './partner.schema';
 // Utils
 import { decodeToken } from '../../utils/auth';
-import { AppError } from '../../utils/errorsCenter/appError';
+import { AppError } from '../../utils/errors';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
 /**

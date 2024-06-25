@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult, ValidationChain } from 'express-validator';
-import { AppError } from '../utils/errorsCenter/appError';
+import { AppError } from '../utils/errors';
 import HttpStatusCode from '../utils/httpStatusCode';
 
 /**

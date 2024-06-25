@@ -4,7 +4,7 @@ import { ProseService } from './prose.service';
 // Types
 import { ERROR_MSG, Prose } from './prose.entity';
 // Utils
-import { AppError } from '../../utils/errorsCenter/appError';
+import { AppError } from '../../utils/errors';
 import HttpStatusCode from '../../utils/httpStatusCode';
 
 /**

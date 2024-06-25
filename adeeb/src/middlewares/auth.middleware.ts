@@ -5,7 +5,7 @@ import guardFactory from 'express-jwt-permissions';
 import { JWT_PUBLIC } from '../config';
 // Utils
 import HttpStatusCode from '../utils/httpStatusCode';
-import { AppError } from '../utils/errorsCenter/appError';
+import { AppError } from '../utils/errors';
 
 /**
  * Used to validate requests jwtToken
