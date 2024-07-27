@@ -1,5 +1,5 @@
-# "Adeeb أديب"
-E-Commerce for printing Arabic. Using SSR frontend with REST API, gRPC API and Protocol Buffers.
+# "Adeeb أديب"'s Backend
+E-Commerce for printing Arabic Literature. Using SSR frontend with REST API, gRPC API and Protocol Buffers.
 
 ## Overview
 - Tech stack:

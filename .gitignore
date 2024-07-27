@@ -32,3 +32,6 @@ users-service/datasource/queries.sql.go
 # Certificates
 *.pem
 *.crt
+
+# Kreya
+**/Kreya
