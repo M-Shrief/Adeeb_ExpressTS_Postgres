@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=22.1.0-bullseye-slim
+ARG NODE_VERSION=22.2.0-bullseye-slim
 
 ################################################################################
 # Use node image for base image for all stages.
@@ -50,7 +50,7 @@ COPY package.json .
 # Copy the production dependencies from the deps stage and also
 # the built application from the build stage into the image.
 COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/./dist ././dist
+COPY --from=build /usr/src/app/dist ./dist
 # Copying proto folder fro resources context.
 COPY --from=resources proto ../proto
 
