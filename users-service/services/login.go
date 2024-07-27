@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"time"
-	"users-service/auth"
-	"users-service/datasource"
-	"users-service/pb"
+	"users-service/internal/auth"
+	"users-service/internal/datasource"
+	"users-service/internal/pb"
 )
 
 func (s *Server) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {

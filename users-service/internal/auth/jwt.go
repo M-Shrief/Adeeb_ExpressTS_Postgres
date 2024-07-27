@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 	"time"
-	"users-service/config"
-	"users-service/datasource"
-	"users-service/pb"
+	"users-service/internal/config"
+	"users-service/internal/datasource"
+	"users-service/internal/pb"
 
 	"github.com/golang-jwt/jwt"
 )

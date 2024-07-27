@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"time"
-	"users-service/auth"
-	"users-service/datasource"
-	"users-service/pb"
+	"users-service/internal/auth"
+	"users-service/internal/datasource"
+	"users-service/internal/pb"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/jackc/pgerrcode"

@@ -5,9 +5,9 @@ import (
 	"log"
 	"net"
 	"os"
-	"users-service/config"
-	"users-service/datasource"
-	"users-service/pb"
+	"users-service/internal/config"
+	"users-service/internal/datasource"
+	"users-service/internal/pb"
 	"users-service/services"
 
 	"google.golang.org/grpc"

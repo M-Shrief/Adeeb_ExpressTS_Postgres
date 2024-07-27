@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"users-service/config"
+	"users-service/internal/config"
 
 	"github.com/jackc/pgx/v5"
 )
